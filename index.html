@@ -96,20 +96,74 @@
     width: 100%;
 }
 
-.plyr {
-  --plyr-color-main: #00bfff;
+
+
+
+.plyr-wrap {
+  width: 800px;
+  max-width: 100%;
+  margin: 40px auto;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+.plyr__video-wrapper {
+  border-radius: 14px;
+}
+
+.plyr iframe {
+  border-radius: 14px;
+}
+
+.plyr__control--overlaid {
+  background: rgba(0, 191, 255, 0.9) !important;
+  border-radius: 50% !important;
+  width: 70px !important;
+  height: 70px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.plyr__control--overlaid svg {
+  width: 26px;
+  height: 26px;
+  fill: white;
 }
 
 .plyr__controls {
-  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+  background: linear-gradient(to top,
+    rgba(0,0,0,0.85),
+    rgba(0,0,0,0.3),
+    rgba(0,0,0,0)
+  ) !important;
 }
 
 .plyr__control {
-  color: white;
+  color: white !important;
 }
 
-.plyr__progress input[type=range] {
-  color: #00bfff;
+.plyr__menu,
+.plyr__tooltip {
+  font-family: Arial, sans-serif;
+}
+
+.plyr__control--overlaid {
+  position: absolute !important;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.plyr__control--overlaid {
+  background: rgba(0, 191, 255, 0.75) !important;
+  backdrop-filter: blur(6px);
+}
+
+.plyr__control--overlaid:hover {
+  background: rgba(0, 191, 255, 1) !important;
+  transform: translate(-50%, -50%) scale(1.05);
 }
 </style>
 
