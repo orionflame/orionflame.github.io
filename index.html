@@ -163,25 +163,26 @@
 
 .video-title-overlay {
   position: absolute;
-  top: 18px;
-  left: 20px;
+  top: 16px;
+  left: 16px;
   z-index: 5;
 
-  font-size: 17px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 15px;
   font-weight: 500;
-  color: rgba(255,255,255,0.92);
+
+  color: #fff;
+
+  padding: 6px 10px;
+  border-radius: 8px;
+
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
 
   letter-spacing: 0.2px;
 
-  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
-
   pointer-events: none;
-
-  /* subtle fade like Vimeo */
-  opacity: 0.9;
-  transition: opacity 0.2s ease;
 }
-
 .plyr:hover .video-title-overlay {
   opacity: 0;
 }
@@ -206,6 +207,8 @@ src="https://www.facebook.com/tr?id=2639190323077406&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Facebook Pixel Code -->
 <link rel="stylesheet" href="https://cdn.plyr.io/3.8.4/plyr.css" />
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 
 
