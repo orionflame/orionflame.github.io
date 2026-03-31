@@ -195,18 +195,9 @@ src="https://www.facebook.com/tr?id=2639190323077406&ev=PageView&noscript=1"
 	<br>
 	<br><br><br>
 	<br>
-<table align="center">
-  <tr>
-    <td>
-      <div style="text-align:center;">
-        <div class="plyr-wrap">
-          <div data-plyr-provider="youtube" data-plyr-embed-id="22J4J1IiXuE"></div>
-        </div>
-      </div>
-    </td>
-  </tr>
-</table>
-
+<div class="plyr-wrap">
+  <div data-plyr-provider="youtube" data-plyr-embed-id="22J4J1IiXuE"></div>
+</div>
 <table align="center" class="style3">
 	<tr>
 		<td class="auto-style4">
@@ -779,39 +770,55 @@ Korean translation (WIP) by Seona Hwang.</span></p>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
+  // Init direct Plyr blocks
+  const directPlayers = document.querySelectorAll('.plyr-wrap > [data-plyr-provider="youtube"]');
+  directPlayers.forEach(function (playerEl) {
+    new Plyr(playerEl, {
+      controls: ['play','progress','mute','volume','fullscreen'],
+      youtube: {
+        modestbranding: 1,
+        rel: 0,
+        noCookie: true,
+        iv_load_policy: 3
+      }
+    });
+  });
+
+  // Convert old iframes
   const iframes = document.querySelectorAll('iframe');
 
   iframes.forEach(function (iframe) {
-
-    if (iframe.hasAttribute('data-skip-plyr')) return;
-
     const src = iframe.src || '';
     if (!src.includes('youtube.com/embed/')) return;
 
-	const match = src.match(/youtube\.com\/embed\/([^?&]+)/);
-	if (!match) return;
-	
-	const id = match[1];
+    const match = src.match(/youtube\.com\/embed\/([^?&]+)/);
+    if (!match) return;
+
+    const id = match[1];
+
     const wrapper = document.createElement('div');
     wrapper.className = 'plyr-wrap';
 
     const player = document.createElement('div');
-    player.setAttribute('data-plyr-provider','youtube');
+    player.setAttribute('data-plyr-provider', 'youtube');
     player.setAttribute('data-plyr-embed-id', id);
 
     wrapper.appendChild(player);
     iframe.replaceWith(wrapper);
 
     new Plyr(player, {
-      controls:['play','progress','mute','volume','fullscreen'],
-      youtube:{modestbranding:1, rel:0}
+      controls: ['play','progress','mute','volume','fullscreen'],
+      youtube: {
+        modestbranding: 1,
+        rel: 0,
+        noCookie: true
+      }
     });
-
   });
 
 });
 
-function loadRealYT(wrapper, id){
+function loadRealYT(wrapper, id) {
   wrapper.innerHTML = '';
 
   const div = document.createElement('div');
@@ -823,7 +830,11 @@ function loadRealYT(wrapper, id){
   new Plyr(div, {
     autoplay: true,
     controls: ['play','progress','mute','volume','fullscreen'],
-    youtube: { modestbranding: 1, rel: 0 }
+    youtube: {
+      modestbranding: 1,
+      rel: 0,
+      noCookie: true
+    }
   });
 }
 </script></body>
