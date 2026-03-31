@@ -159,7 +159,20 @@
 
 .plyr {
   --plyr-video-controls-background: transparent;
-}</style>
+}
+
+.video-overlay-title {
+  position: absolute;
+  top: 14px;
+  left: 18px;
+  z-index: 5;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  pointer-events: none;
+}
+</style>
 
 <!-- Facebook Pixel Code -->
 <script>
@@ -189,12 +202,13 @@ src="https://www.facebook.com/tr?id=2639190323077406&ev=PageView&noscript=1"
 	<br>
 	<br><br><br>
 	<br>
-<div class="video-block">
-  <div class="video-title">Neighbour Query Methods</div>
-
-  <div class="plyr-wrap">
-    <div data-plyr-provider="youtube" data-plyr-embed-id="22J4J1IiXuE"></div>
+<div class="plyr-wrap" style="position:relative;">
+  
+  <div class="video-overlay-title">
+    Neighbour Query Methods
   </div>
+
+  <div data-plyr-provider="youtube" data-plyr-embed-id="22J4J1IiXuE"></div>
 </div><table align="center" class="style3">
 	<tr>
 		<td class="auto-style4">
