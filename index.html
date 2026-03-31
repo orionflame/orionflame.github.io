@@ -376,25 +376,110 @@ src="https://www.facebook.com/tr?id=2639190323077406&ev=PageView&noscript=1"
 <table align="center">
   <tr>
     <td>
-      <div class="yt-wrapper" style="position: relative; width: 800px; height: 450px;">
-        <iframe
-          data-skip-plyr="1"
-          src="https://www.youtube.com/embed/Ob8b1c4P04g"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-          style="width: 100%; height: 100%;"
-        ></iframe>
+      <div
+        class="fake-plyr"
+        onclick="loadRealYT(this, 'HryJBbNwqDw')"
+        style="
+          position: relative;
+          width: 800px;
+          height: 450px;
+          margin: 0 auto;
+          overflow: hidden;
+          border-radius: 14px;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+          cursor: pointer;
+          background: #000;
+        "
+      >
+        <img
+          src="peel_image.png"
+          alt=""
+          style="width: 100%; height: 100%; object-fit: cover; display: block;"
+        >
+
         <div
-          class="yt-overlay"
-          onclick="loadRealYT(this.parentNode, 'HryJBbNwqDw')"
-          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer;"
+          style="
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.25), rgba(0,0,0,0));
+            pointer-events: none;
+          "
         ></div>
+
+        <button
+          type="button"
+          aria-label="Play video"
+          style="
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform:translate(-50%, -50%);
+            width:70px;
+            height:70px;
+            border:0;
+            border-radius:50%;
+            background:rgba(0,191,255,0.85);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            box-shadow:0 10px 30px rgba(0,0,0,0.35);
+            pointer-events:none;
+          "
+        >
+          <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">
+            <path fill="#ffffff" d="M8 5v14l11-7z"></path>
+          </svg>
+        </button>
+
+        <div
+          style="
+            position:absolute;
+            left:0;
+            right:0;
+            bottom:0;
+            height:58px;
+            padding:0 16px;
+            display:flex;
+            align-items:center;
+            gap:14px;
+            pointer-events:none;
+          "
+        >
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="flex:0 0 auto;">
+            <path fill="#ffffff" d="M8 5v14l11-7z"></path>
+          </svg>
+
+          <div
+            style="
+              position: relative;
+              flex: 1 1 auto;
+              height: 5px;
+              border-radius: 999px;
+              background: rgba(255,255,255,0.25);
+              overflow: hidden;
+            "
+          >
+            <div
+              style="
+                width: 0%;
+                height: 100%;
+                background: #00bfff;
+              "
+            ></div>
+          </div>
+
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="flex:0 0 auto;">
+            <path fill="#ffffff" d="M3 9v6h4l5 4V5L7 9H3z"></path>
+          </svg>
+
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="flex:0 0 auto;">
+            <path fill="#ffffff" d="M7 14H5v5h5v-2H7zm0-4h2V7h3V5H5v5zm10 7h-3v2h5v-5h-2zm0-12V5h-5v2h3v3h2z"></path>
+          </svg>
+        </div>
       </div>
     </td>
   </tr>
-</table>
-<script>
+</table><script>
 function loadRealYT(wrapper, videoId) {
   wrapper.innerHTML = '';
 
@@ -725,19 +810,18 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function loadRealYT(wrapper, id){
-  wrapper.innerHTML='';
+  wrapper.innerHTML = '';
 
   const div = document.createElement('div');
-  div.setAttribute('data-plyr-provider','youtube');
+  div.setAttribute('data-plyr-provider', 'youtube');
   div.setAttribute('data-plyr-embed-id', id);
 
   wrapper.appendChild(div);
 
-  new Plyr(div,{
-    autoplay:true,
-    controls:['play','progress','mute','volume','fullscreen'],
-    youtube:{modestbranding:1, rel:0}
+  new Plyr(div, {
+    autoplay: true,
+    controls: ['play','progress','mute','volume','fullscreen'],
+    youtube: { modestbranding: 1, rel: 0 }
   });
 }
-</script>
-</body>
+</script></body>
