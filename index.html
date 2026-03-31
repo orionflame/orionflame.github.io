@@ -161,17 +161,31 @@
   --plyr-video-controls-background: transparent;
 }
 
-.video-overlay-title {
+.video-title-overlay {
   position: absolute;
-  top: 14px;
-  left: 18px;
+  top: 18px;
+  left: 20px;
   z-index: 5;
-  color: white;
-  font-size: 16px;
+
+  font-size: 17px;
   font-weight: 500;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  color: rgba(255,255,255,0.92);
+
+  letter-spacing: 0.2px;
+
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+
   pointer-events: none;
+
+  /* subtle fade like Vimeo */
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
 }
+
+.plyr:hover .video-title-overlay {
+  opacity: 0;
+}
+
 </style>
 
 <!-- Facebook Pixel Code -->
@@ -205,7 +219,7 @@ src="https://www.facebook.com/tr?id=2639190323077406&ev=PageView&noscript=1"
 <div class="plyr-wrap" style="position:relative;">
   
   <div class="video-overlay-title">
-    Neighbour Query Methods
+    Pragmatic VEX: Volume 1 - The Manifold of Morphology
   </div>
 
   <div data-plyr-provider="youtube" data-plyr-embed-id="22J4J1IiXuE"></div>
