@@ -99,6 +99,19 @@
   box-shadow: 0 10px 40px rgba(0,0,0,0.5);
 }
 
+.preview-swap {
+  position: relative;
+}
+
+.preview-swap-overlay {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  z-index: 2;
+}
+
 .fake-plyr {
   margin: 0 auto 20px auto !important;
   position: relative;
@@ -528,47 +541,10 @@ src="https://www.facebook.com/tr?id=2639190323077406&ev=PageView&noscript=1"
 	</tr>
 	</table>
 	
-<table align="center">
-  <tr>
-    <td>
-      <div
-        class="fake-plyr"
-        onclick="loadRealYT(this, 'HryJBbNwqDw')"
-      >
-        <img
-          src="https://i.ytimg.com/vi/Ob8b1c4P04g/maxresdefault.jpg"
-          alt="Face Peeling preview"
-        >
-
-        <div class="fake-plyr__shade"></div>
-
-        <div class="fake-plyr__controls">
-          <svg class="fake-plyr__icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path fill="#ffffff" d="M8 5v14l11-7z"></path>
-          </svg>
-
-          <div class="fake-plyr__track fake-plyr__track--progress">
-            <div class="fake-plyr__fill fake-plyr__fill--progress"></div>
-            <div class="fake-plyr__thumb fake-plyr__thumb--progress"></div>
-          </div>
-
-          <svg class="fake-plyr__icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path fill="#ffffff" d="M3 9v6h4l5 4V5L7 9H3z"></path>
-          </svg>
-
-          <div class="fake-plyr__track fake-plyr__track--volume">
-            <div class="fake-plyr__fill fake-plyr__fill--volume"></div>
-            <div class="fake-plyr__thumb fake-plyr__thumb--volume"></div>
-          </div>
-
-          <svg class="fake-plyr__icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path fill="#ffffff" d="M7 14H5v5h5v-2H7zm0-4h2V7h3V5H5v5zm10 7h-3v2h5v-5h-2zm0-12V5h-5v2h3v3h2z"></path>
-          </svg>
-        </div>
-      </div>
-    </td>
-  </tr>
-</table>
+<div class="plyr-wrap preview-swap" data-swap-video-id="HryJBbNwqDw">
+<div data-plyr-provider="youtube" data-plyr-embed-id="Ob8b1c4P04g"></div>
+<button class="preview-swap-overlay" type="button" aria-label="Open original Face Peeling video"></button>
+</div>
 
 
 
@@ -820,6 +796,34 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  document.querySelectorAll('.preview-swap').forEach(function (wrapper) {
+    const overlay = wrapper.querySelector('.preview-swap-overlay');
+    if (!overlay) return;
+
+    overlay.addEventListener('click', function () {
+      const targetId = wrapper.getAttribute('data-swap-video-id');
+      if (!targetId) return;
+
+      wrapper.innerHTML = '';
+
+      const player = document.createElement('div');
+      player.setAttribute('data-plyr-provider', 'youtube');
+      player.setAttribute('data-plyr-embed-id', targetId);
+      wrapper.appendChild(player);
+
+      new Plyr(player, {
+        autoplay: true,
+        controls: ['play','progress','mute','volume','fullscreen'],
+        youtube: {
+          modestbranding: 1,
+          rel: 0,
+          noCookie: true,
+          iv_load_policy: 3
+        }
+      });
+    });
+  });
+
   // Convert old iframes
   const iframes = document.querySelectorAll('iframe');
 
@@ -853,26 +857,6 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
 });
-
-function loadRealYT(wrapper, id) {
-  wrapper.innerHTML = '';
-
-  const div = document.createElement('div');
-  div.setAttribute('data-plyr-provider', 'youtube');
-  div.setAttribute('data-plyr-embed-id', id);
-
-  wrapper.appendChild(div);
-
-  new Plyr(div, {
-    autoplay: true,
-    controls: ['play','progress','mute','volume','fullscreen'],
-    youtube: {
-      modestbranding: 1,
-      rel: 0,
-      noCookie: true
-    }
-  });
-}
 </script>
 <script src="https://animatrix.dpdcart.com/dpd.js"></script>
 
