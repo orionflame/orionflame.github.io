@@ -101,6 +101,103 @@
 
 .fake-plyr {
   margin: 0 auto 20px auto !important;
+  position: relative;
+  width: 800px;
+  height: 450px;
+  max-width: 100%;
+  overflow: hidden;
+  border-radius: 14px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  cursor: pointer;
+  background: #000;
+}
+
+.fake-plyr img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.fake-plyr__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.88), rgba(0,0,0,0.22), rgba(0,0,0,0));
+  pointer-events: none;
+}
+
+.fake-plyr__controls {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 52px;
+  padding: 0 22px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  pointer-events: none;
+}
+
+.fake-plyr__icon {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+}
+
+.fake-plyr__icon path {
+  fill: #fff;
+}
+
+.fake-plyr__track {
+  position: relative;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.34);
+  overflow: visible;
+}
+
+.fake-plyr__track--progress {
+  flex: 1 1 auto;
+}
+
+.fake-plyr__track--volume {
+  width: 134px;
+  flex: 0 0 auto;
+}
+
+.fake-plyr__fill {
+  height: 100%;
+  border-radius: 999px;
+}
+
+.fake-plyr__fill--progress {
+  width: 0%;
+  background: #fff;
+}
+
+.fake-plyr__fill--volume {
+  width: 78%;
+  background: #00bfff;
+}
+
+.fake-plyr__thumb {
+  position: absolute;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  margin-top: -9px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.18);
+}
+
+.fake-plyr__thumb--progress {
+  left: 0;
+}
+
+.fake-plyr__thumb--volume {
+  left: calc(78% - 9px);
 }
 
 table.style3,
@@ -437,94 +534,34 @@ src="https://www.facebook.com/tr?id=2639190323077406&ev=PageView&noscript=1"
       <div
         class="fake-plyr"
         onclick="loadRealYT(this, 'HryJBbNwqDw')"
-        style="
-          position: relative;
-          width: 800px;
-          height: 450px;
-          margin: 0 auto;
-          overflow: hidden;
-          border-radius: 14px;
-          box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-          cursor: pointer;
-          background: #000;
-        "
       >
         <img
           src="https://i.ytimg.com/vi/Ob8b1c4P04g/maxresdefault.jpg"
           alt="Face Peeling preview"
-          style="width: 100%; height: 100%; object-fit: cover; display: block;"
         >
 
-        <div
-          style="
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0.15), rgba(0,0,0,0));
-            pointer-events: none;
-          "
-        ></div>
+        <div class="fake-plyr__shade"></div>
 
-        <div
-          style="
-            position:absolute;
-            left:0;
-            right:0;
-            bottom:0;
-            height:58px;
-            padding:0 18px;
-            display:flex;
-            align-items:center;
-            gap:14px;
-            pointer-events:none;
-          "
-        >
-          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="flex:0 0 auto;">
+        <div class="fake-plyr__controls">
+          <svg class="fake-plyr__icon" viewBox="0 0 24 24" aria-hidden="true">
             <path fill="#ffffff" d="M8 5v14l11-7z"></path>
           </svg>
 
-          <div
-            style="
-              position: relative;
-              flex: 1 1 auto;
-              height: 5px;
-              border-radius: 999px;
-              background: rgba(255,255,255,0.38);
-              overflow: hidden;
-            "
-          >
-            <div
-              style="
-                width: 0%;
-                height: 100%;
-                background: #ffffff;
-              "
-            ></div>
+          <div class="fake-plyr__track fake-plyr__track--progress">
+            <div class="fake-plyr__fill fake-plyr__fill--progress"></div>
+            <div class="fake-plyr__thumb fake-plyr__thumb--progress"></div>
           </div>
 
-          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="flex:0 0 auto;">
+          <svg class="fake-plyr__icon" viewBox="0 0 24 24" aria-hidden="true">
             <path fill="#ffffff" d="M3 9v6h4l5 4V5L7 9H3z"></path>
           </svg>
 
-          <div
-            style="
-              width: 96px;
-              height: 5px;
-              border-radius: 999px;
-              background: rgba(255,255,255,0.22);
-              overflow: hidden;
-              flex: 0 0 auto;
-            "
-          >
-            <div
-              style="
-                width: 78%;
-                height: 100%;
-                background: #00bfff;
-              "
-            ></div>
+          <div class="fake-plyr__track fake-plyr__track--volume">
+            <div class="fake-plyr__fill fake-plyr__fill--volume"></div>
+            <div class="fake-plyr__thumb fake-plyr__thumb--volume"></div>
           </div>
 
-          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="flex:0 0 auto;">
+          <svg class="fake-plyr__icon" viewBox="0 0 24 24" aria-hidden="true">
             <path fill="#ffffff" d="M7 14H5v5h5v-2H7zm0-4h2V7h3V5H5v5zm10 7h-3v2h5v-5h-2zm0-12V5h-5v2h3v3h2z"></path>
           </svg>
         </div>
