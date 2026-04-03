@@ -254,6 +254,7 @@ table.auto-style3 {
 
 .buy-row {
   display: flex;
+  width: fit-content;
   justify-content: center;
   align-items: center;
   gap: 4px;
@@ -264,6 +265,12 @@ table.auto-style3 {
 .buy-row .orig-price-wrap {
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.buy-row .buy-button > * {
+  display: block;
 }
 
 .buy-row .orig-price-wrap img {
