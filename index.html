@@ -242,14 +242,28 @@ table.auto-style3 {
   vertical-align: middle;
 }
 
+.price-table .price-action-cell,
 .price-table .orig-price-cell {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.price-table .price-action-cell > a[data-dpd-type="button"] {
+  display: inline-flex !important;
+  align-items: center;
+  min-height: 40px;
+}
+
+.price-table .orig-price-cell {
+  display: flex;
+  align-items: center;
   padding-left: 4px;
 }
 
 .price-table .orig-price-cell img {
   display: block;
-  margin: 0;
-  vertical-align: middle;
+  width: auto;
+  height: 40px;
 }
 
 table.style3 p,
@@ -399,10 +413,10 @@ src="https://www.facebook.com/tr?id=2639190323077406&ev=PageView&noscript=1"
 <div data-plyr-provider="youtube" data-plyr-embed-id="22J4J1IiXuE"></div>
 </div><table align="center" class="style3 tight-table price-table">
 	<tr>
-		<td class="auto-style9">
+		<td class="auto-style9 price-action-cell">
 		<a data-dpd-type="button" data-text="BUY NOW" data-variant="price-right" data-button-size="dpd-medium" data-bg-color="00bfff" data-bg-color-hover="0bddff" data-text-color="ffffff" data-pr-bg-color="141414" data-pr-color="ffc000" data-lightbox="1" href="https://animatrix.dpdcart.com/cart/add?product_id=199182&amp;method_id=216868">BUY NOW</a></td>
-		<td class="auto-style8" align="left">
-		<img src="origprice4.png" width="80" height="40" align="middle"></td>
+		<td class="auto-style8 orig-price-cell" align="left">
+		<img src="origprice4.png" width="80" height="40"></td>
 	</tr>
 	<tr>
 		<td class="auto-style4">
