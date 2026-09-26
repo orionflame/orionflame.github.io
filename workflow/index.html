@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pragmatic Workflow for Houdini | Pragmatic VFX</title>
+  <meta name="description" content="Pragmatic Workflow is a connected set of Houdini tools for building networks, editing parameters and code, inspecting data, navigating scenes, and understanding performance.">
+  <meta name="theme-color" content="#111315">
+  <meta property="og:title" content="Pragmatic Workflow for Houdini">
+  <meta property="og:description" content="Stay in the flow with connected Houdini tools for networks, code, inspection, navigation, and performance.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://pragmatic-vfx.com/workflow/">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="stylesheet" href="./workflow.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="shell nav">
+      <a class="wordmark" href="/" aria-label="Pragmatic VFX home">
+        <span class="wordmark-mark" aria-hidden="true"></span>
+        <span>PRAGMATIC VFX</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Workflow page navigation">
+        <a href="#overview">Overview</a>
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#all-features">All features</a>
+      </nav>
+
+      <a class="nav-cta" href="#pricing">Get Workflow</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="overview">
+      <div class="shell">
+        <div class="hero-copy">
+          <p class="eyebrow">Pragmatic Workflow · For Houdini</p>
+          <h1>Stay in the flow.</h1>
+          <p class="hero-lede">Build networks, write code, inspect your data, and understand performance with a connected set of tools for Houdini. Workflow brings the actions and information you need closer to the work in front of you.</p>
+
+          <div class="hero-actions">
+            <a class="button button-primary" href="#pricing">Get Workflow</a>
+            <a class="button" href="#features">Explore the features</a>
+          </div>
+
+          <p class="hero-support">From the first node to the final optimization.</p>
+        </div>
+
+        <figure class="hero-media">
+          <div class="media-frame" data-media-slot="WF-HERO"></div>
+        </figure>
+      </div>
+    </section>
+
+    <div class="section-divider" aria-hidden="true"></div>
+
+    <section class="feature-list" id="features" aria-label="Workflow feature highlights">
+      <div class="shell">
+        <article class="feature-row">
+          <div class="feature-copy">
+            <p class="eyebrow">Build in context</p>
+            <h2>Your network, right where you work.</h2>
+            <p class="feature-description">Bring the network over your viewport, make your changes, and return to the result. Pair the overlay with context-sensitive hotkeys and mouse actions to keep everyday node work close at hand, with less movement between panes.</p>
+            <ul class="feature-points">
+              <li>Adjustable overlay opacity</li>
+              <li>Quick show and hide interaction</li>
+              <li>Context-sensitive actions and optional connected-node dragging</li>
+            </ul>
+            <p class="feature-impact">Edit a graph while keeping the visual result in context.</p>
+          </div>
+
+          <figure class="feature-media">
+            <div class="media-frame" data-media-slot="WF-NETWORK"></div>
+          </figure>
+        </article>
+
+        <article class="feature-row reverse">
+          <div class="feature-copy">
+            <p class="eyebrow">Edit with less friction</p>
+            <h2>Give complex controls room to make sense.</h2>
+            <p class="feature-description">Work through parameters in a configurable editor built around Houdini's controls. Adjust values, navigate folders, edit ramps and multiparms, and keep code alongside the node it belongs to. Tune the interface's type, spacing, and presentation to suit the way you work.</p>
+            <ul class="feature-points">
+              <li>Direct numeric entry and dragging</li>
+              <li>Folders, ramps, and multiparms</li>
+              <li>Configurable labels, fonts, and layout</li>
+            </ul>
+            <p class="feature-impact">Reduce the effort of reading and operating the interface during repeated parameter iteration.</p>
+          </div>
+
+          <figure class="feature-media">
+            <div class="media-frame" data-media-slot="WF-PARAMETERS"></div>
+          </figure>
+        </article>
+
+        <article class="feature-row">
+          <div class="feature-copy">
+            <p class="eyebrow">Write where you create</p>
+            <h2>Four languages. One focused editing experience.</h2>
+            <p class="feature-description">Move between VEX, OpenCL, Python, and C++ in a Monaco-based editing environment integrated with Parm Editor. Language-aware completion, signatures, and documentation help keep the next step close to the code, with Houdini context supplied to the relevant language service.</p>
+            <ul class="feature-points">
+              <li>VEX and OpenCL workflows</li>
+              <li>Python and HOM assistance</li>
+              <li>C++ and HDK editing support</li>
+            </ul>
+            <p class="feature-impact">Capabilities differ by language and context. C++ and HDK support requires the appropriate environment.</p>
+          </div>
+
+          <figure class="feature-media">
+            <div class="media-frame" data-media-slot="WF-CODE"></div>
+          </figure>
+        </article>
+
+        <article class="feature-row reverse">
+          <div class="feature-copy">
+            <p class="eyebrow">Understand the result</p>
+            <h2>Know what changed inside your geometry.</h2>
+            <p class="feature-description">Inspect attributes, groups, memory, and volume information in a focused node view. Change markers help surface additions, removals, and possible writes against available input data, so you can investigate what a node produced without starting with a wall of raw values.</p>
+            <ul class="feature-points">
+              <li>Geometry and memory summaries</li>
+              <li>Attribute and group change markers</li>
+              <li>Volume and VDB details with touch indicators</li>
+            </ul>
+            <p class="feature-impact">Cached inspection can be unavailable or stale. Revision and touch markers indicate possible writes, not exact value differences.</p>
+          </div>
+
+          <figure class="feature-media">
+            <div class="media-frame" data-media-slot="WF-NODE-INFO"></div>
+          </figure>
+        </article>
+
+        <article class="feature-row">
+          <div class="feature-copy">
+            <p class="eyebrow">Follow the data</p>
+            <h2>From the whole dataset to the value that matters.</h2>
+            <p class="feature-description">Filter geometry data, focus on selected elements, and inspect structured values in a dedicated spreadsheet. Matrix displays, typed data, volume summaries, and precision controls help turn a broad table into a specific answer.</p>
+            <ul class="feature-points">
+              <li>Group and column filters</li>
+              <li>Viewport-selection workflows</li>
+              <li>Matrix, dictionary, and volume views where supported</li>
+            </ul>
+            <p class="feature-impact">Context-specific support differs across SOP, LOP, DOP, Copernicus, and legacy COP2 workflows.</p>
+          </div>
+
+          <figure class="feature-media">
+            <div class="media-frame" data-media-slot="WF-SPREADSHEET"></div>
+          </figure>
+        </article>
+
+        <article class="feature-row reverse">
+          <div class="feature-copy">
+            <p class="eyebrow">Optimize with evidence</p>
+            <h2>Find the cost. Measure the change.</h2>
+            <p class="feature-description">Record Houdini's native performance data, inspect expensive nodes, and compare captures before and after an edit. Move between hotspots, event timelines, and call views to understand where recorded work accumulates and whether your change improved the metric you care about.</p>
+            <ul class="feature-points">
+              <li>Ranked hotspots and frame or thread filters</li>
+              <li>Event timelines, call trees, and flame graphs</li>
+              <li>Capture comparison and native .hperf support</li>
+            </ul>
+            <p class="feature-impact">Event flame graphs describe attributed event work, not source-level CPU sampling. VEX program reports are a separate capability.</p>
+          </div>
+
+          <figure class="feature-media">
+            <div class="media-frame" data-media-slot="WF-PROFILER"></div>
+          </figure>
+        </article>
+
+        <article class="feature-row">
+          <div class="feature-copy">
+            <p class="eyebrow">Navigate and create</p>
+            <h2>Find the node. Keep moving.</h2>
+            <p class="feature-description">Search and navigate your scene through a node tree, then find creation tools in a context-aware palette. Explore nested networks, jump to an existing node, or choose a tool, recipe, or compatible preset without losing your place in the task.</p>
+            <ul class="feature-points">
+              <li>Name, path, and type search</li>
+              <li>Hierarchy navigation and selection linking</li>
+              <li>Aliases, favorites, and numbered palette results</li>
+            </ul>
+            <p class="feature-impact">Saved HDA definition previews are read-only and distinct from live instances. Native tool behavior remains relevant.</p>
+          </div>
+
+          <figure class="feature-media">
+            <div class="media-frame" data-media-slot="WF-FIND"></div>
+          </figure>
+        </article>
+
+        <article class="feature-row reverse">
+          <div class="feature-copy">
+            <p class="eyebrow">Keep performance in view</p>
+            <h2>A glance at the machine behind the scene.</h2>
+            <p class="feature-description">Keep CPU, RAM, GPU, and VRAM readings in view with a compact, customizable HUD. Choose the gauge style, colors, typography, and spacing that fit your workspace, and enable the cook timeline when you want additional cooking context.</p>
+            <ul class="feature-points">
+              <li>Four resource gauges where telemetry is available</li>
+              <li>Six visual styles</li>
+              <li>Optional cook timeline</li>
+            </ul>
+            <p class="feature-impact">Telemetry availability depends on platform and hardware. System-wide readings are not exact per-node resource consumption.</p>
+          </div>
+
+          <figure class="feature-media">
+            <div class="media-frame" data-media-slot="WF-HUD"></div>
+          </figure>
+        </article>
+      </div>
+
+      <div class="explore-jump">
+        <a class="text-link" href="#all-features">Explore all features ↓</a>
+      </div>
+    </section>
+
+    <section class="personalization">
+      <div class="shell">
+        <div class="section-heading">
+          <p class="eyebrow">Personalization</p>
+          <h2>Make the workspace feel like yours.</h2>
+          <p>Adjust typography, spacing, colors, and interaction preferences from organized settings. Choose from bundled fonts including Geist Sans, Mona Sans, and Source Sans 3, and give the tools a consistent place in your Houdini workspace.</p>
+        </div>
+
+        <div class="personalization-grid">
+          <div class="personalization-points">
+            <div class="personalization-point">
+              <h3>Typography</h3>
+              <p>Choose font families, sizes, label presentation, and component-specific display preferences.</p>
+            </div>
+            <div class="personalization-point">
+              <h3>Layout</h3>
+              <p>Tune spacing, scale, opacity, and visual density so the tools fit the way you arrange Houdini.</p>
+            </div>
+            <div class="personalization-point">
+              <h3>Interaction</h3>
+              <p>Configure supported hotkeys, mouse actions, overlay behavior, HUD animation, and related preferences.</p>
+            </div>
+          </div>
+
+          <figure>
+            <div class="media-frame" data-media-slot="WF-CUSTOMIZE"></div>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="pricing" id="pricing">
+      <div class="shell">
+        <div class="section-heading">
+          <p class="eyebrow">Licensing</p>
+          <h2>Bring Workflow into your everyday Houdini work.</h2>
+          <p>Choose the individual license that fits the way you work. Eligible releases remain usable permanently; renewal extends update coverage.</p>
+        </div>
+
+        <div class="pricing-grid">
+          <article class="price-card">
+            <h3>Indie Individual</h3>
+            <p class="price-audience">For one named individual on the Indie tier.</p>
+            <div class="price">
+              <strong>$149</strong>
+              <span>USD · first year</span>
+            </div>
+            <p class="renewal">$129 active renewal</p>
+            <ul class="license-list">
+              <li>Pragmatic Workflow tools</li>
+              <li>One named user and one concurrent seat</li>
+              <li>Up to two activated devices</li>
+              <li>12 months of update coverage</li>
+              <li>Perpetual use of eligible releases</li>
+            </ul>
+            <button class="button button-primary button-disabled" type="button" disabled data-checkout-token="{{CHECKOUT_URL_WORKFLOW_INDIE}}">Checkout URL pending</button>
+          </article>
+
+          <article class="price-card">
+            <h3>FX Individual</h3>
+            <p class="price-audience">For one named individual on the FX tier.</p>
+            <div class="price">
+              <strong>$299</strong>
+              <span>USD · first year</span>
+            </div>
+            <p class="renewal">$249 active renewal</p>
+            <ul class="license-list">
+              <li>Pragmatic Workflow tools</li>
+              <li>One named user and one concurrent seat</li>
+              <li>Up to two activated devices</li>
+              <li>12 months of update coverage</li>
+              <li>Perpetual use of eligible releases</li>
+            </ul>
+            <button class="button button-primary button-disabled" type="button" disabled data-checkout-token="{{CHECKOUT_URL_WORKFLOW_FX}}">Checkout URL pending</button>
+          </article>
+        </div>
+
+        <p class="pricing-note">Renewal extends access to newer eligible builds and Houdini compatibility updates. Ending update coverage does not disable an eligible installed release.</p>
+
+        <div class="draft-notice">
+          Owner preview: live Workflow checkout URLs and the shipping Houdini / operating-system compatibility matrix are still unresolved. Replace the draft tokens before publication.
+        </div>
+
+        <aside class="suite-band" aria-label="Pragmatic Suite">
+          <div>
+            <h3>Considering the Suite?</h3>
+            <p>Pragmatic Suite combines Workflow and Operators in one license. It is the broader option for artists who want both the workspace tools and the operator library.</p>
+          </div>
+          <div class="suite-prices">
+            Indie $199 / $169 renewal<br>
+            FX $449 / $379 renewal
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="explorer" id="all-features">
+      <div class="shell">
+        <div class="section-heading">
+          <p class="eyebrow">Feature explorer</p>
+          <h2>The details add up.</h2>
+          <p>Explore the tools and controls behind the everyday workflow.</p>
+        </div>
+
+        <div class="explorer-toolbar" aria-label="Feature explorer controls">
+          <label class="sr-only" for="feature-filter" style="position:absolute;left:-9999px;">Filter features</label>
+          <input class="feature-filter" id="feature-filter" type="search" placeholder="Filter features" data-feature-filter>
+          <button class="toolbar-button" type="button" data-expand-all>Expand all</button>
+          <button class="toolbar-button" type="button" data-collapse-all>Collapse all</button>
+        </div>
+
+        <div class="explorer-groups">
+          <details class="feature-group" open>
+            <summary>Network interaction</summary>
+            <ul>
+              <li>Overlay Network Editor with quick show and hide behavior</li>
+              <li>Adjustable overlay opacity</li>
+              <li>Context-sensitive hotkey actions and configurable mouse actions</li>
+              <li>Optional connected-node dragging</li>
+              <li>Optional touch and Wacom pinch controls with sensitivity settings</li>
+              <li>Node shape preferences</li>
+            </ul>
+          </details>
+
+          <details class="feature-group">
+            <summary>Parameter editing</summary>
+            <ul>
+              <li>Numeric typing and drag adjustment</li>
+              <li>Parameter folders and nested controls</li>
+              <li>Multiparms and ramp editing</li>
+              <li>Embedded code-editing integration</li>
+              <li>Configurable label presentation and clipped-label display</li>
+              <li>Font, size, spacing, and appearance settings</li>
+            </ul>
+          </details>
+
+          <details class="feature-group">
+            <summary>Code editing</summary>
+            <ul>
+              <li>Monaco-based editor integration</li>
+              <li>Dedicated VEX language service</li>
+              <li>OpenCL language support with Houdini binding context</li>
+              <li>Python language assistance with HOM typing information</li>
+              <li>C++ and HDK language-service integration</li>
+              <li>Completion, hover information, signatures, and navigation where supported</li>
+            </ul>
+          </details>
+
+          <details class="feature-group">
+            <summary>Node Info</summary>
+            <ul>
+              <li>Output selection and available cached geometry summaries</li>
+              <li>Attribute metadata and group information</li>
+              <li>Geometry and memory information</li>
+              <li>Input-relative change markers where comparison data exists</li>
+              <li>Volume and VDB information with touch indicators</li>
+              <li>Attribute visualizer integration and retained visualizer preferences</li>
+              <li>Collapsible information sections</li>
+            </ul>
+          </details>
+
+          <details class="feature-group">
+            <summary>Spreadsheet</summary>
+            <ul>
+              <li>Context-specific data views</li>
+              <li>Group and column filtering with column-filter inversion</li>
+              <li>Viewport-selection filtering and selection-transfer workflows</li>
+              <li>Configurable precision and full-precision display</li>
+              <li>Matrix grid display and transform decomposition options</li>
+              <li>Typed dictionaries and structured attribute display</li>
+              <li>Color-qualified attribute swatches</li>
+              <li>Volume and VDB summary tables with available change markers</li>
+              <li>Packed-geometry browsing where supported</li>
+              <li>Last-cooked capture mode and explicit cook-if-needed control</li>
+              <li>CSV export</li>
+            </ul>
+          </details>
+
+          <details class="feature-group">
+            <summary>Profiling</summary>
+            <ul>
+              <li>Native performance capture with pause, resume, and capture history</li>
+              <li>Hotspot search, ranking, sorting, and configurable columns</li>
+              <li>Object hierarchy and event timeline</li>
+              <li>Frame overview and frame-range filtering</li>
+              <li>Thread filtering and follow-frame behavior for completed captures</li>
+              <li>Event call tree, bottom-up callers, and event flame graph</li>
+              <li>Two-capture comparison, differences, and presence categories</li>
+              <li>Native .hperf import and comparison CSV export</li>
+              <li>VEX program reports with separate attribution limits</li>
+              <li>Node selection and path actions from recorded hotspots</li>
+            </ul>
+          </details>
+
+          <details class="feature-group">
+            <summary>Finding and creating nodes</summary>
+            <ul>
+              <li>Tree search by name, path, and type, including wildcard searches</li>
+              <li>Root navigation, history, and context shortcuts</li>
+              <li>Reveal Selected and bidirectional selection linking</li>
+              <li>Frame nodes in a Network Editor</li>
+              <li>Rename, copy, cut, paste, duplicate, and supported drag operations</li>
+              <li>Node flags and path-copy actions</li>
+              <li>Nested hierarchy expansion and optional saved-definition catalogs</li>
+              <li>Context-aware tool palette over network and viewport panes</li>
+              <li>Alias and acronym search, favorites, history, and numbered results</li>
+              <li>Native tools, recipes, and compatible legacy presets</li>
+            </ul>
+          </details>
+
+          <details class="feature-group">
+            <summary>Performance HUD</summary>
+            <ul>
+              <li>CPU, RAM, GPU, and VRAM gauges where supported</li>
+              <li>Ring, Liquid, Radiant Liquid, Segmented Arc, Ribbon Sweep, and Thermal Bloom</li>
+              <li>Smooth value transitions</li>
+              <li>Per-resource fill colors</li>
+              <li>Gauge scale, spacing, opacity, and typography</li>
+              <li>Optional cook timeline, disabled by default in the current settings schema</li>
+              <li>Animation replay with configurable rise, hold, return, and stagger timings</li>
+              <li>Optional startup animation and inactivity settings</li>
+            </ul>
+          </details>
+
+          <details class="feature-group">
+            <summary>Workspace preferences</summary>
+            <ul>
+              <li>Categorized settings and dependent-control states</li>
+              <li>Bundled Inter, IBM Plex Sans, DM Sans, Geist Sans, Mona Sans, Source Sans 3, and Cantarell typefaces</li>
+              <li>Shared presentation across integrated tools</li>
+            </ul>
+          </details>
+        </div>
+
+        <p class="filter-empty" data-filter-empty>No matching feature groups.</p>
+      </div>
+    </section>
+
+    <section class="faq" aria-labelledby="faq-heading">
+      <div class="shell">
+        <div class="section-heading">
+          <p class="eyebrow">FAQ</p>
+          <h2 id="faq-heading">Before you install.</h2>
+        </div>
+
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>Which Houdini versions and operating systems are supported?</summary>
+            <p><span class="inline-draft">{{SUPPORTED_ENVIRONMENTS}}</span> The release compatibility matrix must be filled from the shipping build before this page is published.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>What is included with Workflow?</summary>
+            <p>Workflow includes the connected workspace tools described on this page, including the Overlay Network Editor and interaction system, Parameter Editor, language-aware code editing, Node Info, Spreadsheet, Profiler, Node Treeview and creation palette, Performance HUD, and their verified supporting controls. Operators is a separate product.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>How does the license work?</summary>
+            <p>An individual license is assigned to one named customer, supports one concurrent seat and up to two activated devices, and includes 12 months of update coverage. Eligible releases remain usable permanently. Renewing extends access to newer eligible builds and compatibility updates.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>Can I customize the interface?</summary>
+            <p>Yes. Verified options include typography, layout and spacing, colors, supported interaction preferences, overlay settings, and Performance HUD presentation. Available options vary by component.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>How is Workflow different from Suite?</summary>
+            <p>Workflow is the workspace and productivity product. Pragmatic Suite combines Workflow with Pragmatic Operators under the broader bundle offer. Operators is not included in a standalone Workflow license.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <div class="shell">
+        <p class="eyebrow">Pragmatic Workflow</p>
+        <h2>Put more of your attention into the work.</h2>
+        <div class="final-actions">
+          <a class="button button-primary" href="#pricing">Get Workflow</a>
+          <a class="button" href="#all-features">Explore all features</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-row">
+      <span>© <span data-current-year>2026</span> Pragmatic VFX</span>
+      <div class="footer-links">
+        <a href="/terms/">Terms</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/refund/">Refund</a>
+        <a href="mailto:animatrix2k7@gmail.com">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./workflow.js"></script>
+</body>
+</html>
