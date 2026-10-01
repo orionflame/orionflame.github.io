@@ -18,6 +18,7 @@ function renderReleases(records,product,container){
       card.append(line);
       const hash=element('details',undefined,'details');hash.append(element('summary','File details'),element('p',artifact.filename+' · '+(artifact.size_bytes/1048576).toFixed(1)+' MB'),element('code','SHA256 '+artifact.sha256));card.append(hash);
     }
+    const manifest=downloadURL(row.manifest_url);if(manifest){const link=element('a','Signed release manifest','download');link.href=manifest;link.rel='noopener';card.append(link);}
     const notes=element('details',undefined,'details');notes.append(element('summary','Release notes'));const list=element('ul');
     for(const note of row.notes)list.append(element('li',note));notes.append(list);card.append(notes);container.append(card);
   }
