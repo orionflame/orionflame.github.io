@@ -1,13 +1,14 @@
 'use strict';
-const productNames={pragmatic_workflow:'Pragmatic Workflow',pragmatic_operators:'Pragmatic Operators',pragmatic_suite:'Pragmatic Suite'};
+const productNames={pragmatic_workflow:'Pragmatic Workflow',pragmatic_operators:'Pragmatic Operators'};
 const osNames={windows:'Windows',linux:'Linux',macos:'macOS',universal:'All platforms'};
 function element(tag,text,className){const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(className)node.className=className;return node;}
 function downloadURL(value){try{const url=new URL(value);return url.protocol==='https:'&&url.hostname&&!url.username&&!url.password?url.href:null;}catch{return null;}}
 function validTarget(target){return target&&osNames[target.os]&&['x86_64','arm64','multi'].includes(target.arch)&&Array.isArray(target.houdini_versions)&&target.houdini_versions.length&&target.houdini_versions.every(v=>typeof v==='string'&&v.length>0)&& (target.python_abi===null||typeof target.python_abi==='string');}
 function targetMatches(target,filters){return (!filters.os||filters.os==='all'||target.os===filters.os||target.os==='universal')&&(!filters.houdini||filters.houdini==='all'||target.houdini_versions.includes(filters.houdini));}
+function productMatches(product,selection){return !selection||selection==='all'||selection==='pragmatic_suite'&&['pragmatic_operators','pragmatic_workflow'].includes(product)||product===selection;}
 function visibleRecords(records,filters={}){
   if(!Array.isArray(records))return [];
-  return records.filter(row=>row&&productNames[row.product_id]&&row.visibility==='visible'&&['production','daily'].includes(row.channel)&&typeof row.version==='string'&&typeof row.release_id==='string'&&typeof row.build_id==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(row.release_date)&&Array.isArray(row.artifacts)&&downloadURL(row.manifest_url)&&(!filters.product||filters.product==='all'||row.product_id===filters.product))
+  return records.filter(row=>row&&productNames[row.product_id]&&row.visibility==='visible'&&['production','daily'].includes(row.channel)&&typeof row.version==='string'&&typeof row.release_id==='string'&&typeof row.build_id==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(row.release_date)&&Array.isArray(row.artifacts)&&downloadURL(row.manifest_url)&&productMatches(row.product_id,filters.product))
     .map(row=>({...row,artifacts:row.artifacts.filter(a=>a&&typeof a.filename==='string'&&/^[a-f0-9]{64}$/.test(a.sha256)&&Number.isSafeInteger(a.size_bytes)&&a.size_bytes>0&&Array.isArray(a.urls)&&a.urls.some(downloadURL)&&Array.isArray(a.targets)&&a.targets.length&&a.targets.every(validTarget)&&a.targets.some(t=>targetMatches(t,filters)))}))
     .filter(row=>row.artifacts.length)
     .sort((a,b)=>(b.published_at||b.release_date).localeCompare(a.published_at||a.release_date)||b.release_id.localeCompare(a.release_id,undefined,{numeric:true}));
@@ -41,6 +42,7 @@ function appendSection(container,title,rows,description,markLatest=true){
 }
 function renderReleases(records,product,container,filters={}){
   container.replaceChildren();const rows=visibleRecords(records,{...filters,product});
+  if(product==='pragmatic_suite')container.append(element('p','Suite includes both tools. Download the qualified Operators and Workflow packages below; each tool has its own version and signed release manifest.','suite-includes'));
   if(!rows.length){container.append(element('p','No published releases match this selection.','empty'));return 0;}
   const groups=groupReleases(rows);
   appendSection(container,'Production builds',groups.production,'Recommended releases. Choose the package for your operating system and exact Houdini build.');
@@ -50,7 +52,7 @@ function renderReleases(records,product,container,filters={}){
 }
 async function start(){
   const selector=document.getElementById('product'),os=document.getElementById('os'),houdini=document.getElementById('houdini'),status=document.getElementById('status'),container=document.getElementById('releases');
-  const query=new URLSearchParams(location.search).get('product');if(productNames[query])selector.value=query;
+  const query=new URLSearchParams(location.search).get('product');if(productNames[query]||query==='pragmatic_suite')selector.value=query;
   try{
     const response=await fetch('releases.json',{cache:'no-cache'});if(!response.ok)throw Error('Catalog unavailable');const data=await response.json();if(data.schema_version!==1||!Array.isArray(data.releases))throw Error('Invalid catalog');
     const builds=[...new Set(visibleRecords(data.releases).flatMap(row=>row.artifacts.flatMap(a=>a.targets.flatMap(t=>t.houdini_versions))))].sort((a,b)=>b.localeCompare(a,undefined,{numeric:true}));
