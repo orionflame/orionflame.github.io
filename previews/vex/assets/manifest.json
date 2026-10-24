@@ -1,0 +1,117 @@
+[
+  {
+    "previewVideoId": "yE4VZfeSb20",
+    "timestampSeconds": 10,
+    "file": "assets/yE4VZfeSb20.png",
+    "width": 1920,
+    "height": 1080,
+    "type": "decoded video frame",
+    "processing": "PNG; no color grading or crop"
+  },
+  {
+    "previewVideoId": "NO5lN3K_7YM",
+    "timestampSeconds": 30,
+    "file": "assets/NO5lN3K_7YM.png",
+    "width": 1920,
+    "height": 1080,
+    "type": "decoded video frame",
+    "processing": "PNG; no color grading or crop"
+  },
+  {
+    "previewVideoId": "WRpX8zNwbUI",
+    "timestampSeconds": 10,
+    "file": "assets/WRpX8zNwbUI.png",
+    "width": 2560,
+    "height": 1066,
+    "type": "decoded video frame",
+    "processing": "PNG; no color grading or crop"
+  },
+  {
+    "previewVideoId": "3Q5Rn86H_gE",
+    "timestampSeconds": 30,
+    "file": "assets/3Q5Rn86H_gE.png",
+    "width": 1920,
+    "height": 1080,
+    "type": "decoded video frame",
+    "processing": "PNG; no color grading or crop"
+  },
+  {
+    "previewVideoId": "cwlrnmgyf-4",
+    "timestampSeconds": 10,
+    "file": "assets/cwlrnmgyf-4.png",
+    "width": 1920,
+    "height": 1080,
+    "type": "decoded video frame",
+    "processing": "PNG; no color grading or crop"
+  },
+  {
+    "previewVideoId": "X1_FrgXfATQ",
+    "timestampSeconds": 10,
+    "file": "assets/X1_FrgXfATQ.png",
+    "width": 1920,
+    "height": 1080,
+    "type": "decoded video frame",
+    "processing": "PNG; no color grading or crop"
+  },
+  {
+    "previewVideoId": "TFaPW_jZtWc",
+    "timestampSeconds": 10,
+    "file": "assets/TFaPW_jZtWc.png",
+    "width": 1920,
+    "height": 1080,
+    "type": "decoded video frame",
+    "processing": "PNG; no color grading or crop"
+  },
+  {
+    "previewVideoId": "CsR09ohdO0A",
+    "timestampSeconds": 30,
+    "file": "assets/CsR09ohdO0A.png",
+    "width": 3840,
+    "height": 2160,
+    "type": "decoded video frame",
+    "processing": "PNG; no color grading or crop"
+  },
+  {
+    "previewVideoId": "28ZWIumhwZA",
+    "timestampSeconds": 10,
+    "file": "assets/28ZWIumhwZA.png",
+    "width": 1920,
+    "height": 1080,
+    "type": "decoded video frame",
+    "processing": "PNG; no color grading or crop"
+  },
+  {
+    "previewVideoId": "_kw54o19Y2Q",
+    "timestampSeconds": 30,
+    "file": "assets/_kw54o19Y2Q.png",
+    "width": 3840,
+    "height": 2160,
+    "type": "decoded video frame",
+    "processing": "PNG; no color grading or crop"
+  },
+  {
+    "previewVideoId": "8T4wDpx_4bc",
+    "timestampSeconds": 10,
+    "file": "assets/8T4wDpx_4bc.png",
+    "width": 1920,
+    "height": 1080,
+    "type": "decoded video frame",
+    "processing": "PNG; no color grading or crop"
+  },
+  {
+    "previewVideoId": "8kN5ruz0teY",
+    "playbackVideoId": "102sG5cjDiA",
+    "file": "assets/8kN5ruz0teY.jpg",
+    "width": 1280,
+    "height": 720,
+    "type": "original selected custom YouTube preview artwork; retained unchanged"
+  },
+  {
+    "previewVideoId": "Ob8b1c4P04g",
+    "playbackVideoId": "HryJBbNwqDw",
+    "file": "assets/Ob8b1c4P04g.jpg",
+    "width": 1280,
+    "height": 720,
+    "type": "original selected custom YouTube preview artwork; retained unchanged"
+  }
+]
