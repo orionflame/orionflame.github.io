@@ -83,11 +83,11 @@
         frame.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
         frame.allowFullscreen = true;
         frame.referrerPolicy = 'strict-origin-when-cross-origin';
-        const params = new URLSearchParams({enablejsapi:'1', autoplay:'1', rel:'0', playsinline:'1', origin:location.origin, widget_referrer:location.href});
+        const params = new URLSearchParams({enablejsapi:'1', autoplay:'1', mute:'1', rel:'0', playsinline:'1', origin:location.origin, widget_referrer:location.href});
         frame.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(button.dataset.video) + '?' + params;
         slot.replaceChildren(frame);
         player = new YT.Player(frame, {events: {
-          onReady: event => { status.textContent = 'Press play if your browser paused autoplay.'; event.target.playVideo(); },
+          onReady: event => { event.target.mute(); status.textContent = 'Starts muted. Press play if your browser paused autoplay.'; event.target.playVideo(); },
           onStateChange: event => {
             if (event.data === YT.PlayerState.PLAYING) {
               slot.dataset.state = 'playing'; status.textContent = '';
