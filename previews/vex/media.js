@@ -117,3 +117,5 @@
     });
   });
 })();
+
+(() => { const button = document.getElementById('toggle-curriculum'); if (!button) return; button.addEventListener('click', () => { const items = Array.from(document.querySelectorAll('.topic-category')); const expand = !items.every(item => item.open); items.forEach(item => { item.open = expand; }); button.textContent = expand ? 'Collapse all topics' : 'Expand all topics'; button.setAttribute('aria-expanded', String(expand)); }); })();
