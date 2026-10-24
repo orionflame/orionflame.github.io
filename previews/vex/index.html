@@ -62,21 +62,21 @@ footer{border-top:1px solid var(--line);padding:36px 0 44px}.foot{display:flex;j
  document.querySelectorAll('.video-cover img[src*="i.ytimg.com/vi/"]').forEach(function(img){
    var match=img.getAttribute('src').match(/^(https:\/\/i\.ytimg\.com\/vi\/[^/]+)\/maxresdefault\.jpg$/);
    if(!match)return;
-   var base=match[1], qualities=['maxresdefault','sddefault','hqdefault'], quality=0;
+   var base=match[1], qualities=['maxresdefault','hq720','sddefault','hqdefault'], quality=0;
    function next(){
      quality++;
-     if(quality>=qualities.length){img.style.display='none';return;}
+     if(quality>=qualities.length){img.style.objectFit='contain';img.style.background='#080a0e';return;}
      img.src=base+'/'+qualities[quality]+'.jpg';
    }
    img.addEventListener('error', next);
    img.addEventListener('load',function(){
      // YouTube sometimes returns a thumbnail-not-found placeholder with HTTP 200.
-     var minWidth=quality===0?700:quality===1?480:200;
+     var minWidth=quality===0?700:quality===1?700:quality===2?480:200;
      if(img.naturalWidth<minWidth)next();
    });
    if(img.complete && img.naturalWidth===0)next();
    else if(img.complete && img.naturalWidth>0){
-     var expected=quality===0?700:480;
+     var expected=quality<=1?700:480;
      if(img.naturalWidth<expected)next();
    }
  });
