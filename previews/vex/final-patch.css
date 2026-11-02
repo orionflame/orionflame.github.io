@@ -1,0 +1,21 @@
+/* Final-facing presentation overrides */
+.hero{padding-top:39px;padding-bottom:25px}
+.hero .lead{margin-bottom:22px}
+.course-film-grid .price-block{display:flex;flex-direction:column;align-items:flex-end;gap:9px;min-width:144px;margin-top:0}
+.price-block strong{font-size:30px;font-weight:850;line-height:1;letter-spacing:-.055em;color:#f7f5f2}
+.price-block span{max-width:175px;color:#bac0c8;font-size:11px;line-height:1.5;text-align:right;white-space:normal}
+.price-block span b{color:#ffbd70;font-weight:800;font-size:14px;white-space:nowrap}
+.course-film-grid .course-status{margin:0 0 11px;color:#9ea6b2}
+.course-film-grid{margin-bottom:8px}
+.bundle-wrap{padding-top:38px;padding-bottom:65px}
+.bundle-panel .purchase-link{font-size:14px;letter-spacing:.005em;min-height:51px}
+.bundle-panel .purchase-link:hover{text-decoration:none}
+.proof-section{padding-top:45px}
+.curriculum-section .curriculum-meta{font-size:13px}
+.curriculum-section .topic-category{padding:20px 0}
+.curriculum-section .topic-category summary{font-size:17px;color:#f4f3f1}
+.curriculum-section .topic-category ul{font-size:14px;line-height:1.75}
+.curriculum-section .topic-category summary::after{font-size:17px}
+.preview-badge,.release-alert,.placeholder-pill,.placeholder-label,.planned-updates,.status-badge,.availability-note{display:none!important}
+@media(max-width:820px){.course-film-grid .price-block{align-items:flex-start;margin:15px 0 4px}.price-block span{text-align:left}}
+@media(max-width:760px){.hero{padding-top:32px;padding-bottom:20px}.hero .lead{margin-bottom:20px}.bundle-wrap{padding-top:25px}}
