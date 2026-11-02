@@ -9,7 +9,7 @@ This is a separate static HTML preview for side-by-side comparison with:
 Changes:
 - Restores the selected “Get past the terminology” headline.
 - Preserves the existing instructor company-history wording.
-- Retains the prominent dual course-video layout and keeps the Volume 2 pending-trailer label honest.
+- Retains the prominent dual course-video layout. Volume 2 uses neutral preview artwork without presenting the launch trailer as an unfinished course update.
 - Restores explicit Volume 2 availability numbers, status, and planned-chapter separation.
 - Revises the mathematics FAQ to align with the selected headline.
 - Serves real HTML directly, with no compressed-payload loading step.
@@ -19,3 +19,5 @@ Changes:
 
 The page reuses existing `cinematic-theme.css`, `media.js`, fonts and assets.
 No claims of automated browser screenshot validation.
+
+Update: The Volume 2 launch trailer is no longer listed as pending content or described as still in production on the comparison page. The unreleased lesson subjects retain their status.
