@@ -27,17 +27,11 @@ setText('.course-film-grid article:last-child .film-vol','Volume 1 · Houdini 21
 setText('.course-film-grid article:first-child .course-status','4K lessons · Scene files and supporting material');
 setText('.course-film-grid article:last-child .course-status','163 lessons · Over 15 hours · 4K video');
 all('.course-film-grid .price').forEach(p=>{
-  // The original .price class gives child text inherited large negative spacing.
-  // Use a new class and isolated, explicitly sized rows.
   const block=document.createElement('div');
   block.className='price-block';
-  block.style.cssText='display:flex;flex-direction:column;align-items:flex-end;gap:11px;min-width:181px;letter-spacing:normal;font-weight:400;white-space:normal;text-align:right';
-  block.innerHTML=
-    '<strong style="display:block;font-size:30px;font-weight:850;letter-spacing:-.045em;line-height:1.05;color:#f7f5f2">$795</strong>'+
-    '<div style="display:flex;align-items:baseline;justify-content:flex-end;gap:10px;white-space:nowrap;letter-spacing:normal;line-height:1.4">'+
-      '<span style="font-size:12px;font-weight:500;letter-spacing:0;color:#bac0c8;white-space:nowrap">Existing customers</span>'+
-      '<b style="font-size:14px;font-weight:750;letter-spacing:0;color:#ffbd70;white-space:nowrap">$695</b>'+
-    '</div>';
+  block.setAttribute('aria-label','Regular price $795; existing customers $695');
+  block.innerHTML='<strong class="price-main">$795</strong>'+
+    '<div class="price-returning"><span>Existing customers</span><strong>$695</strong></div>';
   p.replaceWith(block);
 });
 rm('.release-alert,.loyalty');
