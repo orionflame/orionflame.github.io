@@ -26,8 +26,8 @@ html,body{margin:0;min-height:100%;background:#090b10;color:#f7f5f2;font-family:
     if(typeof DecompressionStream==='undefined') throw new Error('This browser does not support the preview decoder.');
     const stream=new Blob([compressed]).stream().pipeThrough(new DecompressionStream('gzip'));
     const html=await new Response(stream).text();
-    const finalHtml=html.replace('</head>','<link href="final-patch.css?v=2" rel="stylesheet"></head>')
-      .replace('<script src="media.js">','<script src="final-patch.js"><'+'/script><script src="media.js">');
+    const finalHtml=html.replace('</head>','<link href="final-patch.css?v=3" rel="stylesheet"></head>')
+      .replace('<script src="media.js">','<script src="final-patch.js?v=3"><'+'/script><script src="media.js">');
     document.open();
     document.write(finalHtml);
     document.close();
