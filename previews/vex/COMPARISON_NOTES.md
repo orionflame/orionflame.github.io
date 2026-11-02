@@ -21,3 +21,5 @@ The page reuses existing `cinematic-theme.css`, `media.js`, fonts and assets.
 No claims of automated browser screenshot validation.
 
 Update: The Volume 2 launch trailer is no longer listed as pending content or described as still in production on the comparison page. The unreleased lesson subjects retain their status.
+
+Price layout fix: Both volume cards now display a distinct $795 price and $695 existing-customer amount on a separate line. Removed compressed tracking, forced spacing and clearer responsive columns. Same comparison URL.

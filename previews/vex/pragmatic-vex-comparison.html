@@ -196,6 +196,36 @@ code{font-family:'JetBrains Mono','Noto Sans Symbols 2',monospace;color:#ffc27b}
 .purchase-link:hover{text-decoration:none}
 .checkout-note{margin:9px 0 3px;color:#aeb5c0;font-size:11px;line-height:1.5}
 @media(max-width:760px){.hero{padding-top:32px;padding-bottom:20px}.hero .lead{margin-bottom:20px}.film-links{gap:13px}}
+</style><style>
+/* Price typography: regular and existing-customer prices have independent rows. */
+.course-film-grid .film-details > div:first-child{min-width:0;flex:1 1 auto}
+.course-film-grid .course-price-panel{
+  flex:0 0 166px;min-width:166px;max-width:100%;
+  display:flex;flex-direction:column;align-items:flex-end;gap:17px;
+  margin:0;text-align:right;line-height:normal;letter-spacing:normal;
+  font-family:Inter,'Segoe UI',Arial,sans-serif;font-variant-numeric:tabular-nums;
+}
+.course-film-grid .course-price-amount{
+  display:block;font-size:34px;font-weight:800;line-height:1.16;
+  letter-spacing:0;color:#f7f5f2;white-space:nowrap;
+}
+.course-film-grid .course-price-existing{
+  display:flex;flex-direction:column;align-items:flex-end;gap:5px;
+  letter-spacing:normal;line-height:normal;
+}
+.course-film-grid .course-price-existing > span{
+  display:block;font-size:12px;font-weight:500;line-height:1.5;
+  letter-spacing:0;color:#bac0c8;white-space:nowrap;
+}
+.course-film-grid .course-price-existing > strong{
+  display:block;font-size:20px;font-weight:750;line-height:1.25;
+  letter-spacing:0;color:#ffbd70;white-space:nowrap;
+}
+@media(max-width:1070px){.course-film-grid{grid-template-columns:1fr}}
+@media(max-width:760px){
+  .course-film-grid .course-price-panel{align-items:flex-start;text-align:left;margin-top:19px;gap:11px}
+  .course-film-grid .course-price-existing{align-items:flex-start}
+}
 </style></head>
 <body>
 <header class="site-nav">
@@ -262,7 +292,10 @@ code{font-family:'JetBrains Mono','Noto Sans Symbols 2',monospace;color:#ffc27b}
 </div>
 <a class="tiny-link" data-open-curriculum="v2" href="#curriculum">View Volume 2 curriculum</a>
 </div>
-<div class="price">$795</div>
+<div class="course-price-panel" aria-label="Regular price $795; existing customers $695">
+  <strong class="course-price-amount">$795</strong>
+  <div class="course-price-existing"><span>Existing customers</span><strong>$695</strong></div>
+</div>
 </div>
 </article>
 <article class="film-card">
@@ -279,7 +312,10 @@ code{font-family:'JetBrains Mono','Noto Sans Symbols 2',monospace;color:#ffc27b}
 </div>
 <div class="film-links"><a class="tiny-link" data-open-curriculum="v1" href="#curriculum">View Volume 1 curriculum</a><a class="tiny-link purchase-link-secondary" href="https://animatrix.dpdcart.com/cart/add?method_id=216868&amp;product_id=199182" target="_blank" rel="noopener">Volume 1 live checkout ↗</a></div>
 </div>
-<div class="price">$795</div>
+<div class="course-price-panel" aria-label="Regular price $795; existing customers $695">
+  <strong class="course-price-amount">$795</strong>
+  <div class="course-price-existing"><span>Existing customers</span><strong>$695</strong></div>
+</div>
 </div>
 </article>
 </div>
