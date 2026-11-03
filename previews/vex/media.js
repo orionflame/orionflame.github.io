@@ -148,7 +148,9 @@
     if (!direct) {
       direct = document.createElement('a');
       direct.className = 'player-link';
-      direct.textContent = '↗';
+      direct.textContent = 'YT';
+      direct.style.fontSize = '11px';
+      direct.style.fontWeight = '800';
       direct.href = `https://www.youtube.com/watch?v=${encodeURIComponent(button.dataset.video)}`;
       direct.target = '_blank';
       direct.rel = 'noopener noreferrer';
