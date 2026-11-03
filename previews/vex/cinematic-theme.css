@@ -1,4 +1,3 @@
-
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}button:focus-visible,a:focus-visible{outline:2px solid #fbbf67;outline-offset:4px}h1,h2,h3,p{margin-top:0}img{max-width:100%}
 .brand{display:inline-flex;align-items:center;gap:12px;font-size:15px;font-weight:900;letter-spacing:.11em;white-space:nowrap}.brand-light{font-weight:350;margin-left:3px;opacity:.8}.brand-mark{width:26px;height:26px;position:relative;display:inline-block;transform:rotate(20deg)}.brand-mark span{display:block;position:absolute;border:2px solid currentColor;border-radius:45%;width:22px;height:10px;left:2px;top:8px}.brand-mark span:nth-child(2){transform:rotate(60deg)}.brand-mark span:nth-child(3){transform:rotate(120deg)}
 .site-nav{display:flex;align-items:center;justify-content:space-between;padding:22px max(32px,calc((100vw - 1280px)/2));gap:20px;position:relative;z-index:10}.nav-right{display:flex;align-items:center;gap:27px;font-size:12px;font-weight:700;letter-spacing:.05em}.nav-right a:hover{opacity:.72}.nav-action{padding:12px 17px;border-radius:5px;border:1px solid currentColor}.nav-action:hover{opacity:1!important;filter:brightness(1.2)}.tiny{font-size:11px;letter-spacing:.14em;font-weight:750;text-transform:uppercase}.eyebrow{font-size:11px;letter-spacing:.20em;font-weight:800;text-transform:uppercase}.wrap{max-width:1250px;margin:auto;padding-left:28px;padding-right:28px}.muted{opacity:.68}.caps{text-transform:uppercase;letter-spacing:.15em}.divider{height:1px;background:currentColor;opacity:.13}
@@ -11,3 +10,53 @@
 
 :root{--txt:#f7f5f2;--sub:#a6a8ad;--orange:#ffaf52;--line:rgba(255,255,255,.14)}body{background:#090b10;color:var(--txt);font-family:Inter,'Segoe UI',Arial,sans-serif}.site-nav{border-bottom:1px solid var(--line);background:#080b10}.nav-action{border-color:#e6a65f;color:#ffc684}.primary{background:#f8b363;color:#160f08}.secondary{background:#fff;color:#090b10}.outline{border-color:#5d5d62}.hero{padding-top:45px;padding-bottom:32px;text-align:center;background:radial-gradient(ellipse 50% 38% at 50% 0%,rgba(100,66,53,.19),transparent 100%)}.hero-top{color:#feb774;margin:0 0 25px}.hero h1{font-size:clamp(60px,7.8vw,110px);line-height:.89;font-weight:900;letter-spacing:-.09em;margin-bottom:21px}.hero h1 em{font-style:normal;color:#fab363}.lead{font-size:clamp(16px,2vw,21px);color:#bdc1c9;max-width:680px;margin:0 auto 28px;line-height:1.56}.hero-actions{display:flex;gap:13px;justify-content:center;flex-wrap:wrap}.meta-line{margin-top:28px;display:flex;justify-content:center;gap:30px;flex-wrap:wrap;color:#92969f;font-size:11px;letter-spacing:.16em;font-weight:750}.meta-line b{color:#f1f1f1}.section-header{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:26px}.section-header h2{font-size:clamp(33px,4vw,53px);letter-spacing:-.06em;line-height:1.07;margin-bottom:0}.section-header p{max-width:440px;color:#aeb2bb;font-size:14px;line-height:1.6}.course-film-grid{display:grid;grid-template-columns:1fr 1fr;gap:19px}.film-card{position:relative;min-width:0}.film-card .trailer{border-radius:7px}.film-details{padding:22px 0 0;display:flex;gap:20px;justify-content:space-between;align-items:start}.film-details h3{font-size:26px;letter-spacing:-.05em;margin:6px 0 8px}.film-details p{font-size:13px;color:#afb5c0;line-height:1.55;max-width:390px}.film-details .price{font-size:28px;white-space:nowrap}.film-vol{color:#e4a469}.film-vol.blue{color:#90d1ff}.divider-space{margin-top:83px;margin-bottom:77px}.bundle-spotlight{position:relative;padding:47px 53px;background:linear-gradient(125deg,#252225,#101821 55%,#131215);border:1px solid #544234;overflow:hidden;border-radius:8px;display:grid;grid-template-columns:1.3fr .7fr;gap:28px;align-items:center}.bundle-spotlight::before{content:'';position:absolute;width:400px;height:400px;right:4%;top:-30%;background:radial-gradient(circle,rgba(246,151,77,.18),transparent 70%);pointer-events:none}.bundle-spotlight h2{font-size:clamp(43px,5.4vw,74px);line-height:.99;letter-spacing:-.07em;margin:17px 0}.bundle-spotlight p{max-width:550px;color:#b9b9be;line-height:1.7;font-size:14px}.bundle-price{display:flex;gap:12px;align-items:baseline}.bundle-price strong{font-size:54px;letter-spacing:-.07em}.bundle-price span{font-size:20px}.bundle-panel{position:relative;border:1px solid #6c5546;background:rgba(12,14,17,.6);padding:30px;min-width:0}.bundle-panel ul{list-style:none;margin:20px 0 25px;padding:0;display:grid;gap:12px;font-size:13px;color:#d0d1d4}.bundle-panel li::before{content:'✓';color:#ffc077;margin-right:9px}.band{background:#10141a;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:80px}.band-inner{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding-top:32px;padding-bottom:32px}.band-inner b{display:block;font-size:21px;letter-spacing:-.04em}.band-inner span{font-size:11px;line-height:1.7;color:#a6aab1}.learn-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}.learn-item{border:1px solid #29313b;padding:25px 24px;min-height:220px;background:#0e1218}.learn-item span{color:#eeae6d;font-size:11px;letter-spacing:.18em;font-weight:800}.learn-item h3{font-size:22px;letter-spacing:-.05em;margin:24px 0 10px}.learn-item p{color:#aab1bb;font-size:13px;line-height:1.6}.bottom-cta{text-align:center;padding:95px 20px 80px}.bottom-cta h2{font-size:48px;letter-spacing:-.06em;margin-bottom:12px}.bottom-cta p{color:#b6b9c0;margin-bottom:26px}.loyalty{border:1px solid #454a50;padding:22px 25px;display:flex;align-items:center;justify-content:space-between;gap:20px;border-radius:7px;margin-top:25px}.loyalty p{font-size:13px;color:#abb1ba;margin:6px 0 0}.concept-tag{position:fixed;bottom:13px;left:13px;z-index:20;font-size:9px;letter-spacing:.12em;padding:8px 12px;border-radius:100px;background:#e3aa73;color:#15100d;font-weight:900}.foot{border-top:1px solid #2b2f33;margin-top:20px}
 @media(max-width:800px){.course-film-grid,.bundle-spotlight,.learn-grid{grid-template-columns:1fr}.hero{padding-top:60px}.divider-space{margin:57px 0}.bundle-spotlight{padding:30px 22px}.bundle-panel{padding:24px}.band-inner{grid-template-columns:1fr}.meta-line{gap:14px}.film-details h3{font-size:23px}.loyalty{flex-direction:column;align-items:start}}
+
+
+/* Volume 2 is the primary course in the top comparison. JavaScript also updates DOM order for assistive technology. */
+.course-trailer-grid>.media-slot:has([data-title^="Volume 2"]),
+.course-film-grid>.film-card:has(.film-vol.blue){order:-1}
+
+/* Load and rendering safeguards for the long, media-heavy preview page. */
+#concept-to-implementation,
+#velocity-field-scenario,
+#industry-adoption,
+.authority-posters,
+#lesson-construction,
+#advanced-course-excerpts,
+#presentations,
+#interview,
+.bottom-cta,
+.tools-credit{
+  content-visibility:auto;
+  contain-intrinsic-size:auto 850px;
+}
+#industry-adoption,.authority-posters{contain-intrinsic-size:auto 900px}
+#lesson-construction,#advanced-course-excerpts{contain-intrinsic-size:auto 1500px}
+#full-curriculum{content-visibility:auto;contain-intrinsic-size:auto 2400px}
+.media-slot,.video-card,.asset-frame{contain:paint}
+img{height:auto}
+img[data-perf-state="deferred"]{opacity:0}
+img[data-perf-state="loading"]{opacity:.001}
+img[data-perf-state="ready"],img[data-perf-state="error"]{opacity:1}
+img[data-perf-state="loading"],img[data-perf-state="deferred"],img[data-perf-state="ready"]{transition:opacity .18s ease}
+@media(max-width:900px),(prefers-reduced-motion:reduce){
+  #industry-adoption .asset-frame img,
+  .authority-posters .asset-frame img{
+    filter:none!important;
+    mix-blend-mode:normal!important;
+    -webkit-mask-image:none!important;
+    mask-image:none!important;
+  }
+  #industry-adoption .asset-frame::before,
+  .authority-posters .asset-frame::before{display:none!important}
+  .play-symbol,.big-play,.modal-backdrop{backdrop-filter:none!important}
+}
+@media(prefers-reduced-data:reduce){
+  #industry-adoption .asset-frame img,
+  .authority-posters .asset-frame img{
+    filter:none!important;
+    mix-blend-mode:normal!important;
+    -webkit-mask-image:none!important;
+    mask-image:none!important;
+  }
+}
