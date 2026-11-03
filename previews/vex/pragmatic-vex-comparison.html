@@ -329,6 +329,33 @@ code{font-family:'JetBrains Mono','Noto Sans Symbols 2',monospace;color:#ffc27b}
   .course-film-grid .course-price-panel{align-items:flex-start;text-align:left;margin-top:19px;gap:11px}
   .course-film-grid .course-price-existing{align-items:flex-start}
 }
+</style>
+<style>
+/* Concise course story and clear customer purchase actions. */
+.concise-method{margin-top:52px}
+.concise-method .method-intro{padding-top:43px;padding-bottom:43px}
+.concise-method .method-intro h2{margin-bottom:0}
+.bundle-panel a.purchase-link{
+  box-sizing:border-box;display:flex;align-items:center;justify-content:center;
+  width:100%;min-height:58px;padding:16px 20px;gap:12px;
+  border:1px solid #ffc77e;border-radius:7px;
+  background:#f8b363;color:#160f08;
+  font:800 15px/1.3 Inter,'Segoe UI',Arial,sans-serif;
+  letter-spacing:0;text-align:center;text-decoration:none;
+  box-shadow:0 5px 20px rgba(248,179,99,.14);
+  cursor:pointer;
+}
+.bundle-panel a.purchase-link:hover,
+.bundle-panel a.purchase-link:focus-visible{
+  background:#ffc47c;border-color:#ffdfae;color:#160f08;text-decoration:none;
+}
+.bundle-panel a.purchase-link:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.hero-actions a.hero-bundle-cta{
+  background:#f8b363;color:#160f08;border:1px solid #ffc77e;
+  font-weight:800;text-decoration:none
+}
+.hero-actions a.hero-bundle-cta:hover{background:#ffc47c}
+@media(max-width:760px){.concise-method{margin-top:35px}.concise-method .method-intro{padding-top:35px;padding-bottom:35px}}
 </style></head>
 <body>
 <header class="site-nav">
@@ -350,8 +377,8 @@ code{font-family:'JetBrains Mono','Noto Sans Symbols 2',monospace;color:#ffc27b}
 <h1>PRAGMATIC<br/><em>VEX</em></h1>
 <p class="lead">Get past the terminology. Build an intuitive understanding of advanced mathematics, then use it to develop practical tools and solvers in Houdini.</p>
 <div class="hero-actions">
-<a class="primary" href="#volumes">Explore both volumes <span>↓</span></a>
-<a class="outline" href="#pricing">Get the complete bundle <span>↗</span></a>
+<a class="outline" href="#volumes">Explore both volumes <span>↓</span></a>
+<a class="primary hero-bundle-cta" href="#pricing">Get the complete bundle <span>↗</span></a>
 </div>
 </section>
 <section class="wrap" id="volumes">
@@ -425,7 +452,7 @@ code{font-family:'JetBrains Mono','Noto Sans Symbols 2',monospace;color:#ffc27b}
 <section class="wrap proof-section" id="adoption">
 <div class="section-heading">
 <div><div class="tagline">Studios &amp; individual professionals</div><h2>Used across production teams and technical careers.</h2></div>
-<p>Studio purchases and the employers of individual customers are shown separately so the relationship is clear.</p>
+
 </div>
 <div class="proof-grid">
 <article class="proof-panel">
@@ -437,7 +464,7 @@ code{font-family:'JetBrains Mono','Noto Sans Symbols 2',monospace;color:#ffc27b}
 <article class="proof-panel">
 <div class="tagline">Individual customers</div>
 <h3>Employers represented among course users</h3>
-<p>Workplaces of individual customers. This does not imply a studio purchase, partnership or endorsement.</p>
+
 <div class="proof-image"><img alt="Employers represented among individual Pragmatic VEX customers" src="https://pragmatic-vfx.com/artists7.png"/></div>
 </article>
 </div>
@@ -457,24 +484,18 @@ code{font-family:'JetBrains Mono','Noto Sans Symbols 2',monospace;color:#ffc27b}
 <li>Volume 1: The Manifold of Morphology</li>
 <li>Volume 2: The Eigenveil of Entropy</li>
 <li>4K instruction, scene files and supporting material</li>
-<li>Current and listed future Volume 2 chapter updates</li>
+<li>Volume 2 chapter updates</li>
 <li>$200 saved against separate purchases</li>
 </ul>
-<a class="primary full purchase-link" href="mailto:animatrix2k7@gmail.com?subject=Pragmatic%20VEX%20complete%20bundle%20purchase%20enquiry">Enquire about the bundle · $1,390</a><p class="checkout-note">Bundle checkout is not connected in this comparison preview. Contact us to arrange a purchase.</p>
+<a class="primary full purchase-link" href="mailto:animatrix2k7@gmail.com?subject=Pragmatic%20VEX%20complete%20bundle%20purchase%20enquiry">Get the complete bundle <span aria-hidden="true">↗</span></a>
 <a class="quiet full" href="mailto:animatrix2k7@gmail.com?subject=Pragmatic%20VEX%20studio%20and%20team%20licensing" style="margin-top:10px">Studio &amp; team licensing</a>
 </div>
 </div>
 </section>
-<section class="band" id="method">
+<section class="band concise-method" id="method">
 <div class="wrap method-intro">
 <div class="eyebrow" style="color:#f3ae72">Why Pragmatic VEX</div>
 <h2>Learn the method behind the result.</h2>
-<p>The goal is not to collect unfamiliar terminology or copy finished setups. Each subject connects a production problem to the geometric or field quantities that describe it, then follows the reasoning into a VEX implementation you can inspect, modify and reuse.</p>
-</div>
-<div class="wrap method-grid">
-<article><span class="method-number">01</span><h3>Start with the problem.</h3><p>Identify what needs to move, align, spread, deform, smooth, separate or remain constrained. The mathematics enters as a language for describing that behavior precisely, not as the product itself.</p></article>
-<article><span class="method-number">02</span><h3>Make the quantities visible.</h3><p>See how gradients, eigenvectors, curvature, strain, divergence and other quantities appear on real geometry and fields. Inspect the intermediate results before they become part of a larger tool.</p></article>
-<article><span class="method-number">03</span><h3>Build a reusable solution.</h3><p>Follow the coordinate spaces, numerical choices, boundary conditions and implementation details that affect the outcome. Then adapt the same reasoning to a different shot, asset or procedural system.</p></article>
 </div>
 </section>
 <section class="wrap section" id="applications">
@@ -559,7 +580,7 @@ code{font-family:'JetBrains Mono','Noto Sans Symbols 2',monospace;color:#ffc27b}
 <section class="wrap section curriculum-section" id="curriculum">
 <div class="curriculum-head">
 <div><div class="tagline">What is taught</div><h2>Curriculum and release status</h2></div>
-<p>Major capabilities are shown first. The detailed terminology sits inside the module where it is actually used, rather than appearing as an undifferentiated keyword list.</p>
+
 </div>
 <div aria-label="Choose a course curriculum" class="curriculum-tabs" role="tablist">
 <button aria-controls="panel-v2" aria-selected="true" class="curriculum-tab" data-curriculum-tab="v2" id="tab-v2" role="tab">Volume 2</button>
@@ -571,7 +592,7 @@ code{font-family:'JetBrains Mono','Noto Sans Symbols 2',monospace;color:#ffc27b}
 <div><div class="eyebrow film-vol blue">Volume 2 · Houdini 22</div><h3>The Eigenveil of Entropy</h3><div class="curriculum-meta">Houdini 22 · 151 videos and 11+ hours available now · 4K video</div></div>
 <span class="status-badge">151 videos released · Updates planned</span>
 </div>
-<p class="availability-note">The 151-video count includes released lessons only. The linear solver, inverse ocean spectrum and anisotropy-aware thin FLIP sheet chapters are planned and not yet included. Their status is listed separately below.</p>
+<p class="availability-note">Volume 2 currently includes 151 lessons. The linear solver, inverse ocean spectrum and anisotropy-aware thin FLIP sheet lessons are in development.</p>
 <details class="topic-category" open=""><summary>1. Matrix foundations and decompositions</summary><ul>
 <li>Interpret matrices as transformations, projections and changes of basis. <span class="terms">Vector spaces, tensors, transposition, diagonal, orthogonal and orthonormal matrices.</span></li>
 <li>Use eigenvalue decomposition, singular value decomposition, principal component analysis and polar decomposition to expose the structure of geometric data.</li>
