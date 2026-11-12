@@ -5,7 +5,7 @@
 <meta content="only light" name="color-scheme"/>
 <meta name="darkreader-lock"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta name="pragmatic-preview-version" content="2026-11-12-revised-v12"/>
+<meta name="pragmatic-preview-version" content="2026-11-12-revised-v13"/>
 <title>Pragmatic VEX | Advanced Houdini VEX Courses</title>
 <meta content="noindex,nofollow" name="robots"/>
 <meta content="strict-origin-when-cross-origin" name="referrer"/>
@@ -496,71 +496,79 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <p class="kicker blue">Volume 2 · Houdini 22</p>
 <h3>The Eigenveil of Entropy</h3>
 <p class="meta">151 videos · Over 11 hours available now · 4K · Planned total: 216 videos, 19 to 20 hours</p>
-<div class="grp"><span>01</span><h4>Linear Algebra &amp; Matrix Decompositions</h4><ul>
-<li>Tensors, Vector Spaces</li>
-<li>Matrix Transposition, Diagonal, Orthogonal &amp; Orthonormal Matrices</li>
-<li>Eigenvalue Decomposition [EVD], Eigenvalues, Eigenvectors, Eigenbasis, Diagonalization</li>
-<li>Singular Value Decomposition [SVD], Principal Component Analysis [PCA]</li>
-<li>Polar Decomposition, Orthogonality, Spectral Analysis</li>
-<li>Matrix Pseudoinverse [Generalized Inverse], Moore-Penrose Inverse, Projection Matrix</li>
-<li>Matrix Norms: 1-Norm, Infinity-Norm, Max-Norm, Frobenius Norm, Spectral Norm</li></ul></div>
-<div class="grp"><span>02</span><h4>Fitting &amp; Principal Analysis</h4><ul>
-<li>Linear Least Squares [LLS], Best Fit Line, Best Fit Plane</li>
-<li>Outer Product, Covariance Matrix</li>
-<li>Principal Axis Computation, Point Cloud Normal Estimation</li>
-<li>Regression Analysis, Multivariate Analysis, Dimensionality Reduction</li></ul></div>
-<div class="grp"><span>03</span><h4>Transformations &amp; Registration</h4><ul>
-<li>Affine Transformations, Homogeneous Coordinates, Coordinate Systems</li>
-<li>Point Line Projection</li>
-<li>Rigid Transform Matrix Computation, Rigid Transform Matching, Shape Matching</li>
-<li>Computing Arbitrary Linear Transformation Between 2 Point Clouds</li>
-<li>Iterative Closest Point [ICP], Point Cloud Registration</li></ul></div>
-<div class="grp"><span>04</span><h4>Bounding Volumes &amp; Convex Hulls</h4><ul>
-<li>Oriented Bounding Box [OBB], Oriented Bounding Cylinder [OBC]</li>
-<li>Minimum Volume Box [MVB], Minimum Volume Cylinder [MVC], Minimum Area Rectangle [MAR]</li>
-<li>Temporal Oriented Bounding Box, Temporal Oriented Bounding Cylinder</li>
-<li>Rotating Calipers, 2D Convex Hull, 3D Convex Hull</li></ul></div>
-<div class="grp"><span>05</span><h4>Curvature &amp; Surface Analysis</h4><ul>
-<li>First &amp; Second Partial Derivatives, Hessian Matrix/Tensor</li>
-<li>First Fundamental Form, Second Fundamental Form</li>
-<li>Shape Operator, Weingarten Map, Smoothing the Shape Operator</li>
-<li>Maximum/Minimum Principal Curvatures &amp; Directions</li>
-<li>Mean Curvature, Gaussian Curvature, Normal Curvature, Curvedness, Shape Index</li>
-<li>Difference of Principal Curvatures, Curvature Tensor, Willmore Energy</li>
-<li>Monoclastic, Synclastic &amp; Anticlastic Surfaces</li>
-<li>Asymptotic Lines, Asymptotic Curves, Asymptotic Directions</li>
-<li>Minima, Maxima, Umbilical Points</li>
-<li>Terrain &amp; Heightfield Analysis, Geomorphometric Analysis</li></ul></div>
-<div class="grp"><span>06</span><h4>OpenSubdiv &amp; Intrinsic Surface Methods</h4><ul>
-<li>OpenSubdiv Derivatives, OpenSubdiv Normals, Intrinsic UVs</li>
-<li>OpenSubdiv Curvature, Analytic Differential Curvature</li>
-<li>Geodesic Distance, Biharmonic Distance, Diffusion Distance</li>
-<li>Shape Relaxation and Smoothing, Minimal Surface</li></ul></div>
-<div class="grp"><span>07</span><h4>Differential Operators &amp; PDEs</h4><ul>
-<li>Gradient, Divergence, Curl, Laplacian</li>
-<li>Jacobian, Gradient Matrix/Tensor, Field Transformations</li>
-<li>Finite Difference Methods [FDM], Discrete Laplacian Stencils, Gaussian Derivatives</li>
-<li>Volume Discretization [Lattice Structure], VDB Analysis</li>
-<li>Partial Differential Equations [PDEs], Biharmonic Operator, Biharmonic Equation</li>
-<li>Dirichlet Boundary Conditions, Neumann Boundary Conditions</li>
-<li>Helmholtz Decomposition: Solenoidal, Irrotational &amp; Harmonic Fields</li></ul></div>
-<div class="grp"><span>08</span><h4>Flow &amp; Deformation Analysis</h4><ul>
-<li>Velocity Gradient Tensor [VGT], Symmetric &amp; Anti-Symmetric Parts</li>
-<li>Strain Tensor, Strain Rate Tensor, Vorticity Tensor, Stress Tensor</li>
-<li>Field Distortion &amp; Volume Change</li>
-<li>Deformation Gradient Tensor, Principal Deformations &amp; Principal Deformation Directions</li>
-<li>Vorticity, Helicity, Q-criterion, Lambda2 Method</li>
-<li>Galilean Invariance, Material Point Method [MPM]</li>
-<li>Vector Field Visualization</li></ul></div>
-<div class="grp"><span>09</span><h4>Sampling, Interpolation &amp; Numerical Tools</h4><ul>
-<li>Trilinear Interpolation, Tricubic Interpolation, Cubic &amp; Smooth Volume Sampling</li>
-<li>Matrix Interpolation, SLERP, Smooth Spherical Linear Interpolation Solver</li>
-<li>Attribute Interpolation/Fill, Closest Point</li>
-<li>Root Finding, Quadratic Equations, Geometric Integration</li></ul></div>
+<div class="grp"><span>01</span><h4>Linear algebra &amp; matrix decompositions</h4><ul>
+<li>Tensors, vector spaces, transposition, diagonal, orthogonal and orthonormal matrices</li>
+<li>Eigenvalue decomposition (EVD), eigenvectors, eigenbasis, diagonalization</li>
+<li>Singular value decomposition (SVD), principal component analysis (PCA)</li>
+<li>Polar decomposition, spectral analysis</li>
+<li>Pseudoinverse (Moore-Penrose), projection matrices</li>
+<li>Matrix norms: 1, infinity, max, Frobenius, spectral</li>
+</ul></div>
+<div class="grp"><span>02</span><h4>Fitting &amp; principal analysis</h4><ul>
+<li>Linear least squares, best-fit line and plane</li>
+<li>Outer product, covariance matrix</li>
+<li>Principal axes, point cloud normal estimation</li>
+<li>Regression, multivariate analysis, dimensionality reduction</li>
+</ul></div>
+<div class="grp"><span>03</span><h4>Transformations &amp; registration</h4><ul>
+<li>Affine transformations, homogeneous coordinates, coordinate systems</li>
+<li>Point-line projection</li>
+<li>Rigid transform fitting, shape matching</li>
+<li>Arbitrary linear transformation between two point clouds</li>
+<li>Iterative closest point (ICP), point cloud registration</li>
+</ul></div>
+<div class="grp"><span>04</span><h4>Bounding volumes &amp; convex hulls</h4><ul>
+<li>Oriented bounding box (OBB) and cylinder (OBC)</li>
+<li>Minimum volume box and cylinder, minimum area rectangle</li>
+<li>Temporal oriented bounding box and cylinder</li>
+<li>Rotating calipers, 2D and 3D convex hulls</li>
+</ul></div>
+<div class="grp"><span>05</span><h4>Curvature &amp; surface analysis</h4><ul>
+<li>First and second partial derivatives, Hessian</li>
+<li>First and second fundamental forms</li>
+<li>Shape operator (Weingarten map), smoothing the shape operator</li>
+<li>Principal curvatures and directions</li>
+<li>Mean, Gaussian and normal curvature, curvedness, shape index</li>
+<li>Curvature tensor, difference of principal curvatures, Willmore energy</li>
+<li>Monoclastic, synclastic and anticlastic surfaces</li>
+<li>Asymptotic lines and directions; minima, maxima, umbilical points</li>
+<li>Terrain and heightfield analysis, geomorphometry</li>
+</ul></div>
+<div class="grp"><span>06</span><h4>OpenSubdiv &amp; intrinsic surface methods</h4><ul>
+<li>OpenSubdiv derivatives, normals and intrinsic UVs</li>
+<li>Analytic curvature on the limit surface</li>
+<li>Geodesic, biharmonic and diffusion distance</li>
+<li>Shape relaxation and smoothing, minimal surfaces</li>
+</ul></div>
+<div class="grp"><span>07</span><h4>Differential operators &amp; PDEs</h4><ul>
+<li>Gradient, divergence, curl, Laplacian</li>
+<li>Jacobian, gradient tensor, field transformations</li>
+<li>Finite differences, discrete Laplacian stencils, Gaussian derivatives</li>
+<li>Volume discretization (lattice structure), VDB analysis</li>
+<li>PDEs, biharmonic operator and equation</li>
+<li>Dirichlet and Neumann boundary conditions</li>
+<li>Helmholtz decomposition: solenoidal, irrotational and harmonic fields</li>
+</ul></div>
+<div class="grp"><span>08</span><h4>Flow &amp; deformation analysis</h4><ul>
+<li>Velocity gradient tensor, symmetric and anti-symmetric parts</li>
+<li>Strain, strain rate, vorticity and stress tensors</li>
+<li>Field distortion and volume change</li>
+<li>Deformation gradient tensor, principal deformations and directions</li>
+<li>Vorticity, helicity, Q-criterion, Lambda2 method</li>
+<li>Galilean invariance, material point method (MPM)</li>
+<li>Vector field visualization</li>
+</ul></div>
+<div class="grp"><span>09</span><h4>Sampling, interpolation &amp; numerical tools</h4><ul>
+<li>Trilinear and tricubic interpolation, cubic and smooth volume sampling</li>
+<li>Matrix interpolation, SLERP, smooth spherical interpolation solver</li>
+<li>Attribute interpolation and fill, closest point</li>
+<li>Root finding, quadratic equations, geometric integration</li>
+</ul></div>
 <div class="grp dev"><span>+</span><h4>In development</h4><p>Not in the current video count. Customers receive these as they are released.</p><ul>
-<li>Discrete Linear Systems [A·x = b] and the linear solver</li>
-<li>Inverse Ocean Spectrum</li>
-<li>Anisotropy-Aware Sheet Refinement and Gap Filling in Thin FLIP Fluids</li></ul></div>
+<li>Discrete linear systems (A·x = b) and the linear solver</li>
+<li>Inverse ocean spectrum</li>
+<li>Anisotropy-aware sheet refinement and gap filling in thin FLIP fluids</li>
+</ul></div>
 <p class="thanks">Special thanks to Omar Zarifi, Tiago Novello, Cameron White and Jeff Lait.</p>
 </div>
 
@@ -568,38 +576,45 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <p class="kicker">Volume 1 · Houdini 21</p>
 <h3>The Manifold of Morphology</h3>
 <p class="meta">163 videos · Over 15 hours · 4K · Complete</p>
-<div class="grp"><span>01</span><h4>Point Clouds &amp; Distribution</h4><ul>
-<li>Point Clouds, Smooth Point Cloud Filtering, Grid Based Point Cloud Lookup [pgfind]</li>
-<li>Camera Based Occlusion with Variable Pscale</li>
-<li>Point Relaxation, Uniform Point Distribution over Polygonal Surfaces, Self Proximity, Tighter Packing</li>
-<li>Clustering, Geometric Advection</li></ul></div>
-<div class="grp"><span>02</span><h4>Kernels &amp; Filtering</h4><ul>
-<li>Kernel Code Generalization, Generic VEX Kernels</li>
-<li>Convolution Kernels, Blurring Attributes, Sharpening Attributes</li>
-<li>Cubic Hermite Interpolation [smoothstep], Shaping Functions</li></ul></div>
-<div class="grp"><span>03</span><h4>Gradients, Isolines &amp; Tracing</h4><ul>
-<li>Attribute Gradient, Gradient Descent</li>
-<li>Contour Lines [Isolines] on Arbitrary Geometry &amp; Heightfields</li>
-<li>Streamlines, Flowlines, Geometry Traversal</li>
-<li>Forward Tracing, Backward Tracing, Tracing Curves</li>
-<li>Flow Fields, Vector Fields, Direction Fields, Flow Field Visualization</li></ul></div>
-<div class="grp"><span>04</span><h4>Edges, Topology &amp; Fusing</h4><ul>
-<li>K-Depth Neighbours Using Edges &amp; Primitives, Half-Edges</li>
-<li>Splitting Edges, Optimizing Edge Operations</li>
-<li>Custom Fusing in VEX, Attribute Preservation &amp; Interpolation, Group Preservation</li></ul></div>
-<div class="grp"><span>05</span><h4>Subdivision &amp; Limit Surfaces</h4><ul>
-<li>Catmull-Clark Subdivision, Bilinear Subdivision</li>
-<li>Improved OpenSubdiv Catmull-Clark Subdivision Surfaces Algorithm</li>
-<li>Adaptive Subdivision, Boundary Rules, Quadtrees</li>
-<li>Subdivision Limit Surface, Limit Surface Sampling, Isoline Display</li>
-<li>Orthonormalization</li></ul></div>
+<div class="grp"><span>01</span><h4>Point clouds &amp; distribution</h4><ul>
+<li>Smooth point cloud filtering, grid-based lookup with pgfind</li>
+<li>Camera-based occlusion with variable pscale</li>
+<li>Point relaxation, uniform distribution over polygonal surfaces, self proximity, tighter packing</li>
+<li>Clustering, geometric advection</li>
+</ul></div>
+<div class="grp"><span>02</span><h4>Kernels &amp; filtering</h4><ul>
+<li>Kernel code generalization, generic VEX kernels</li>
+<li>Convolution kernels, blurring and sharpening attributes</li>
+<li>Cubic Hermite interpolation (smoothstep), shaping functions</li>
+</ul></div>
+<div class="grp"><span>03</span><h4>Gradients, isolines &amp; tracing</h4><ul>
+<li>Attribute gradient, gradient descent</li>
+<li>Contour lines (isolines) on arbitrary geometry and heightfields</li>
+<li>Streamlines, flowlines, geometry traversal</li>
+<li>Forward and backward tracing, tracing curves</li>
+<li>Flow, vector and direction fields, and visualizing them</li>
+</ul></div>
+<div class="grp"><span>04</span><h4>Edges, topology &amp; fusing</h4><ul>
+<li>K-depth neighbours using edges and primitives, half-edges</li>
+<li>Splitting edges, optimizing edge operations</li>
+<li>Custom fusing in VEX: attribute interpolation, attribute and group preservation</li>
+</ul></div>
+<div class="grp"><span>05</span><h4>Subdivision &amp; limit surfaces</h4><ul>
+<li>Catmull-Clark and bilinear subdivision</li>
+<li>Improved OpenSubdiv Catmull-Clark algorithm</li>
+<li>Adaptive subdivision, boundary rules, quadtrees</li>
+<li>Limit surface evaluation and sampling, isoline display</li>
+<li>Orthonormalization</li>
+</ul></div>
 <div class="grp"><span>06</span><h4>Caustics</h4><ul>
-<li>Sea Caustics, Pool Caustics</li></ul></div>
-<div class="grp"><span>07</span><h4>Performance &amp; Tool Design</h4><ul>
-<li>Multithreading Geometry Creation, Operator Decoupling</li>
-<li>Unique Pair Matching, Hashing, Unrolling For Loops</li>
-<li>Performance Profiling, Aggressive Performance Optimizations</li>
-<li>Generic HDA Design</li></ul></div>
+<li>Sea caustics, pool caustics</li>
+</ul></div>
+<div class="grp"><span>07</span><h4>Performance &amp; tool design</h4><ul>
+<li>Multithreaded geometry creation, operator decoupling</li>
+<li>Unique pair matching, hashing, unrolling for loops</li>
+<li>Performance profiling, aggressive optimizations</li>
+<li>Generic HDA design</li>
+</ul></div>
 <p class="thanks">Special thanks to Jeff Lait and Mark Elendt. Korean translation (work in progress): Seona Hwang. Rendered using Redshift.</p>
 </div>
 
