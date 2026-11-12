@@ -576,7 +576,7 @@ body{background:#070a10;color:#fff}
 </div></section>
 
 <section class="wrap section technical-examples" id="applications">
-<div class="section-heading"><div><div class="tagline">Selected applications</div><h2>Problems and solutions.</h2></div><p>Some of the reasons these methods were developed and how they are used. Volume 2 production examples will be expanded as its detailed material is reviewed.</p></div>
+<div class="section-heading"><div><div class="tagline">Selected applications</div><h2>Problems and solutions.</h2></div><p>Selected production and technical problems from both volumes. The full curriculum covers many more methods.</p></div>
 <div class="technical-example-grid">
 <article class="technical-example ">
 <div class="technical-placeholder ocean" aria-label="Placeholder for Displaced ocean, collision geometry and recovered rest-space positions">
@@ -606,13 +606,13 @@ body{background:#070a10;color:#fff}
 <div class="technical-placeholder subdivision" aria-label="Placeholder for Character close-up, selectively refined fracture regions and subdivision-level comparison">
 <span class="technical-placeholder-tag">HOUDINI VISUAL · TO ADD</span>
 <div class="technical-placeholder-copy"><strong>Adaptive fracture</strong><small>Character close-up, selectively refined fracture regions and subdivision-level comparison</small></div></div>
-<div class="technical-copy"><div class="tagline">Volume 1 · Production geometry</div><h3>Adaptive subdivision for facial fracture</h3><p>Extreme close-ups in X-Men: Dark Phoenix called for much higher detail around facial cracks. OpenSubdiv could not stitch separately refined groups as required, while Houdini’s alternative subdivision became too expensive at high levels. The solution was custom adaptive Catmull-Clark subdivision in VEX, built to keep those refinements practical. The goal was the shot, not subdivision for its own sake.</p><div class="technical-terms">Adaptive subdivision · Catmull-Clark · Performance</div></div>
+<div class="technical-copy"><div class="tagline">Volume 1 · Production geometry</div><h3>Adaptive subdivision for facial fracture</h3><p>Extreme facial-fracture close-ups in X-Men: Dark Phoenix needed very high levels of localized refinement. OpenSubdiv could not stitch the separately refined regions as required, and Houdini’s other subdivision approach became prohibitively slow. A custom Catmull-Clark implementation in VEX delivered adaptive refinement with cook times measured in seconds on the production setup.</p><div class="technical-terms">Adaptive subdivision · Catmull-Clark · Performance</div></div>
 </article>
 <article class="technical-example even">
 <div class="technical-placeholder gradient" aria-label="Placeholder for Character fracture directions, isolines and traced effects across a mesh or heightfield">
 <span class="technical-placeholder-tag">HOUDINI VISUAL · TO ADD</span>
 <div class="technical-placeholder-copy"><strong>Surface tracing</strong><small>Character fracture directions, isolines and traced effects across a mesh or heightfield</small></div></div>
-<div class="technical-copy"><div class="tagline">Volume 1 · Surface fields</div><h3>Surface gradients and traced effects</h3><p>The facial cracks needed an opening direction. Starting from a geodesic-distance attribute, compute its gradient directly on the mesh instead of converting geometry to a resolution-dependent volume. From there, trace contour lines and vector fields for effects such as surface-crawling lightning or guided motion. On heightfields, sample the field directly without first generating polygons.</p><div class="technical-terms">Geodesics · Attribute gradients · Isolines · Streamlines</div></div>
+<div class="technical-copy"><div class="tagline">Volume 1 · Surface fields</div><h3>Surface gradients and traced effects</h3><p>The facial fracture needed a direction for each crack to open. Starting from a geodesic-distance attribute, compute its gradient directly on the mesh instead of converting the geometry to a volume. The gradient also gives directions orthogonal to contour lines and supports surface tracing, including lightning crawling over Storm in X-Men: Apocalypse. For heightfields, sample the volume directly without an intermediate polygon mesh.</p><div class="technical-terms">Geodesics · Attribute gradients · Isolines · Streamlines</div></div>
 </article>
 <article class="technical-example ">
 <div class="technical-placeholder pointcloud" aria-label="Placeholder for Filtered point distribution and visibility culling with varying point radii">
@@ -660,7 +660,7 @@ body{background:#070a10;color:#fff}
 <section class="wrap section teaching-compact" id="teaching">
 <div class="section-heading"><div><div class="tagline">Implementation decisions</div><h2>What matters beyond the algorithm.</h2></div><p>Function behavior, memory use, topology, accuracy and the visual result all affect the solution. The lessons examine those decisions on actual geometry.</p></div>
 <div class="teaching-points">
-<article><div class="tagline">Know the operation</div><h3>Look past the function name</h3><p>Compare what nearpoints(), pcfind() and pcopen() actually do, including shared implementations and capabilities they do not all expose.</p></article>
+<article><div class="tagline">Know the operation</div><h3>Look past the function name</h3><p>Understand why nearpoints() delegates to pcfind(), and why pcopen() still matters when smooth point-cloud filtering is required.</p></article>
 <article><div class="tagline">Use the right representation</div><h3>Avoid unnecessary conversions</h3><p>Compute gradients on geometry, sample heightfields in their native volume form, and use analytic intersections when the geometry permits.</p></article>
 <article><div class="tagline">Build for production</div><h3>Profile and preserve data</h3><p>Use optimized traversal, hashing, multithreaded construction, attribute-preserving fusing and reusable HDAs where the task calls for them.</p></article>
 </div>
