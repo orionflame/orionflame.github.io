@@ -5,7 +5,7 @@
 <meta content="only light" name="color-scheme"/>
 <meta name="darkreader-lock"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta name="pragmatic-preview-version" content="2026-11-12-revised-v20"/>
+<meta name="pragmatic-preview-version" content="2026-11-12-revised-v21"/>
 <title>Pragmatic VEX | Advanced Houdini VEX Courses</title>
 <meta content="noindex,nofollow" name="robots"/>
 <meta content="strict-origin-when-cross-origin" name="referrer"/>
@@ -71,6 +71,7 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 .media-status{font-size:12px;color:var(--sub);line-height:1.6;padding:10px 14px;margin:0;background:#11161d}
 .media-status:empty{display:none}
 .row .player-title{display:none}
+.rows .row .player-title{display:block}
 .row .still{margin:22px 0 0}
 .row .still img{display:block;width:100%;border-radius:6px;border:1px solid rgba(255,255,255,.1)}
 .row .still figcaption{margin-top:8px;font-size:12px;color:var(--dim)}
@@ -419,37 +420,37 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 
 <div class="row">
 <div class="media-slot"><button aria-label="Play Gradient Descent · 3D" class="video-cover" data-title="Gradient Descent · 3D" data-video="X1_FrgXfATQ" type="button"><img alt="Gradient Descent 3D lesson frame" decoding="async" height="1080" loading="lazy" src="assets/X1_FrgXfATQ.jpg" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
-<div><p class="kicker">Gradient Descent · 3D</p><h3>Trace anything over a surface</h3><p>Follow a gradient across a mesh and you have the basis for water drops running down geometry, directions flowing over a character, or lightning crawling over a body, as built for Storm descending from the sky in <em>X-Men: Apocalypse</em>.</p><figure class="still"><img alt="Storm with lightning on her arm in X-Men: Apocalypse" loading="lazy" src="assets/storm-apocalypse.jpg"/><figcaption>Storm, <em>X-Men: Apocalypse</em></figcaption></figure></div>
+<div><h3>Trace anything over a surface</h3><p>Follow a gradient across a mesh and you have the basis for water drops running down geometry, directions flowing over a character, or lightning crawling over a body, as built for Storm descending from the sky in <em>X-Men: Apocalypse</em>.</p><figure class="still"><img alt="Storm with lightning on her arm in X-Men: Apocalypse" loading="lazy" src="assets/storm-apocalypse.jpg"/><figcaption>Storm, <em>X-Men: Apocalypse</em></figcaption></figure></div>
 </div>
 
 <div class="row">
 <div class="media-slot"><button aria-label="Play Gradient Descent · Planar" class="video-cover" data-title="Gradient Descent · Planar" data-video="cwlrnmgyf-4" type="button"><img alt="Gradient Descent Planar lesson frame" decoding="async" height="1080" loading="lazy" src="assets/cwlrnmgyf-4.jpg" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
-<div><p class="kicker">Gradient Descent · Planar</p><h3>From a scalar to a direction</h3><p>Start with a value on the geometry, such as geodesic distance, and ask how to turn it into a direction. That gradient is computed on the geometry itself. Contour lines come from the same result, because they run at right angles to it.</p></div>
+<div><h3>From a scalar to a direction</h3><p>Start with a value on the geometry, such as geodesic distance, and ask how to turn it into a direction. That gradient is computed on the geometry itself. Contour lines come from the same result, because they run at right angles to it.</p></div>
 </div>
 
 <div class="row">
 <div class="media-slot"><button aria-label="Play Gradient Descent · Heightfields" class="video-cover" data-title="Gradient Descent · Heightfields" data-video="TFaPW_jZtWc" type="button"><img alt="Gradient Descent Heightfields lesson frame" decoding="async" height="1080" loading="lazy" src="assets/TFaPW_jZtWc.jpg" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
-<div><p class="kicker">Gradient Descent · Heightfields</p><h3>Heightfields, without converting them</h3><p>Converting a heightfield to polygons is slow, heavy on memory and tied to the resolution. Here the same tracing samples the heightfield volume directly.</p></div>
+<div><h3>Heightfields, without converting them</h3><p>Converting a heightfield to polygons is slow, heavy on memory and tied to the resolution. Here the same tracing samples the heightfield volume directly.</p></div>
 </div>
 
 <div class="row">
 <div class="media-slot"><button aria-label="Play Catmull-Clark Subdivision" class="video-cover" data-title="Catmull-Clark Subdivision" data-video="CsR09ohdO0A" type="button"><img alt="Catmull-Clark Subdivision lesson frame" decoding="async" height="1080" loading="lazy" src="assets/CsR09ohdO0A-1920.png" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
-<div><p class="kicker">Catmull-Clark Subdivision</p><h3>Built from the rules up</h3><p>Face points, edge points, vertex points and the new topology, written out in VEX. Once the rules are yours, adaptivity and boundary handling go in where the stock node offers none.</p></div>
+<div><h3>Built from the rules up</h3><p>Face points, edge points, vertex points and the new topology, written out in VEX. Once the rules are yours, adaptivity and boundary handling go in where the stock node offers none.</p></div>
 </div>
 
 <div class="row">
 <div class="media-slot"><button aria-label="Play OpenSubdiv Patches in VEX" class="video-cover" data-title="OpenSubdiv Patches in VEX" data-video="28ZWIumhwZA" type="button"><img alt="OpenSubdiv Patches in VEX lesson frame" decoding="async" height="1080" loading="lazy" src="assets/28ZWIumhwZA.png" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
-<div><p class="kicker">OpenSubdiv Patches in VEX</p><h3>The documentation is a starting point</h3><p>Where a VEX function already does the job, the lesson shows what it returns and what it does underneath. Here that is <code>osd_patches()</code> and the patches behind each face of a subdivision hull.</p></div>
+<div><h3>The documentation is a starting point</h3><p>Where a VEX function already does the job, the lesson shows what it returns and what it does underneath. Here that is <code>osd_patches()</code> and the patches behind each face of a subdivision hull.</p></div>
 </div>
 
 <div class="row">
 <div class="media-slot"><button aria-label="Play Moving Points to the Limit Surface" class="video-cover" data-title="Moving Points to the Limit Surface" data-video="_kw54o19Y2Q" type="button"><img alt="Moving Points to the Limit Surface lesson frame" decoding="async" height="1080" loading="lazy" src="assets/_kw54o19Y2Q-1920.png" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
-<div><p class="kicker">Moving Points to the Limit Surface</p><h3>Each lesson builds on the last</h3><p>Topics run in sequence and get harder as they go. The subdivision and patch lessons lead here: points placed on the limit surface itself.</p></div>
+<div><h3>Each lesson builds on the last</h3><p>Topics run in sequence and get harder as they go. The subdivision and patch lessons lead here: points placed on the limit surface itself.</p></div>
 </div>
 
 <div class="row">
 <div class="media-slot"><button aria-label="Play Isolines on the Limit Surface" class="video-cover" data-title="Isolines on the Limit Surface" data-video="8T4wDpx_4bc" type="button"><img alt="Isolines on the Limit Surface lesson frame" decoding="async" height="1080" loading="lazy" src="assets/8T4wDpx_4bc.jpg" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
-<div><p class="kicker">Isolines on the Limit Surface</p><h3>And ends in a tool</h3><p>Isolines drawn directly on the limit surface, using the evaluation built in the lessons before it. Production tips are worked into the implementation as it goes.</p></div>
+<div><h3>And ends in a tool</h3><p>Isolines drawn directly on the limit surface, using the evaluation built in the lessons before it. Production tips are worked into the implementation as it goes.</p></div>
 </div>
 
 </div>
