@@ -31,10 +31,16 @@
     direct.setAttribute('aria-label', 'Open on YouTube: ' + title);
     slot.append(direct);
     image.addEventListener('error', () => {
-      // A missing asset must remain explicit, never become an unrelated thumbnail.
+      // Fall back to the original lesson frame if thumbnail conversion is unavailable.
+      if (image.dataset.fallbackSrc && !image.dataset.fallbackTried) {
+        image.dataset.fallbackTried = '1';
+        image.removeAttribute('srcset');
+        image.removeAttribute('sizes');
+        image.src = image.dataset.fallbackSrc;
+        return;
+      }
       image.hidden = true;
       button.setAttribute('aria-label', 'Preview image unavailable. Play ' + title);
-
     });
     button.addEventListener('click', () => {
       if (slot.dataset.state) return;
