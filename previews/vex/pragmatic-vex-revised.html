@@ -5,11 +5,11 @@
 <meta content="only light" name="color-scheme"/>
 <meta name="darkreader-lock"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta name="pragmatic-preview-version" content="2026-11-12-revised-v3"/>
+<meta name="pragmatic-preview-version" content="2026-11-12-revised-v4"/>
 <title>Pragmatic VEX | Advanced Houdini VEX Courses</title>
 <meta content="noindex,nofollow" name="robots"/>
 <meta content="strict-origin-when-cross-origin" name="referrer"/>
-<meta content="Learn the mathematics behind advanced Houdini geometry, field and simulation techniques, and build practical tools and solvers in VEX." name="description"/>
+<meta content="Production problems in Houdini, the mathematics that solves them, and the VEX that implements it." name="description"/>
 <link as="font" crossorigin="" href="fonts/inter-latin.woff2" rel="preload" type="font/woff2"/>
 <style>
 @font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url(fonts/inter-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF}
@@ -233,9 +233,9 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 
 <main>
 <section class="hero wrap" id="top">
-<p class="kicker">Advanced mathematics. Applied in Houdini.</p>
+<p class="kicker">Production problems. Solved in VEX.</p>
 <h1>PRAGMATIC<br/><em>VEX</em></h1>
-<p class="lead">Get past the terminology. Build an intuitive understanding of advanced mathematics, then use it to develop practical tools and solvers in Houdini.</p>
+<p class="lead">Every topic starts with something the stock tools cannot do, or cannot do fast enough. You learn the mathematics that solves it, then build the tool in VEX.</p>
 <div class="actions">
 <a class="btn" href="#volumes">Explore both volumes ↓</a>
 <a class="btn primary" href="#pricing">Get the complete bundle</a>
@@ -315,11 +315,11 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <div class="wrap">
 <p class="kicker">Why Pragmatic VEX</p>
 <h2>Stop reading SIGGRAPH papers like a foreign language.</h2>
-<p class="big">Remember when dot and cross products stopped being formulas and became tools you could think with? That is the goal here, for the decompositions, tensors and differential operators behind advanced geometry and simulation work.</p>
+<p class="big">Nothing here is taught for its own sake. Each topic starts from a production problem, finds the mathematics that solves it, and ends as working VEX. Along the way the decompositions, tensors and differential operators become what dot and cross products already are to you: tools you think with.</p>
 <div class="three">
-<article><span>01</span><h3>No proofs required.</h3><p>You do not need to derive SVD on a chalkboard to put it to work. See what <code>svddecomp()</code> returns, how to read it, and how to use it for rigid-transform fitting and shape matching.</p></article>
-<article><span>02</span><h3>The big words, made visible.</h3><p>A Jacobian is local stretching, turning and compression. A Hessian is how the slope of a scalar field changes. A velocity-gradient tensor is strain, spin and expansion. You see each one in the viewport before you use it.</p></article>
-<article><span>03</span><h3>Written out in VEX.</h3><p>Shape operators, biharmonic distances, Helmholtz decomposition, temporal oriented bounding cylinders. You build the construction behind each name, so you can change it when a shot needs something else.</p></article>
+<article><span>01</span><h3>Problem first.</h3><p>Nobody needs a shape operator. You need the curvature of a heightfield, and the shape operator is how you get it. Every topic is introduced that way round.</p></article>
+<article><span>02</span><h3>When the stock tool is not enough.</h3><p>Too slow, not accurate enough, or missing the one thing the shot needs. You build the replacement and see where it wins, like an adaptive subdivision that cooks in seconds at levels where the stock node is no longer usable.</p></article>
+<article><span>03</span><h3>Know what Houdini is really doing.</h3><p><code>nearpoints()</code> is not the faster lookup many people take it for; it is <code>pcfind()</code> under another name. Lessons test assumptions like that, profile the code, and show the practices that hold up in production.</p></article>
 </div>
 </div>
 </section>
@@ -328,7 +328,7 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <div class="head">
 <p class="kicker">What it lets you do</p>
 <h2>Replace the workaround with the computation.</h2>
-<p>Six examples out of several hundred topics. Each is a problem you have probably hacked around before.</p>
+<p>Six examples out of several hundred topics. Each one started as a production problem.</p>
 </div>
 <div class="ideas">
 
@@ -350,7 +350,7 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <div class="ph"><b>Image placeholder</b><span>Principal curvature directions drawn as a cross field on a character</span></div>
 <p class="kicker blue">Volume 2 · Curvature</p>
 <h3>Curvature with a direction.</h3>
-<p>A single curvature value says how much a surface bends. The shape operator says which way: two principal curvatures and the directions they run in. Evaluated analytically on the OpenSubdiv limit surface, they hold still when the mesh resolution changes. Run cracks along ridges, wrinkles across folds, wear over convex edges only.</p>
+<p>Say you need the curvature of a heightfield or an SDF, and the direction it runs in. That is what the shape operator gives you: two principal curvatures and their directions. On an OpenSubdiv limit surface they are evaluated analytically, so they hold still when the mesh resolution changes. Run cracks along ridges, wrinkles across folds, wear over convex edges only.</p>
 </article>
 
 <article class="idea">
@@ -361,10 +361,10 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 </article>
 
 <article class="idea">
-<div class="ph"><b>Image placeholder</b><span>Adaptive subdivision refining only near a feature</span></div>
+<div class="ph"><b>Image placeholder</b><span>Adaptive subdivision on a face in close-up, refined only where the fracture is</span></div>
 <p class="kicker">Volume 1 · Subdivision</p>
-<h3>Write the subdivision rule yourself.</h3>
-<p>Catmull-Clark is built in VEX from the face, edge and vertex rules up. After that the rule is yours: refine only where a shot needs it, change how boundaries behave, or skip subdividing altogether and evaluate the limit surface at any point for positions and frames.</p>
+<h3>Adaptive subdivision that survives a close-up.</h3>
+<p>The extreme close-ups in <em>X-Men: Dark Phoenix</em> needed adaptive subdivision at very high levels. OpenSubdiv does not stitch the borders between subdivided groups, and the cook time of Houdini’s own algorithm grows quadratically, which rules it out long before level 12. Catmull-Clark written in VEX, with adaptivity and boundary rules built in, cooks in seconds.</p>
 </article>
 
 <article class="idea">
@@ -578,8 +578,8 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <div class="bundle">
 <div>
 <p class="kicker">Both volumes · Save $200</p>
-<h2>Mathematics in one.<br/>Geometry in the other.</h2>
-<p>Volume 2 is the mathematics: decompositions, fitting, curvature, fields and PDEs. Volume 1 is geometry algorithms: point clouds, tracing, topology and subdivision. Each one stands on its own.</p>
+<h2>Get both volumes.</h2>
+<p>Volume 2: fitting and registration, curvature, velocity fields, PDEs and the matrix methods behind them. Volume 1: point clouds, tracing, topology, subdivision and performance. Each one stands on its own.</p>
 <div class="amount"><strong>$1,390</strong><s>$1,590</s></div>
 <small>$695 per volume. The same price applies if you already own one.</small>
 </div>
