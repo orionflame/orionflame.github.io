@@ -5,7 +5,7 @@
 <meta content="only light" name="color-scheme"/>
 <meta name="darkreader-lock"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta name="pragmatic-preview-version" content="2026-11-12-revised-v8"/>
+<meta name="pragmatic-preview-version" content="2026-11-12-revised-v9"/>
 <title>Pragmatic VEX | Advanced Houdini VEX Courses</title>
 <meta content="noindex,nofollow" name="robots"/>
 <meta content="strict-origin-when-cross-origin" name="referrer"/>
@@ -44,7 +44,7 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 .nav-action{padding:11px 17px;border:1px solid #e6a65f;border-radius:5px;color:#ffc684}
 
 /* hero */
-.hero{padding-top:44px;padding-bottom:30px;text-align:center}
+.hero{padding-top:44px;padding-bottom:30px;text-align:center;background:radial-gradient(ellipse 50% 38% at 50% 0%,rgba(100,66,53,.19),transparent 100%)}
 .hero h1{font-size:clamp(60px,7.8vw,110px);line-height:.89;font-weight:900;letter-spacing:-.075em;margin:0 0 22px}
 .hero h1 em{font-style:normal;color:#fab363}
 .hero .lead{font-size:clamp(17px,2vw,21px);color:#c2c7cf;max-width:780px;margin:0 auto 26px;line-height:1.58}
@@ -179,9 +179,10 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 .faq details[open] summary::after{content:"−"}
 .faq p{color:var(--sub);font-size:15px;line-height:1.75;margin:13px 0 0;max-width:800px}
 
-.end{text-align:center;padding:110px 20px 70px}
+.end{text-align:center;padding:96px 20px 70px}
 .end h2{font-size:clamp(38px,5vw,60px);line-height:1.04;letter-spacing:-.055em;margin:0 0 16px}
 .end p:not(.kicker){color:var(--sub);margin-bottom:28px}
+.end p.prices{font-size:clamp(19px,2.2vw,26px);font-weight:650;letter-spacing:-.02em;color:var(--txt)}
 .tools{padding:0 20px 60px;text-align:center}
 .tools img{width:min(800px,100%);height:auto;filter:url(#brand-background-key)}
 .foot{border-top:1px solid #2b2f33;padding:32px 28px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:11px;color:var(--dim)}
@@ -602,11 +603,11 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <section class="wrap" id="pricing">
 <div class="bundle">
 <div>
-<p class="kicker">Both volumes · Save $200</p>
+<p class="kicker">Save $200</p>
 <h2>Get both volumes.</h2>
 <p>Volume 2: fitting and registration, curvature, velocity fields, PDEs and the matrix methods behind them. Volume 1: point clouds, tracing, topology, subdivision and performance. Each one stands on its own.</p>
-<div class="amount"><strong>$1,390</strong><s>$1,590</s></div>
-<small>$695 per volume. The same price applies if you already own one.</small>
+<div class="amount"><strong>$1,390</strong></div>
+<small>$200 less than buying the two separately. That is $695 per volume, the same price as for existing customers.</small>
 </div>
 <div class="bundle-panel">
 <ul>
@@ -634,8 +635,7 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 </section>
 
 <section class="end">
-<h2>Understand the method.<br/>Build your own tools.</h2>
-<p>Each volume $795 · Both $1,390 · Existing customers $695</p>
+<p class="prices">Each volume $795 · Both $1,390 · Existing customers $695</p>
 <a class="btn primary" href="#pricing">See pricing</a>
 </section>
 <section class="tools"><img alt="Software and technology used with Pragmatic VEX" loading="lazy" src="https://pragmatic-vfx.com/logos.png"/></section>
