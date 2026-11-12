@@ -5,7 +5,7 @@
 <meta content="only light" name="color-scheme"/>
 <meta name="darkreader-lock"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta name="pragmatic-preview-version" content="2026-11-12-revised-v17"/>
+<meta name="pragmatic-preview-version" content="2026-11-12-revised-v18"/>
 <title>Pragmatic VEX | Advanced Houdini VEX Courses</title>
 <meta content="noindex,nofollow" name="robots"/>
 <meta content="strict-origin-when-cross-origin" name="referrer"/>
@@ -328,13 +328,13 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <section class="band" id="why">
 <div class="wrap">
 <p class="kicker">Why Pragmatic VEX</p>
-<h2>Stop reading SIGGRAPH papers like a foreign language.</h2>
+<h2>Stop reading SIGGRAPH papers like a foreign language</h2>
 <p class="big">Nothing here is taught for its own sake. Each topic starts from a production problem, finds the mathematics that solves it, and ends as working VEX. Along the way the decompositions, tensors and differential operators become what dot and cross products already are to you: tools you think with.</p>
 <div class="three four">
-<article><h3>Problem first.</h3><p>Nobody needs a shape operator. You need the curvature of a heightfield, and the shape operator is how you get it. Hashing appears because points have to be matched back to their originals after subdivision, not because hashing is a topic. Everything is introduced that way round.</p></article>
-<article><h3>Everything works on a box.</h3><p>The examples are production geometry: a head mesh that gets adaptive cracks, not a grid or a Möbius strip. A character mesh shows the problems a box never will, and brute force does not get you past them. You also end up with something worth looking at.</p></article>
-<article><h3>When the stock tool is not enough.</h3><p>Too slow, not accurate enough, or missing the one thing the shot needs. You build the replacement and see where it wins, like an adaptive subdivision that cooks in seconds at levels where the stock node is no longer usable.</p></article>
-<article><h3>Know what Houdini is really doing.</h3><p><code>nearpoints()</code> is not the faster lookup many people take it for; it is <code>pcfind()</code> under another name. <code>pgfind()</code> is explained from how it works inside. Lessons test assumptions, profile the code, and show the practices that hold up in production.</p></article>
+<article><h3>Problem first</h3><p>Nobody needs a shape operator. You need the curvature of a heightfield, and the shape operator is how you get it. Hashing appears because points have to be matched back to their originals after subdivision, not because hashing is a topic. Everything is introduced that way round.</p></article>
+<article><h3>Everything works on a box</h3><p>The examples are production geometry: a head mesh that gets adaptive cracks, not a grid or a Möbius strip. A character mesh shows the problems a box never will, and brute force does not get you past them. You also end up with something worth looking at.</p></article>
+<article><h3>When the stock tool is not enough</h3><p>Too slow, not accurate enough, or missing the one thing the shot needs. You build the replacement and see where it wins, like an adaptive subdivision that cooks in seconds at levels where the stock node is no longer usable.</p></article>
+<article><h3>Know what Houdini is really doing</h3><p><code>nearpoints()</code> is not the faster lookup many people take it for; it is <code>pcfind()</code> under another name. <code>pgfind()</code> is explained from how it works inside. Lessons test assumptions, profile the code, and show the practices that hold up in production.</p></article>
 </div>
 </div>
 </section>
@@ -342,7 +342,7 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <section class="wrap section" id="ideas">
 <div class="head">
 <p class="kicker">What it lets you do</p>
-<h2>Replace the workaround with the computation.</h2>
+<h2>Replace the workaround with the computation</h2>
 <p>Eight examples out of several hundred topics. Each one started as a production problem.</p>
 </div>
 <div class="ideas">
@@ -350,56 +350,56 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <article class="idea">
 <div class="ph"><b>Image placeholder</b><span>A velocity field beside its divergence-free and curl-free parts</span></div>
 <p class="kicker blue">Volume 2 · Velocity fields</p>
-<h3>Take a velocity field apart. Control what you put back.</h3>
+<h3>Take a velocity field apart and control what you put back</h3>
 <p>A flow can look right and still carry expansion you did not ask for, too much spin, or stretching in the wrong direction. The velocity-gradient tensor shows which of those is happening, and where. Helmholtz decomposition then splits the field into its divergence-free and curl-free parts, so you can change one and rebuild the field instead of scaling all of it.</p>
 </article>
 
 <article class="idea">
 <div class="ph"><b>Image placeholder</b><span>Collision geometry in displaced ocean space and in rest space</span></div>
 <p class="kicker blue">Volume 2 · Oceans <span class="tag">IN DEVELOPMENT</span></p>
-<h3>Invert the ocean. Stop raycasting it.</h3>
+<h3>Invert the ocean instead of raycasting it</h3>
 <p>An ocean spectrum moves water sideways as well as up, so the water under a hull did not start directly beneath it. The usual fix is to ray the collision geometry onto the displaced surface and subtract the displacement found there, an approximation that gets worse as the chop increases. The displacement is a mapping with a Jacobian. Invert it, and the collision geometry is carried into the undisplaced ocean exactly.</p>
 </article>
 
 <article class="idea">
 <div class="ph"><b>Image placeholder</b><span>Principal curvature directions drawn as a cross field on a character</span></div>
 <p class="kicker blue">Volume 2 · Curvature</p>
-<h3>Curvature with a direction.</h3>
+<h3>Curvature with a direction</h3>
 <p>Say you need the curvature of a heightfield or an SDF, and the direction it runs in. That is what the shape operator gives you: two principal curvatures and their directions. On an OpenSubdiv limit surface they are evaluated analytically, so they hold still when the mesh resolution changes. Run cracks along ridges, wrinkles across folds, wear over convex edges only.</p>
 </article>
 
 <article class="idea">
 <div class="ph"><b>Image placeholder</b><span>A point cloud converging onto its target over ICP iterations</span></div>
 <p class="kicker blue">Volume 2 · Fitting</p>
-<h3>Recover a transform from nothing but points.</h3>
+<h3>Recover a transform from nothing but points</h3>
 <p>Two point clouds of the same object and no transform between them: a cached simulation, a scan, a deforming piece you need to lock something to. Build the covariance matrix, take its SVD, and the best-fit rotation and translation come straight out. Add iterative closest point and it still works when you do not know which point matches which.</p>
 </article>
 
 <article class="idea">
 <div class="ph"><b>Image placeholder</b><span>Adaptive subdivision on a face in close-up, refined only where the fracture is</span></div>
 <p class="kicker">Volume 1 · Subdivision</p>
-<h3>Adaptive subdivision that survives a close-up.</h3>
+<h3>Adaptive subdivision that survives a close-up</h3>
 <p>The extreme close-ups in <em>X-Men: Dark Phoenix</em> needed sub-pixel detail, which means adaptive subdivision at very high levels. OpenSubdiv does not stitch the borders between subdivided groups, and the cook time of Houdini’s own algorithm grows quadratically, which rules it out long before level 12. Catmull-Clark written in VEX, with adaptivity and boundary rules built in, cooks in seconds.</p>
 </article>
 
 <article class="idea">
 <div class="ph"><b>Image placeholder</b><span>Geodesic distance on a head, with its gradient drawn as vectors</span></div>
 <p class="kicker">Volume 1 · Gradients</p>
-<h3>Give a crack a direction to open in.</h3>
+<h3>Give a crack a direction to open in</h3>
 <p>The face cracks in <em>X-Men: Dark Phoenix</em> had to know which way to open. Geodesic distance is only a number per point; its gradient is the direction. Houdini has no gradient for attributes, so it is computed directly on the mesh. The usual detour through a volume and back ties the result to the voxel size and is less exact.</p>
 </article>
 
 <article class="idea">
 <div class="ph"><b>Image placeholder</b><span>Pool caustics: raw points beside the rasterised, sharpened result</span></div>
 <p class="kicker">Volume 1 · Caustics</p>
-<h3>Caustics without the dots.</h3>
+<h3>Caustics without the dots</h3>
 <p>Points are refracted through a deformed water surface and carried to the ground analytically, by projection onto a plane instead of intersection tests against polygons: faster, lighter and more accurate. Rasterising them into a volume removes the dotty look without needing far more points, and an unsharp mask written in VEX sharpens the pattern.</p>
 </article>
 
 <article class="idea">
 <div class="ph"><b>Image placeholder</b><span>Points of varying pscale seen from camera, before and after occlusion culling</span></div>
 <p class="kicker">Volume 1 · Point clouds</p>
-<h3>Cull what the camera cannot see, by radius.</h3>
+<h3>Cull what the camera cannot see, by radius</h3>
 <p>Culling hidden points is a simple optimisation until the points have different sizes: a large point in front should hide the small ones behind it, and the stock point cloud functions cannot express that. The same chapter rebuilds the smooth filtering that <code>pcopen()</code> has and <code>pcfind()</code> does not, so you are not tied to the old functions to get it.</p>
 </article>
 
@@ -409,51 +409,51 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <section class="wrap section" id="lessons">
 <div class="head">
 <p class="kicker">Volume 1 · Houdini 21</p>
-<h2>Inside the lessons.</h2>
+<h2>Inside the lessons</h2>
 <p>Seven excerpts, and the problem behind each one.</p>
 </div>
 <div class="rows">
 
 <div class="row">
 <div class="media-slot"><button aria-label="Play Gradient Descent · 3D" class="video-cover" data-title="Gradient Descent · 3D" data-video="X1_FrgXfATQ" type="button"><img alt="Gradient Descent 3D lesson frame" decoding="async" height="1080" loading="lazy" src="assets/X1_FrgXfATQ.jpg" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
-<div><p class="kicker">Gradient Descent · 3D</p><h3>Trace anything over a surface.</h3><p>Follow a gradient across a mesh and you have the basis for water drops running down geometry, directions flowing over a character, or lightning crawling over a body, as built for Storm in <em>X-Men: Apocalypse</em>.</p></div>
+<div><p class="kicker">Gradient Descent · 3D</p><h3>Trace anything over a surface</h3><p>Follow a gradient across a mesh and you have the basis for water drops running down geometry, directions flowing over a character, or lightning crawling over a body, as built for Storm in <em>X-Men: Apocalypse</em>.</p></div>
 </div>
 
 <div class="row">
 <div class="media-slot"><button aria-label="Play Gradient Descent · Planar" class="video-cover" data-title="Gradient Descent · Planar" data-video="cwlrnmgyf-4" type="button"><img alt="Gradient Descent Planar lesson frame" decoding="async" height="1080" loading="lazy" src="assets/cwlrnmgyf-4.jpg" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
-<div><p class="kicker">Gradient Descent · Planar</p><h3>From a scalar to a direction.</h3><p>Start with a value on the geometry, such as geodesic distance, and ask how to turn it into a direction. That gradient is computed on the geometry itself. Contour lines come from the same result, because they run at right angles to it.</p></div>
+<div><p class="kicker">Gradient Descent · Planar</p><h3>From a scalar to a direction</h3><p>Start with a value on the geometry, such as geodesic distance, and ask how to turn it into a direction. That gradient is computed on the geometry itself. Contour lines come from the same result, because they run at right angles to it.</p></div>
 </div>
 
 <div class="row">
 <div class="media-slot"><button aria-label="Play Gradient Descent · Heightfields" class="video-cover" data-title="Gradient Descent · Heightfields" data-video="TFaPW_jZtWc" type="button"><img alt="Gradient Descent Heightfields lesson frame" decoding="async" height="1080" loading="lazy" src="assets/TFaPW_jZtWc.jpg" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
-<div><p class="kicker">Gradient Descent · Heightfields</p><h3>Heightfields, without converting them.</h3><p>Converting a heightfield to polygons is slow, heavy on memory and tied to the resolution. Here the same tracing samples the heightfield volume directly.</p></div>
+<div><p class="kicker">Gradient Descent · Heightfields</p><h3>Heightfields, without converting them</h3><p>Converting a heightfield to polygons is slow, heavy on memory and tied to the resolution. Here the same tracing samples the heightfield volume directly.</p></div>
 </div>
 
 <div class="row">
 <div class="media-slot"><button aria-label="Play Catmull-Clark Subdivision" class="video-cover" data-title="Catmull-Clark Subdivision" data-video="CsR09ohdO0A" type="button"><img alt="Catmull-Clark Subdivision lesson frame" decoding="async" height="1080" loading="lazy" src="assets/CsR09ohdO0A-1920.png" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
-<div><p class="kicker">Catmull-Clark Subdivision</p><h3>Built from the rules up.</h3><p>Face points, edge points, vertex points and the new topology, written out in VEX. Once the rules are yours, adaptivity and boundary handling go in where the stock node offers none.</p></div>
+<div><p class="kicker">Catmull-Clark Subdivision</p><h3>Built from the rules up</h3><p>Face points, edge points, vertex points and the new topology, written out in VEX. Once the rules are yours, adaptivity and boundary handling go in where the stock node offers none.</p></div>
 </div>
 
 <div class="row">
 <div class="media-slot"><button aria-label="Play OpenSubdiv Patches in VEX" class="video-cover" data-title="OpenSubdiv Patches in VEX" data-video="28ZWIumhwZA" type="button"><img alt="OpenSubdiv Patches in VEX lesson frame" decoding="async" height="1080" loading="lazy" src="assets/28ZWIumhwZA.png" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
-<div><p class="kicker">OpenSubdiv Patches in VEX</p><h3>The documentation is a starting point.</h3><p>Where a VEX function already does the job, the lesson shows what it returns and what it does underneath. Here that is <code>osd_patches()</code> and the patches behind each face of a subdivision hull.</p></div>
+<div><p class="kicker">OpenSubdiv Patches in VEX</p><h3>The documentation is a starting point</h3><p>Where a VEX function already does the job, the lesson shows what it returns and what it does underneath. Here that is <code>osd_patches()</code> and the patches behind each face of a subdivision hull.</p></div>
 </div>
 
 <div class="row">
 <div class="media-slot"><button aria-label="Play Moving Points to the Limit Surface" class="video-cover" data-title="Moving Points to the Limit Surface" data-video="_kw54o19Y2Q" type="button"><img alt="Moving Points to the Limit Surface lesson frame" decoding="async" height="1080" loading="lazy" src="assets/_kw54o19Y2Q-1920.png" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
-<div><p class="kicker">Moving Points to the Limit Surface</p><h3>Each lesson builds on the last.</h3><p>Topics run in sequence and get harder as they go. The subdivision and patch lessons lead here: points placed on the limit surface itself.</p></div>
+<div><p class="kicker">Moving Points to the Limit Surface</p><h3>Each lesson builds on the last</h3><p>Topics run in sequence and get harder as they go. The subdivision and patch lessons lead here: points placed on the limit surface itself.</p></div>
 </div>
 
 <div class="row">
 <div class="media-slot"><button aria-label="Play Isolines on the Limit Surface" class="video-cover" data-title="Isolines on the Limit Surface" data-video="8T4wDpx_4bc" type="button"><img alt="Isolines on the Limit Surface lesson frame" decoding="async" height="1080" loading="lazy" src="assets/8T4wDpx_4bc.jpg" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
-<div><p class="kicker">Isolines on the Limit Surface</p><h3>And ends in a tool.</h3><p>Isolines drawn directly on the limit surface, using the evaluation built in the lessons before it. Production tips are worked into the implementation as it goes.</p></div>
+<div><p class="kicker">Isolines on the Limit Surface</p><h3>And ends in a tool</h3><p>Isolines drawn directly on the limit surface, using the evaluation built in the lessons before it. Production tips are worked into the implementation as it goes.</p></div>
 </div>
 
 </div>
 <div class="three made">
-<article><span>Before recording</span><h3>Planned and tested.</h3><p>Every topic is worked out in advance. There is no live debugging and no thinking out loud about what to try next.</p></article>
-<article><span>In the edit</span><h3>Edited for your time.</h3><p>Cooking and waiting are cut. Typing, node layout and navigation run at 2 to 5 times speed wherever nothing is being explained.</p></article>
-<article><span>Level</span><h3>Starts past the basics.</h3><p>Basic Houdini and VEX are assumed. No lesson explains strings or how to call a function.</p></article>
+<article><span>Before recording</span><h3>Planned and tested</h3><p>Every topic is worked out in advance. There is no live debugging and no thinking out loud about what to try next.</p></article>
+<article><span>In the edit</span><h3>Edited for your time</h3><p>Cooking and waiting are cut. Typing, node layout and navigation run at 2 to 5 times speed wherever nothing is being explained.</p></article>
+<article><span>Level</span><h3>Starts past the basics</h3><p>Basic Houdini and VEX are assumed. No lesson explains strings or how to call a function.</p></article>
 </div>
 </section>
 
@@ -466,7 +466,7 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <div class="media-slot"><button aria-label="Play FX Showreel" class="video-cover" data-title="FX Showreel" data-video="WRpX8zNwbUI" type="button"><img alt="FX showreel frame" decoding="async" height="800" loading="lazy" src="assets/WRpX8zNwbUI-1920.jpg" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
 <div>
 <p class="kicker">Senior FX Technical Director · Industrial Light &amp; Magic | MPC | EA BioWare</p>
-<h3>Feature film FX, taught at the level it is done.</h3>
+<h3>Feature film FX, taught at the level it is done</h3>
 <p>The methods taught in Pragmatic VEX were developed and used on feature film productions. The courses are for Houdini users who want that level of control over geometry, fields, deformation and their own tools.</p>
 <p class="credits"><em>The Lord of the Rings: The Rings of Power</em>, <em>Marvel’s Eternals</em>, <em>Star Wars: The Rise of Skywalker</em>, <em>X-Men: Dark Phoenix</em>, <em>X-Men: Apocalypse</em>, <em>Aquaman</em>, <em>Alien: Covenant</em>, <em>Pirates of the Caribbean: Dead Men Tell No Tales</em>, <em>Justice League</em> and more.</p>
 </div>
@@ -623,7 +623,7 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <div class="bundle">
 <div>
 <p class="kicker">Save $200</p>
-<h2>Get both volumes.</h2>
+<h2>Get both volumes</h2>
 <p>Volume 2: fitting and registration, curvature, velocity fields, PDEs and the matrix methods behind them. Volume 1: point clouds, tracing, topology, subdivision and performance. Each one stands on its own.</p>
 <div class="amount"><strong>$1,390</strong></div>
 <small>$200 less than buying the two separately. That is $695 per volume, the same price as for existing customers.</small>
