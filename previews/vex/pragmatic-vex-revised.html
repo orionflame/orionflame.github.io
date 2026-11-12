@@ -5,7 +5,7 @@
 <meta content="only light" name="color-scheme"/>
 <meta name="darkreader-lock"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta name="pragmatic-preview-version" content="2026-11-12-revised-v6"/>
+<meta name="pragmatic-preview-version" content="2026-11-12-revised-v7"/>
 <title>Pragmatic VEX | Advanced Houdini VEX Courses</title>
 <meta content="noindex,nofollow" name="robots"/>
 <meta content="strict-origin-when-cross-origin" name="referrer"/>
@@ -51,7 +51,9 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 .actions{display:flex;gap:13px;justify-content:center;flex-wrap:wrap}
 .btn{padding:15px 23px;border:1px solid #5d5d62;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;gap:9px;font-weight:800;font-size:13px;letter-spacing:.02em;background:transparent;color:inherit}
 .btn.primary{background:var(--warm);border-color:#ffc77e;color:#160f08}
-.btn:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.btn{transition:filter .15s,border-color .15s}
+.btn:hover{filter:brightness(1.12);border-color:#8a8a90}
+.btn.primary:hover{border-color:#ffdfae}
 .btn.full{width:100%}
 
 /* media (contract shared with media.js) */
