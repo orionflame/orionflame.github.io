@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="only light" name="color-scheme"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta name="pragmatic-preview-version" content="2026-11-12-revised-v1"/>
+<title>Pragmatic VEX | Advanced Houdini VEX Courses</title>
+<meta content="noindex,nofollow" name="robots"/>
+<meta content="strict-origin-when-cross-origin" name="referrer"/>
+<meta content="Learn the mathematics behind advanced Houdini geometry, field and simulation techniques, and build practical tools and solvers in VEX." name="description"/>
+<link as="font" crossorigin="" href="fonts/inter-latin.woff2" rel="preload" type="font/woff2"/>
+<style>
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url(fonts/inter-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url(fonts/inter-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url(fonts/jetbrains-mono-latin.woff2) format('woff2')}
+
+:root{--bg:#090b10;--txt:#f7f5f2;--sub:#b6bcc6;--dim:#8f96a1;--line:rgba(255,255,255,.13);--panel:#0e1218;--warm:#f8b363;--blue:#90d1ff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:Inter,'Segoe UI',Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+a:focus-visible,button:focus-visible{outline:2px solid var(--warm);outline-offset:4px}
+img{max-width:100%}
+h1,h2,h3,h4,p{margin-top:0}
+code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
+.wrap{max-width:1250px;margin:auto;padding-left:28px;padding-right:28px}
+.section{padding-top:92px;padding-bottom:20px}
+.kicker{font-size:11px;letter-spacing:.2em;font-weight:800;text-transform:uppercase;color:var(--warm);margin:0 0 14px}
+.kicker.blue{color:var(--blue)}
+.head{max-width:860px;margin-bottom:44px}
+.head h2{font-size:clamp(34px,4.3vw,58px);line-height:1.04;letter-spacing:-.05em;font-weight:850;margin-bottom:18px}
+.head p{font-size:17px;line-height:1.7;color:var(--sub);margin:0;max-width:720px}
+
+/* nav */
+.site-nav{border-bottom:1px solid var(--line);background:#080b10;display:flex;align-items:center;justify-content:space-between;padding:17px max(28px,calc((100vw - 1250px)/2));gap:22px}
+.brand{display:inline-flex;align-items:center;gap:10px;font-size:15px;font-weight:900;letter-spacing:.11em;white-space:nowrap}
+.brand-light{font-weight:350;margin-left:3px;opacity:.8}
+.brand-logo{width:84px;height:47px;object-fit:contain;display:block;transform:translateY(-9px);filter:url(#splash-remove-black)}
+.nav-right{display:flex;align-items:center;gap:26px;font-size:12px;font-weight:700;letter-spacing:.04em}
+.nav-right a:hover{opacity:.72}
+.nav-action{padding:11px 17px;border:1px solid #e6a65f;border-radius:5px;color:#ffc684}
+
+/* hero */
+.hero{padding-top:44px;padding-bottom:30px;text-align:center;background:radial-gradient(ellipse 50% 38% at 50% 0%,rgba(100,66,53,.19),transparent 100%)}
+.hero h1{font-size:clamp(60px,7.8vw,110px);line-height:.89;font-weight:900;letter-spacing:-.075em;margin:0 0 22px}
+.hero h1 em{font-style:normal;color:#fab363}
+.hero .lead{font-size:clamp(17px,2vw,21px);color:#c2c7cf;max-width:780px;margin:0 auto 26px;line-height:1.58}
+.actions{display:flex;gap:13px;justify-content:center;flex-wrap:wrap}
+.btn{padding:15px 23px;border:1px solid #5d5d62;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;gap:9px;font-weight:800;font-size:13px;letter-spacing:.02em;background:transparent;color:inherit}
+.btn.primary{background:var(--warm);border-color:#ffc77e;color:#160f08}
+.btn:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.btn.full{width:100%}
+
+/* media (contract shared with media.js) */
+.media-slot{position:relative;aspect-ratio:16/9;background:#080a0e;min-width:0;overflow:hidden;border-radius:7px}
+.video-cover{position:relative;display:block;width:100%;height:100%;padding:0;overflow:hidden;color:#fff;text-align:left;border:1px solid #373943;border-radius:7px;background:#090d14}
+.video-cover img{width:100%;height:100%;display:block;object-fit:contain;background:#080a0e}
+.play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:66px;height:66px;--pf:#080a0ee6;--ps:#ffffffbc;--pp:#fff;pointer-events:none}
+.play svg{display:block;width:100%;height:100%;overflow:visible}
+.video-cover:hover .play{--pf:#f8b363;--ps:#f8b363;--pp:#160f08}
+.media-slot iframe{display:block;width:100%;height:100%;border:0}
+.player-title{position:absolute;top:14px;left:14px;max-width:calc(100% - 74px);padding:6px 10px;border-radius:6px;background:rgba(0,0,0,.6);color:#fff;font-size:14px;font-weight:550;line-height:1.45;pointer-events:none}
+.player-link,.player-reset{position:absolute;top:14px;right:14px;width:31px;height:31px;display:grid;place-items:center;z-index:3;border:1px solid #ffffff45;border-radius:5px;color:#fff;background:#080a0ecc;font-size:18px;opacity:0}
+.media-slot:hover .player-link,.media-slot:focus-within .player-link,.player-reset{opacity:1}
+.player-reset{right:52px;font-size:19px}
+.media-status{font-size:12px;color:var(--sub);line-height:1.6;padding:10px 14px;margin:0;background:#11161d}
+.media-status:empty{display:none}
+
+/* trailers + volumes */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.author{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:8px 24px;color:var(--sub);font-size:13px;line-height:1.8;padding:22px 0 30px}
+.author strong{color:#e7e5e2}
+.author a{color:var(--warm);text-decoration:underline}
+.vol{display:flex;gap:26px;justify-content:space-between;align-items:flex-start;min-width:0}
+.vol h3{font-size:30px;line-height:1.1;letter-spacing:-.045em;margin:0 0 9px}
+.vol .status{font-size:12px;color:var(--dim);margin:0 0 14px}
+.vol .say{font-size:15px;color:#c3c8d0;line-height:1.65;margin:0 0 18px;max-width:520px}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px;padding:0;list-style:none}
+.chips li{font-size:12px;line-height:1.3;padding:7px 10px;background:#141a23;border:1px solid #303a47;border-radius:3px;color:#dde1e7}
+.links{display:flex;gap:22px;flex-wrap:wrap}
+.links a{font-size:11px;letter-spacing:.12em;font-weight:750;text-transform:uppercase;color:var(--warm)}
+.vol.v2 .links a{color:var(--blue)}
+.price{flex:0 0 auto;text-align:right;font-variant-numeric:tabular-nums}
+.price b{display:block;font-size:34px;font-weight:800;line-height:1.1}
+.price span{display:block;font-size:12px;color:var(--sub);margin-top:14px}
+.price i{display:block;font-style:normal;font-size:20px;font-weight:750;color:#ffbd70;margin-top:3px}
+.owner{border:1px solid #454a50;padding:20px 25px;display:flex;align-items:center;justify-content:space-between;gap:20px;border-radius:7px;margin-top:40px;font-size:14px;color:var(--sub)}
+.owner b{color:var(--txt)}
+
+/* logos */
+.logos{padding-top:64px}
+.logos h3{font-size:14px;font-weight:650;color:var(--sub);margin:0 0 6px;text-align:center}
+.logos small{display:block;text-align:center;font-size:11px;color:var(--dim)}
+.logo-img{position:relative;display:flex;align-items:center;justify-content:center;min-height:220px;padding:12px 0}
+.logo-img img{max-height:250px;width:100%;object-fit:contain;mix-blend-mode:screen;opacity:.9}
+
+/* why */
+.band{background:#10141a;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:76px;padding:78px 0 74px}
+.band h2{font-size:clamp(36px,4.6vw,62px);line-height:1.03;letter-spacing:-.05em;font-weight:850;max-width:900px;margin-bottom:24px}
+.band .big{font-size:19px;line-height:1.7;color:#c6cbd3;max-width:800px;margin-bottom:50px}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:34px}
+.three article{border-top:1px solid #745337;padding-top:20px}
+.three span{font-size:11px;color:var(--warm);letter-spacing:.12em}
+.three h3{font-size:23px;line-height:1.18;letter-spacing:-.03em;margin:12px 0 13px}
+.three p{font-size:15px;line-height:1.72;color:var(--sub);margin:0}
+
+/* ideas */
+.ideas{display:grid;grid-template-columns:1fr 1fr;gap:54px 44px}
+.idea{min-width:0}
+.ph{aspect-ratio:16/9;border:1px dashed #4a5361;border-radius:7px;background:repeating-linear-gradient(135deg,#0d1117 0 14px,#10151c 14px 28px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;padding:24px;color:var(--dim)}
+.ph b{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#aab2bd}
+.ph span{font-size:13px;line-height:1.5;max-width:380px}
+.idea .kicker{margin:22px 0 10px}
+.idea h3{font-size:28px;line-height:1.12;letter-spacing:-.04em;margin:0 0 13px}
+.idea p{font-size:15.5px;line-height:1.72;color:var(--sub);margin:0}
+.tag{display:inline-block;margin-left:8px;padding:3px 8px;border:1px solid #4a7591;border-radius:100px;font-size:9px;letter-spacing:.1em;color:var(--blue)}
+
+/* lesson rows */
+.rows{display:grid;gap:70px}
+.row{display:grid;grid-template-columns:minmax(0,1.62fr) minmax(0,1fr);gap:46px;align-items:center}
+.row.flip{grid-template-columns:minmax(0,1fr) minmax(0,1.62fr)}
+.row.flip .media-slot{order:2}
+.row .kicker{color:var(--dim);letter-spacing:.14em;margin-bottom:12px}
+.row h3{font-size:30px;line-height:1.12;letter-spacing:-.04em;margin:0 0 15px}
+.row p{font-size:16px;line-height:1.72;color:var(--sub);margin:0 0 14px}
+.row p:last-child{margin-bottom:0}
+.row .credits{font-size:13px;line-height:1.75;color:var(--dim);border-top:1px solid var(--line);padding-top:15px;margin-top:18px}
+.row .credits em{color:var(--sub)}
+
+/* work cards */
+.work{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px;margin-top:64px}
+.work h3{font-size:18px;letter-spacing:-.02em;margin:16px 0 7px}
+.work p{font-size:13.5px;line-height:1.65;color:var(--sub);margin:0}
+
+/* curriculum */
+.cur{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start}
+.cur-vol{border:1px solid #303743;border-radius:7px;background:var(--panel);padding:30px 30px 14px}
+.cur-vol h3{font-size:28px;letter-spacing:-.04em;margin:0 0 7px}
+.cur-vol .meta{font-size:12px;color:var(--dim);margin:0 0 20px}
+.grp{border-top:1px solid #29303a;padding:18px 0 16px;display:grid;grid-template-columns:30px 1fr;gap:0 8px}
+.grp>span{font-size:11px;color:var(--warm);letter-spacing:.08em;padding-top:4px}
+.v2c .grp>span{color:var(--blue)}
+.grp h4{font-size:16px;font-weight:750;letter-spacing:-.01em;margin:0 0 9px}
+.grp ul{grid-column:2;list-style:none;margin:0;padding:0;font-size:13.5px;line-height:1.6;color:var(--sub)}
+.grp li{margin-bottom:5px}
+.grp.dev{background:rgba(144,209,255,.045);border:1px solid #2f4a5d;border-radius:6px;padding:16px 16px 12px;margin:8px 0 16px}
+.grp.dev p{grid-column:2;font-size:12px;line-height:1.6;color:var(--dim);margin:0 0 9px}
+.thanks{font-size:12px;color:var(--dim);border-top:1px solid #29303a;padding:14px 0 6px;margin:0}
+
+/* bundle */
+.bundle{position:relative;margin-top:92px;padding:48px 53px;background:linear-gradient(125deg,#252225,#101821 55%,#131215);border:1px solid #544234;overflow:hidden;border-radius:8px;display:grid;grid-template-columns:1.28fr .72fr;gap:34px;align-items:center}
+.bundle::before{content:"";position:absolute;width:400px;height:400px;right:4%;top:-30%;background:radial-gradient(circle,rgba(246,151,77,.18),transparent 70%);pointer-events:none}
+.bundle h2{font-size:clamp(40px,5vw,66px);line-height:1;letter-spacing:-.06em;margin:0 0 18px}
+.bundle p{max-width:590px;color:#bfc1c6;line-height:1.72;font-size:15.5px}
+.bundle .amount{display:flex;gap:12px;align-items:baseline;margin-top:22px}
+.bundle .amount strong{font-size:54px;letter-spacing:-.06em}
+.bundle .amount s{font-size:20px;opacity:.53}
+.bundle small{font-size:12px;color:var(--sub)}
+.bundle-panel{position:relative;border:1px solid #6c5546;background:rgba(12,14,17,.64);padding:30px}
+.bundle-panel ul{list-style:none;margin:0 0 24px;padding:0;display:grid;gap:12px;font-size:14px;color:#d6d7da}
+.bundle-panel li::before{content:"✓";color:#ffc077;margin-right:9px}
+.bundle-panel .quiet{display:block;text-align:center;margin-top:14px;font-size:12px;font-weight:700;color:var(--sub)}
+
+/* faq */
+.faq{border-top:1px solid #303743;max-width:920px}
+.faq details{border-bottom:1px solid #303743;padding:19px 0}
+.faq summary{cursor:pointer;font-size:16px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:18px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--dim);font-size:20px;font-weight:400}
+.faq details[open] summary::after{content:"−"}
+.faq p{color:var(--sub);font-size:15px;line-height:1.75;margin:13px 0 0;max-width:800px}
+
+.end{text-align:center;padding:110px 20px 70px}
+.end h2{font-size:clamp(38px,5vw,60px);line-height:1.04;letter-spacing:-.055em;margin:0 0 16px}
+.end p{color:var(--sub);margin-bottom:28px}
+.tools{padding:0 20px 60px;text-align:center}
+.tools img{width:min(800px,100%);height:auto;filter:url(#brand-background-key)}
+.foot{border-top:1px solid #2b2f33;padding:32px 28px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:11px;color:var(--dim)}
+
+@media(max-width:1000px){
+  .two,.ideas,.cur,.three,.bundle{grid-template-columns:1fr}
+  .row,.row.flip{grid-template-columns:1fr;gap:22px}
+  .row.flip .media-slot{order:0}
+  .rows{gap:54px}
+  .work{grid-template-columns:1fr 1fr}
+  .vols{gap:44px}
+}
+@media(max-width:760px){
+  .site-nav{padding:15px 20px}
+  .brand-logo{width:60px;height:34px;transform:translateY(-7px)}
+  .brand{font-size:12px}
+  .nav-right a:not(.nav-action){display:none}
+  .wrap{padding-left:20px;padding-right:20px}
+  .section{padding-top:64px}
+  .hero h1{letter-spacing:-.045em}
+  .vol{display:block}
+  .price{text-align:left;margin-top:20px}
+  .owner{flex-direction:column;align-items:flex-start}
+  .work{grid-template-columns:1fr}
+  .bundle{padding:32px 22px;margin-top:64px}
+  .cur-vol{padding:22px 20px 10px}
+  .band{padding:56px 0}
+  .row h3,.idea h3{font-size:25px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<svg aria-hidden="true" height="0" width="0" style="position:absolute"><defs>
+<symbol id="play" viewBox="0 0 64 64"><circle cx="32" cy="32" r="31" style="fill:var(--pf);stroke:var(--ps);stroke-width:1"/><path d="M26 21 L44 32 L26 43 Z" style="fill:var(--pp)"/></symbol>
+<filter color-interpolation-filters="sRGB" height="100%" id="splash-remove-black" width="100%" x="0" y="0"><feColorMatrix in="SourceGraphic" result="blackKey" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  7 7 7 0 0"/><feComposite in="SourceGraphic" in2="blackKey" operator="in"/></filter>
+<filter color-interpolation-filters="sRGB" height="100%" id="brand-background-key" width="100%" x="0" y="0"><feColorMatrix in="SourceGraphic" result="difference" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  .3333333333 .3333333333 .3333333333 0 -.0784313725"/><feComponentTransfer in="difference" result="mask"><feFuncA intercept="0" slope="10000" type="linear"/></feComponentTransfer><feComposite in="SourceGraphic" in2="mask" operator="in" result="foreground"/><feFlood flood-color="#090b10" result="page"/><feMerge><feMergeNode in="page"/><feMergeNode in="foreground"/></feMerge></filter>
+</defs></svg>
+
+<header class="site-nav">
+<a aria-label="Pragmatic VFX" class="brand" href="#top">
+<img alt="" class="brand-logo" height="47" src="assets/pragmatic-splash-logo.png" width="84"/>
+<span>PRAGMATIC<span class="brand-light">VFX</span></span>
+</a>
+<nav class="nav-right">
+<a href="#volumes">Volumes</a>
+<a href="#ideas">Ideas</a>
+<a href="#lessons">Lessons</a>
+<a href="#curriculum">Curriculum</a>
+<a href="#instructor">Instructor</a>
+<a class="nav-action" href="#pricing">Pricing</a>
+</nav>
+</header>
+
+<main>
+<section class="hero wrap" id="top">
+<p class="kicker">Advanced mathematics. Applied in Houdini.</p>
+<h1>PRAGMATIC<br/><em>VEX</em></h1>
+<p class="lead">Get past the terminology. Build an intuitive understanding of advanced mathematics, then use it to develop practical tools and solvers in Houdini.</p>
+<div class="actions">
+<a class="btn" href="#volumes">Explore both volumes ↓</a>
+<a class="btn primary" href="#pricing">Get the complete bundle</a>
+</div>
+</section>
+
+<section class="wrap" id="volumes">
+<div aria-label="Course trailers" class="two">
+<div class="media-slot">
+<button aria-label="Play Volume 1 trailer" class="video-cover" data-title="Volume 1 · The Manifold of Morphology" data-video="yE4VZfeSb20" type="button">
+<img alt="Volume 1 trailer" decoding="async" height="720" src="https://i.ytimg.com/vi/yE4VZfeSb20/maxresdefault.jpg" width="1280"/>
+<span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span>
+</button>
+</div>
+<div class="media-slot">
+<button aria-label="Play Volume 2 trailer" class="video-cover" data-title="Volume 2 · The Eigenveil of Entropy" data-video="NO5lN3K_7YM" type="button">
+<img alt="Volume 2 trailer" decoding="async" height="720" src="https://i.ytimg.com/vi/NO5lN3K_7YM/maxresdefault.jpg" width="1280"/>
+<span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span>
+</button>
+</div>
+</div>
+<div class="author">
+<span>Created by <strong>Yunus "animatrix" Balcioglu</strong></span>
+<span>Senior FX Technical Director · <strong>Industrial Light &amp; Magic</strong> | <strong>MPC</strong> | <strong>EA BioWare</strong></span>
+<a href="#instructor">Work &amp; showreel</a>
+</div>
+
+<div class="two vols">
+<article class="vol v1">
+<div>
+<p class="kicker">Volume 1 · Houdini 21</p>
+<h3>The Manifold of Morphology</h3>
+<p class="status">163 videos · Over 15 hours · 4K · Complete</p>
+<p class="say">Implement Catmull-Clark subdivision, trace contour lines directly on subdivision limit surfaces, and create sea and pool caustics in VEX.</p>
+<ul class="chips">
+<li>Catmull-Clark in VEX</li><li>OpenSubdiv limit surfaces</li><li>Adaptive subdivision</li><li>Gradient descent</li><li>Isolines &amp; streamlines</li><li>Half-edges</li><li>Point relaxation</li><li>pgfind lookups</li><li>Custom fusing</li><li>Sea &amp; pool caustics</li><li>Multithreaded geometry creation</li>
+</ul>
+<div class="links"><a href="#curriculum">Full curriculum ↓</a><a href="https://animatrix.dpdcart.com/cart/add?method_id=216868&amp;product_id=199182" rel="noopener" target="_blank">Buy Volume 1 ↗</a></div>
+</div>
+<div aria-label="Price $795; existing customers $695" class="price"><b>$795</b><span>Existing customers</span><i>$695</i></div>
+</article>
+<article class="vol v2">
+<div>
+<p class="kicker blue">Volume 2 · Houdini 22</p>
+<h3>The Eigenveil of Entropy</h3>
+<p class="status">151 videos · Over 11 hours available now · 4K · More chapters in development</p>
+<p class="say">Use SVD to match rigid transforms, compute surface curvature and its principal directions, and separate velocity fields into divergence-free and curl-free components.</p>
+<ul class="chips">
+<li>Jacobians</li><li>Hessians</li><li>SVD</li><li>PCA</li><li>Eigendecomposition</li><li>Least squares</li><li>Principal curvatures</li><li>Helmholtz decomposition</li><li>Divergence &amp; curl</li><li>Laplacians</li><li>Shape matching &amp; ICP</li><li>Geodesic distance</li>
+</ul>
+<div class="links"><a href="#curriculum">Full curriculum ↓</a></div>
+</div>
+<div aria-label="Price $795; existing customers $695" class="price"><b>$795</b><span>Existing customers</span><i>$695</i></div>
+</article>
+</div>
+<div class="owner">
+<span><b>Already own one volume?</b> The other one is $695.</span>
+<a class="btn" href="#pricing">Existing-customer pricing</a>
+</div>
+</section>
+
+<section class="wrap logos" id="adoption">
+<div class="two">
+<div>
+<h3>Companies that have purchased Pragmatic VEX</h3>
+<div class="logo-img"><img alt="Companies that have purchased Pragmatic VEX" loading="lazy" src="https://pragmatic-vfx.com/companies7.png"/></div>
+</div>
+<div>
+<h3>Where individual customers work</h3>
+<small>Not a studio purchase or endorsement.</small>
+<div class="logo-img"><img alt="Workplaces of individual Pragmatic VEX customers" loading="lazy" src="https://pragmatic-vfx.com/artists7.png"/></div>
+</div>
+</div>
+</section>
+
+<section class="band" id="why">
+<div class="wrap">
+<p class="kicker">Why Pragmatic VEX</p>
+<h2>Stop reading SIGGRAPH papers like a foreign language.</h2>
+<p class="big">Remember when dot and cross products stopped being formulas and became tools you could think with? That is the goal here, for the decompositions, tensors and differential operators behind advanced geometry and simulation work.</p>
+<div class="three">
+<article><span>01</span><h3>No proofs required.</h3><p>You do not need to derive SVD on a chalkboard to put it to work. See what <code>svddecomp()</code> returns, how to read it, and how to use it for rigid-transform fitting and shape matching.</p></article>
+<article><span>02</span><h3>The big words, made visible.</h3><p>A Jacobian is local stretching, turning and compression. A Hessian is how the slope of a scalar field changes. A velocity-gradient tensor is strain, spin and expansion. You see each one in the viewport before you use it.</p></article>
+<article><span>03</span><h3>Written out in VEX.</h3><p>Shape operators, biharmonic distances, Helmholtz decomposition, temporal oriented bounding cylinders. You build the construction behind each name, so you can change it when a shot needs something else.</p></article>
+</div>
+</div>
+</section>
+
+<section class="wrap section" id="ideas">
+<div class="head">
+<p class="kicker">What it lets you do</p>
+<h2>Replace the workaround with the computation.</h2>
+<p>Six examples out of several hundred topics. Each is a problem you have probably hacked around before.</p>
+</div>
+<div class="ideas">
+
+<article class="idea">
+<div class="ph"><b>Image placeholder</b><span>A velocity field beside its divergence-free and curl-free parts</span></div>
+<p class="kicker blue">Volume 2 · Velocity fields</p>
+<h3>Take a velocity field apart. Control what you put back.</h3>
+<p>A flow can look right and still carry expansion you did not ask for, too much spin, or stretching in the wrong direction. The velocity-gradient tensor shows which of those is happening, and where. Helmholtz decomposition then splits the field into its divergence-free and curl-free parts, so you can change one and rebuild the field instead of scaling all of it.</p>
+</article>
+
+<article class="idea">
+<div class="ph"><b>Image placeholder</b><span>Collision geometry in displaced ocean space and in rest space</span></div>
+<p class="kicker blue">Volume 2 · Oceans <span class="tag">IN DEVELOPMENT</span></p>
+<h3>Invert the ocean. Stop raycasting it.</h3>
+<p>An ocean spectrum moves water sideways as well as up, so the water under a hull did not start directly beneath it. The usual fix is to ray the collision geometry onto the displaced surface and subtract the displacement found there, an approximation that gets worse as the chop increases. The displacement is a mapping with a Jacobian. Invert it, and the collision geometry is carried into the undisplaced ocean exactly.</p>
+</article>
+
+<article class="idea">
+<div class="ph"><b>Image placeholder</b><span>Principal curvature directions drawn as a cross field on a character</span></div>
+<p class="kicker blue">Volume 2 · Curvature</p>
+<h3>Curvature with a direction.</h3>
+<p>A single curvature value says how much a surface bends. The shape operator says which way: two principal curvatures and the directions they run in. Evaluated analytically on the OpenSubdiv limit surface, they hold still when the mesh resolution changes. Run cracks along ridges, wrinkles across folds, wear over convex edges only.</p>
+</article>
+
+<article class="idea">
+<div class="ph"><b>Image placeholder</b><span>A point cloud converging onto its target over ICP iterations</span></div>
+<p class="kicker blue">Volume 2 · Fitting</p>
+<h3>Recover a transform from nothing but points.</h3>
+<p>Two point clouds of the same object and no transform between them: a cached simulation, a scan, a deforming piece you need to lock something to. Build the covariance matrix, take its SVD, and the best-fit rotation and translation come straight out. Add iterative closest point and it still works when you do not know which point matches which.</p>
+</article>
+
+<article class="idea">
+<div class="ph"><b>Image placeholder</b><span>Adaptive subdivision refining only near a feature</span></div>
+<p class="kicker">Volume 1 · Subdivision</p>
+<h3>Write the subdivision rule yourself.</h3>
+<p>Catmull-Clark is built in VEX from the face, edge and vertex rules up. After that the rule is yours: refine only where a shot needs it, change how boundaries behave, or skip subdividing altogether and evaluate the limit surface at any point for positions and frames.</p>
+</article>
+
+<article class="idea">
+<div class="ph"><b>Image placeholder</b><span>Streamlines traced over a character from an attribute gradient</span></div>
+<p class="kicker">Volume 1 · Gradients</p>
+<h3>Make an effect follow the surface.</h3>
+<p>An effect that crawls over a character needs directions that live on the surface, not in world space. Compute the gradient of any attribute on arbitrary geometry, then walk it with gradient descent, isolines and streamlines. Related methods drove the adaptive facial fracture developed for <em>X-Men: Dark Phoenix</em>.</p>
+</article>
+
+</div>
+</section>
+
+<section class="wrap section" id="lessons">
+<div class="head">
+<p class="kicker">Volume 1 · Houdini 21</p>
+<h2>Inside the lessons.</h2>
+<p>Seven excerpts, and what each one shows about how the course is made.</p>
+</div>
+<div class="rows">
+
+<div class="row">
+<div class="media-slot"><button aria-label="Play Gradient Descent · 3D" class="video-cover" data-title="Gradient Descent · 3D" data-video="X1_FrgXfATQ" type="button"><img alt="Gradient Descent 3D lesson frame" decoding="async" height="1080" loading="lazy" src="assets/X1_FrgXfATQ.png" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
+<div><p class="kicker">Gradient Descent · 3D</p><h3>See the idea. Then build it.</h3><p>Each topic starts as a drawing. The same lesson then builds it in Houdini, with the sketch, the code and the viewport on screen while it comes together.</p></div>
+</div>
+
+<div class="row flip">
+<div class="media-slot"><button aria-label="Play Gradient Descent · Planar" class="video-cover" data-title="Gradient Descent · Planar" data-video="cwlrnmgyf-4" type="button"><img alt="Gradient Descent Planar lesson frame" decoding="async" height="1080" loading="lazy" src="assets/cwlrnmgyf-4.png" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
+<div><p class="kicker">Gradient Descent · Planar</p><h3>Planned before recording.</h3><p>Every topic is worked out and tested in advance. There is no live debugging and no thinking out loud about what to try next.</p></div>
+</div>
+
+<div class="row">
+<div class="media-slot"><button aria-label="Play Gradient Descent · Heightfields" class="video-cover" data-title="Gradient Descent · Heightfields" data-video="TFaPW_jZtWc" type="button"><img alt="Gradient Descent Heightfields lesson frame" decoding="async" height="1080" loading="lazy" src="assets/TFaPW_jZtWc.png" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
+<div><p class="kicker">Gradient Descent · Heightfields</p><h3>Edited for your time.</h3><p>Cooking and waiting are cut. Typing, node layout and navigation run at 2 to 5 times speed wherever nothing is being explained.</p><p>Volume 1 is 163 lessons in a little over 15 hours.</p></div>
+</div>
+
+<div class="row flip">
+<div class="media-slot"><button aria-label="Play Catmull-Clark Subdivision" class="video-cover" data-title="Catmull-Clark Subdivision" data-video="CsR09ohdO0A" type="button"><img alt="Catmull-Clark Subdivision lesson frame" decoding="async" height="1080" loading="lazy" src="assets/CsR09ohdO0A-1920.png" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
+<div><p class="kicker">Catmull-Clark Subdivision</p><h3>Starts past the basics.</h3><p>Basic Houdini and VEX are assumed. No lesson explains strings or how to call a function, which leaves the time for things like building Catmull-Clark subdivision from its rules.</p></div>
+</div>
+
+<div class="row">
+<div class="media-slot"><button aria-label="Play OpenSubdiv Patches in VEX" class="video-cover" data-title="OpenSubdiv Patches in VEX" data-video="28ZWIumhwZA" type="button"><img alt="OpenSubdiv Patches in VEX lesson frame" decoding="async" height="1080" loading="lazy" src="assets/28ZWIumhwZA.png" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
+<div><p class="kicker">OpenSubdiv Patches in VEX</p><h3>The documentation is a starting point.</h3><p>Where a VEX function already does the job, the lesson shows what it returns and what it does underneath. Here that is <code>osd_patches()</code> and the patches behind each face of a subdivision hull.</p></div>
+</div>
+
+<div class="row flip">
+<div class="media-slot"><button aria-label="Play Moving Points to the Limit Surface" class="video-cover" data-title="Moving Points to the Limit Surface" data-video="_kw54o19Y2Q" type="button"><img alt="Moving Points to the Limit Surface lesson frame" decoding="async" height="1080" loading="lazy" src="assets/_kw54o19Y2Q-1920.png" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
+<div><p class="kicker">Moving Points to the Limit Surface</p><h3>Each lesson builds on the last.</h3><p>Topics run in sequence and get harder as they go. The subdivision and patch lessons lead here: points placed on the limit surface itself.</p></div>
+</div>
+
+<div class="row">
+<div class="media-slot"><button aria-label="Play Isolines on the Limit Surface" class="video-cover" data-title="Isolines on the Limit Surface" data-video="8T4wDpx_4bc" type="button"><img alt="Isolines on the Limit Surface lesson frame" decoding="async" height="1080" loading="lazy" src="assets/8T4wDpx_4bc.png" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
+<div><p class="kicker">Isolines on the Limit Surface</p><h3>And ends in a tool.</h3><p>Isolines drawn directly on the limit surface, using the evaluation built in the lessons before it. Production tips are worked into the implementation as it goes.</p></div>
+</div>
+
+</div>
+</section>
+
+<section class="wrap section" id="instructor">
+<div class="head">
+<p class="kicker">Created by</p>
+<h2>Yunus “animatrix” Balcioglu</h2>
+</div>
+<div class="row">
+<div class="media-slot"><button aria-label="Play FX Showreel" class="video-cover" data-title="FX Showreel" data-video="WRpX8zNwbUI" type="button"><img alt="FX showreel frame" decoding="async" height="800" loading="lazy" src="assets/WRpX8zNwbUI-1920.png" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
+<div>
+<p class="kicker">FX Showreel</p>
+<h3>Senior FX Technical Director, Industrial Light &amp; Magic.</h3>
+<p>The methods taught in Pragmatic VEX were developed and used on feature film productions. The courses are for Houdini users who want that level of control over geometry, fields, deformation and their own tools.</p>
+<p class="credits"><em>The Lord of the Rings: The Rings of Power</em>, <em>Marvel’s Eternals</em>, <em>Star Wars: The Rise of Skywalker</em>, <em>X-Men: Dark Phoenix</em>, <em>X-Men: Apocalypse</em>, <em>Aquaman</em>, <em>Alien: Covenant</em>, <em>Pirates of the Caribbean: Dead Men Tell No Tales</em>, <em>Justice League</em> and more.</p>
+</div>
+</div>
+<div class="work">
+<article>
+<div class="media-slot"><button aria-label="Play Adaptive Fracture Synthesis" class="video-cover" data-title="Adaptive Fracture Synthesis" data-video="102sG5cjDiA" type="button"><img alt="Adaptive Fracture Synthesis" loading="lazy" src="assets/8kN5ruz0teY.jpg"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
+<h3>Adaptive Fracture Synthesis</h3><p>Built for <em>X-Men: Dark Phoenix</em> and presented at Houdini Tokyo HIVE 2025: fracture driven by geodesics, eikonal gradients and OpenSubdiv limit-surface sampling.</p>
+</article>
+<article>
+<div class="media-slot"><button aria-label="Play Face Peeling Using KineFX" class="video-cover" data-title="Face Peeling Using KineFX" data-video="HryJBbNwqDw" type="button"><img alt="Face Peeling Using KineFX" loading="lazy" src="assets/Ob8b1c4P04g.jpg"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
+<h3>Face Peeling Using KineFX</h3><p>Presented at Gamescom Asia 2022 in Singapore: procedural, art-directable polygon folding in VEX.</p>
+</article>
+<article>
+<div class="media-slot"><button aria-label="Play ASUS ProArt feature" class="video-cover" data-title="Create with ASUS ProArt" data-video="3Q5Rn86H_gE" type="button"><img alt="ASUS ProArt feature" loading="lazy" src="assets/3Q5Rn86H_gE.png"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
+<h3>ASUS ProArt feature</h3><p>Pragmatic VEX was featured in the ASUS ProArt showcase series.</p>
+</article>
+</div>
+</section>
+
+<section class="wrap section" id="curriculum">
+<div class="head">
+<p class="kicker">Full curriculum</p>
+<h2>Everything in both volumes.</h2>
+</div>
+<div class="cur">
+
+<div class="cur-vol v1c">
+<p class="kicker">Volume 1 · Houdini 21</p>
+<h3>The Manifold of Morphology</h3>
+<p class="meta">163 videos · Over 15 hours · 4K · Complete</p>
+<div class="grp"><span>01</span><h4>Point Clouds &amp; Distribution</h4><ul>
+<li>Point Clouds, Smooth Point Cloud Filtering, Grid Based Point Cloud Lookup [pgfind]</li>
+<li>Camera Based Occlusion with Variable Pscale</li>
+<li>Point Relaxation, Uniform Point Distribution over Polygonal Surfaces, Self Proximity, Tighter Packing</li>
+<li>Clustering, Geometric Advection</li></ul></div>
+<div class="grp"><span>02</span><h4>Kernels &amp; Filtering</h4><ul>
+<li>Kernel Code Generalization, Generic VEX Kernels</li>
+<li>Convolution Kernels, Blurring Attributes, Sharpening Attributes</li>
+<li>Cubic Hermite Interpolation [smoothstep], Shaping Functions</li></ul></div>
+<div class="grp"><span>03</span><h4>Gradients, Isolines &amp; Tracing</h4><ul>
+<li>Attribute Gradient, Gradient Descent</li>
+<li>Contour Lines [Isolines] on Arbitrary Geometry &amp; Heightfields</li>
+<li>Streamlines, Flowlines, Geometry Traversal</li>
+<li>Forward Tracing, Backward Tracing, Tracing Curves</li>
+<li>Flow Fields, Vector Fields, Direction Fields, Flow Field Visualization</li></ul></div>
+<div class="grp"><span>04</span><h4>Edges, Topology &amp; Fusing</h4><ul>
+<li>K-Depth Neighbours Using Edges &amp; Primitives, Half-Edges</li>
+<li>Splitting Edges, Optimizing Edge Operations</li>
+<li>Custom Fusing in VEX, Attribute Preservation &amp; Interpolation, Group Preservation</li></ul></div>
+<div class="grp"><span>05</span><h4>Subdivision &amp; Limit Surfaces</h4><ul>
+<li>Catmull-Clark Subdivision, Bilinear Subdivision</li>
+<li>Improved OpenSubdiv Catmull-Clark Subdivision Surfaces Algorithm</li>
+<li>Adaptive Subdivision, Boundary Rules, Quadtrees</li>
+<li>Subdivision Limit Surface, Limit Surface Sampling, Isoline Display</li>
+<li>Orthonormalization</li></ul></div>
+<div class="grp"><span>06</span><h4>Caustics</h4><ul>
+<li>Sea Caustics, Pool Caustics</li></ul></div>
+<div class="grp"><span>07</span><h4>Performance &amp; Tool Design</h4><ul>
+<li>Multithreading Geometry Creation, Operator Decoupling</li>
+<li>Unique Pair Matching, Hashing, Unrolling For Loops</li>
+<li>Performance Profiling, Aggressive Performance Optimizations</li>
+<li>Generic HDA Design</li></ul></div>
+<p class="thanks">Special thanks to Jeff Lait and Mark Elendt. Korean translation (work in progress): Seona Hwang. Rendered using Redshift.</p>
+</div>
+
+<div class="cur-vol v2c">
+<p class="kicker blue">Volume 2 · Houdini 22</p>
+<h3>The Eigenveil of Entropy</h3>
+<p class="meta">151 videos · Over 11 hours available now · 4K · Planned total: 216 videos, 19 to 20 hours</p>
+<div class="grp"><span>01</span><h4>Linear Algebra &amp; Matrix Decompositions</h4><ul>
+<li>Tensors, Vector Spaces</li>
+<li>Matrix Transposition, Diagonal, Orthogonal &amp; Orthonormal Matrices</li>
+<li>Eigenvalue Decomposition [EVD], Eigenvalues, Eigenvectors, Eigenbasis, Diagonalization</li>
+<li>Singular Value Decomposition [SVD], Principal Component Analysis [PCA]</li>
+<li>Polar Decomposition, Orthogonality, Spectral Analysis</li>
+<li>Matrix Pseudoinverse [Generalized Inverse], Moore-Penrose Inverse, Projection Matrix</li>
+<li>Matrix Norms: 1-Norm, Infinity-Norm, Max-Norm, Frobenius Norm, Spectral Norm</li></ul></div>
+<div class="grp"><span>02</span><h4>Fitting &amp; Principal Analysis</h4><ul>
+<li>Linear Least Squares [LLS], Best Fit Line, Best Fit Plane</li>
+<li>Outer Product, Covariance Matrix</li>
+<li>Principal Axis Computation, Point Cloud Normal Estimation</li>
+<li>Regression Analysis, Multivariate Analysis, Dimensionality Reduction</li></ul></div>
+<div class="grp"><span>03</span><h4>Transformations &amp; Registration</h4><ul>
+<li>Affine Transformations, Homogeneous Coordinates, Coordinate Systems</li>
+<li>Point Line Projection</li>
+<li>Rigid Transform Matrix Computation, Rigid Transform Matching, Shape Matching</li>
+<li>Computing Arbitrary Linear Transformation Between 2 Point Clouds</li>
+<li>Iterative Closest Point [ICP], Point Cloud Registration</li></ul></div>
+<div class="grp"><span>04</span><h4>Bounding Volumes &amp; Convex Hulls</h4><ul>
+<li>Oriented Bounding Box [OBB], Oriented Bounding Cylinder [OBC]</li>
+<li>Minimum Volume Box [MVB], Minimum Volume Cylinder [MVC], Minimum Area Rectangle [MAR]</li>
+<li>Temporal Oriented Bounding Box, Temporal Oriented Bounding Cylinder</li>
+<li>Rotating Calipers, 2D Convex Hull, 3D Convex Hull</li></ul></div>
+<div class="grp"><span>05</span><h4>Curvature &amp; Surface Analysis</h4><ul>
+<li>First &amp; Second Partial Derivatives, Hessian Matrix/Tensor</li>
+<li>First Fundamental Form, Second Fundamental Form</li>
+<li>Shape Operator, Weingarten Map, Smoothing the Shape Operator</li>
+<li>Maximum/Minimum Principal Curvatures &amp; Directions</li>
+<li>Mean Curvature, Gaussian Curvature, Normal Curvature, Curvedness, Shape Index</li>
+<li>Difference of Principal Curvatures, Curvature Tensor, Willmore Energy</li>
+<li>Monoclastic, Synclastic &amp; Anticlastic Surfaces</li>
+<li>Asymptotic Lines, Asymptotic Curves, Asymptotic Directions</li>
+<li>Minima, Maxima, Umbilical Points</li>
+<li>Terrain &amp; Heightfield Analysis, Geomorphometric Analysis</li></ul></div>
+<div class="grp"><span>06</span><h4>OpenSubdiv &amp; Intrinsic Surface Methods</h4><ul>
+<li>OpenSubdiv Derivatives, OpenSubdiv Normals, Intrinsic UVs</li>
+<li>OpenSubdiv Curvature, Analytic Differential Curvature</li>
+<li>Geodesic Distance, Biharmonic Distance, Diffusion Distance</li>
+<li>Shape Relaxation and Smoothing, Minimal Surface</li></ul></div>
+<div class="grp"><span>07</span><h4>Differential Operators &amp; PDEs</h4><ul>
+<li>Gradient, Divergence, Curl, Laplacian</li>
+<li>Jacobian, Gradient Matrix/Tensor, Field Transformations</li>
+<li>Finite Difference Methods [FDM], Discrete Laplacian Stencils, Gaussian Derivatives</li>
+<li>Volume Discretization [Lattice Structure], VDB Analysis</li>
+<li>Partial Differential Equations [PDEs], Biharmonic Operator, Biharmonic Equation</li>
+<li>Dirichlet Boundary Conditions, Neumann Boundary Conditions</li>
+<li>Helmholtz Decomposition: Solenoidal, Irrotational &amp; Harmonic Fields</li></ul></div>
+<div class="grp"><span>08</span><h4>Flow &amp; Deformation Analysis</h4><ul>
+<li>Velocity Gradient Tensor [VGT], Symmetric &amp; Anti-Symmetric Parts</li>
+<li>Strain Tensor, Strain Rate Tensor, Vorticity Tensor, Stress Tensor</li>
+<li>Field Distortion &amp; Volume Change</li>
+<li>Deformation Gradient Tensor, Principal Deformations &amp; Principal Deformation Directions</li>
+<li>Vorticity, Helicity, Q-criterion, Lambda2 Method</li>
+<li>Galilean Invariance, Material Point Method [MPM]</li>
+<li>Vector Field Visualization</li></ul></div>
+<div class="grp"><span>09</span><h4>Sampling, Interpolation &amp; Numerical Tools</h4><ul>
+<li>Trilinear Interpolation, Tricubic Interpolation, Cubic &amp; Smooth Volume Sampling</li>
+<li>Matrix Interpolation, SLERP, Smooth Spherical Linear Interpolation Solver</li>
+<li>Attribute Interpolation/Fill, Closest Point</li>
+<li>Root Finding, Quadratic Equations, Geometric Integration</li></ul></div>
+<div class="grp dev"><span>+</span><h4>In development</h4><p>Not in the current video count. Customers receive these as they are released.</p><ul>
+<li>Discrete Linear Systems [A·x = b] and the linear solver</li>
+<li>Inverse Ocean Spectrum</li>
+<li>Anisotropy-Aware Sheet Refinement and Gap Filling in Thin FLIP Fluids</li></ul></div>
+<p class="thanks">Special thanks to Omar Zarifi, Tiago Novello, Cameron White and Jeff Lait.</p>
+</div>
+
+</div>
+</section>
+
+<section class="wrap" id="pricing">
+<div class="bundle">
+<div>
+<p class="kicker">Both volumes · Save $200</p>
+<h2>Geometry in one.<br/>Mathematics in the other.</h2>
+<p>Volume 1 is geometry algorithms: point clouds, tracing, topology and subdivision. Volume 2 is the mathematics underneath: decompositions, fitting, curvature, fields and PDEs. Each one stands on its own.</p>
+<div class="amount"><strong>$1,390</strong><s>$1,590</s></div>
+<small>$695 per volume. The same price applies if you already own one.</small>
+</div>
+<div class="bundle-panel">
+<ul>
+<li>Volume 1: The Manifold of Morphology</li>
+<li>Volume 2: The Eigenveil of Entropy</li>
+<li>4K video, scene files and course material</li>
+<li>Volume 2 chapters in development, as they are released</li>
+</ul>
+<a class="btn primary full" href="mailto:animatrix2k7@gmail.com?subject=Pragmatic%20VEX%20complete%20bundle%20purchase%20enquiry">Get the complete bundle</a>
+<a class="quiet" href="mailto:animatrix2k7@gmail.com?subject=Pragmatic%20VEX%20studio%20and%20team%20licensing">Studio &amp; team licensing</a>
+</div>
+</div>
+</section>
+
+<section class="wrap section" id="faq">
+<div class="head"><p class="kicker">Questions</p><h2>Before you choose.</h2></div>
+<div class="faq">
+<details open=""><summary>Can I start with Volume 2?</summary><p>Yes. The two volumes are standalone. Each covers what it needs from the ground up within its own subject, so pick the one whose topics you need first.</p></details>
+<details><summary>What do I need to know already?</summary><p>Basic Houdini and VEX. The courses do not teach syntax or the interface. Where a lesson relies on something introductory, it points to the Houdini documentation.</p></details>
+<details><summary>How much mathematics do I need?</summary><p>None beyond what a working Houdini artist already uses. Each idea is shown geometrically first, then built in VEX.</p></details>
+<details><summary>What is in Volume 2 right now?</summary><p>151 videos and more than 11 hours. The linear solver, inverse ocean spectrum and thin FLIP sheet chapters are in development and are listed separately in the curriculum. Customers receive them as they are released.</p></details>
+<details><summary>Is Volume 1 current?</summary><p>Yes. It has been updated for Houdini 21.</p></details>
+<details><summary>Are scene files included?</summary><p>Yes, for every released lesson, in both volumes and the bundle.</p></details>
+</div>
+</section>
+
+<section class="end">
+<p class="kicker">Pragmatic VEX</p>
+<h2>Understand the method.<br/>Build your own tools.</h2>
+<p>Each volume $795 · Both $1,390 · Existing customers $695</p>
+<a class="btn primary" href="#pricing">See pricing</a>
+</section>
+<section class="tools"><img alt="Software and technology used with Pragmatic VEX" loading="lazy" src="https://pragmatic-vfx.com/logos.png"/></section>
+</main>
+<footer class="foot">
+<span>© 2026 Pragmatic VFX</span>
+<a href="#top">Back to top</a>
+</footer>
+<script src="media.js"></script>
+</body>
+</html>
