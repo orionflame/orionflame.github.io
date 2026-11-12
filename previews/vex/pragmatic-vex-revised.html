@@ -5,7 +5,7 @@
 <meta content="only light" name="color-scheme"/>
 <meta name="darkreader-lock"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta name="pragmatic-preview-version" content="2026-11-12-revised-v4"/>
+<meta name="pragmatic-preview-version" content="2026-11-12-revised-v5"/>
 <title>Pragmatic VEX | Advanced Houdini VEX Courses</title>
 <meta content="noindex,nofollow" name="robots"/>
 <meta content="strict-origin-when-cross-origin" name="referrer"/>
@@ -103,6 +103,8 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 .band h2{font-size:clamp(36px,4.6vw,62px);line-height:1.03;letter-spacing:-.05em;font-weight:850;max-width:900px;margin-bottom:24px}
 .band .big{font-size:19px;line-height:1.7;color:#c6cbd3;max-width:800px;margin-bottom:50px}
 .three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:34px}
+.three.four{grid-template-columns:repeat(2,minmax(0,1fr));gap:44px 60px}
+.made{margin-top:84px}
 .three article{border-top:1px solid #745337;padding-top:20px}
 .three span{font-size:11px;color:var(--warm);letter-spacing:.12em}
 .three h3{font-size:23px;line-height:1.18;letter-spacing:-.03em;margin:12px 0 13px}
@@ -189,6 +191,7 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
   .work{grid-template-columns:1fr 1fr}
   .vols{gap:44px}
 }
+@media(max-width:1000px){.three.four{grid-template-columns:1fr}}
 @media(max-width:760px){
   .site-nav{padding:15px 20px}
   .brand-logo{width:60px;height:34px;transform:translateY(-7px)}
@@ -316,10 +319,11 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <p class="kicker">Why Pragmatic VEX</p>
 <h2>Stop reading SIGGRAPH papers like a foreign language.</h2>
 <p class="big">Nothing here is taught for its own sake. Each topic starts from a production problem, finds the mathematics that solves it, and ends as working VEX. Along the way the decompositions, tensors and differential operators become what dot and cross products already are to you: tools you think with.</p>
-<div class="three">
-<article><span>01</span><h3>Problem first.</h3><p>Nobody needs a shape operator. You need the curvature of a heightfield, and the shape operator is how you get it. Every topic is introduced that way round.</p></article>
-<article><span>02</span><h3>When the stock tool is not enough.</h3><p>Too slow, not accurate enough, or missing the one thing the shot needs. You build the replacement and see where it wins, like an adaptive subdivision that cooks in seconds at levels where the stock node is no longer usable.</p></article>
-<article><span>03</span><h3>Know what Houdini is really doing.</h3><p><code>nearpoints()</code> is not the faster lookup many people take it for; it is <code>pcfind()</code> under another name. Lessons test assumptions like that, profile the code, and show the practices that hold up in production.</p></article>
+<div class="three four">
+<article><span>01</span><h3>Problem first.</h3><p>Nobody needs a shape operator. You need the curvature of a heightfield, and the shape operator is how you get it. Hashing appears because points have to be matched back to their originals after subdivision, not because hashing is a topic. Everything is introduced that way round.</p></article>
+<article><span>02</span><h3>Everything works on a box.</h3><p>The examples are production geometry: a head mesh that gets adaptive cracks, not a grid or a Möbius strip. A character mesh shows the problems a box never will, and brute force does not get you past them. You also end up with something worth looking at.</p></article>
+<article><span>03</span><h3>When the stock tool is not enough.</h3><p>Too slow, not accurate enough, or missing the one thing the shot needs. You build the replacement and see where it wins, like an adaptive subdivision that cooks in seconds at levels where the stock node is no longer usable.</p></article>
+<article><span>04</span><h3>Know what Houdini is really doing.</h3><p><code>nearpoints()</code> is not the faster lookup many people take it for; it is <code>pcfind()</code> under another name. <code>pgfind()</code> is explained from how it works inside. Lessons test assumptions, profile the code, and show the practices that hold up in production.</p></article>
 </div>
 </div>
 </section>
@@ -328,7 +332,7 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <div class="head">
 <p class="kicker">What it lets you do</p>
 <h2>Replace the workaround with the computation.</h2>
-<p>Six examples out of several hundred topics. Each one started as a production problem.</p>
+<p>Eight examples out of several hundred topics. Each one started as a production problem.</p>
 </div>
 <div class="ideas">
 
@@ -368,10 +372,24 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 </article>
 
 <article class="idea">
-<div class="ph"><b>Image placeholder</b><span>Streamlines traced over a character from an attribute gradient</span></div>
+<div class="ph"><b>Image placeholder</b><span>Geodesic distance on a head, with its gradient drawn as vectors</span></div>
 <p class="kicker">Volume 1 · Gradients</p>
-<h3>Make an effect follow the surface.</h3>
-<p>An effect that crawls over a character needs directions that live on the surface, not in world space. Compute the gradient of any attribute on arbitrary geometry, then walk it with gradient descent, isolines and streamlines. Related methods drove the adaptive facial fracture developed for <em>X-Men: Dark Phoenix</em>.</p>
+<h3>Give a crack a direction to open in.</h3>
+<p>The face cracks in <em>X-Men: Dark Phoenix</em> had to know which way to open. Geodesic distance is only a number per point; its gradient is the direction. Houdini has no gradient for attributes, so it is computed directly on the mesh. The usual detour through a volume and back ties the result to the voxel size and is less exact.</p>
+</article>
+
+<article class="idea">
+<div class="ph"><b>Image placeholder</b><span>Pool caustics: raw points beside the rasterised, sharpened result</span></div>
+<p class="kicker">Volume 1 · Caustics</p>
+<h3>Caustics without the dots.</h3>
+<p>Points are refracted through a deformed water surface and carried to the ground analytically, by projection onto a plane instead of intersection tests against polygons: faster, lighter and more accurate. Rasterising them into a volume removes the dotty look without needing far more points, and an unsharp mask written in VEX sharpens the pattern.</p>
+</article>
+
+<article class="idea">
+<div class="ph"><b>Image placeholder</b><span>Points of varying pscale seen from camera, before and after occlusion culling</span></div>
+<p class="kicker">Volume 1 · Point clouds</p>
+<h3>Cull what the camera cannot see, by radius.</h3>
+<p>Culling hidden points is a simple optimisation until the points have different sizes: a large point in front should hide the small ones behind it, and the stock point cloud functions cannot express that. The same chapter rebuilds the smooth filtering that <code>pcopen()</code> has and <code>pcfind()</code> does not, so you are not tied to the old functions to get it.</p>
 </article>
 
 </div>
@@ -381,28 +399,28 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <div class="head">
 <p class="kicker">Volume 1 · Houdini 21</p>
 <h2>Inside the lessons.</h2>
-<p>Seven excerpts, and what each one shows about how the course is made.</p>
+<p>Seven excerpts, and the problem behind each one.</p>
 </div>
 <div class="rows">
 
 <div class="row">
 <div class="media-slot"><button aria-label="Play Gradient Descent · 3D" class="video-cover" data-title="Gradient Descent · 3D" data-video="X1_FrgXfATQ" type="button"><img alt="Gradient Descent 3D lesson frame" decoding="async" height="1080" loading="lazy" src="assets/X1_FrgXfATQ.jpg" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
-<div><p class="kicker">Gradient Descent · 3D</p><h3>See the idea. Then build it.</h3><p>Each topic starts as a drawing. The same lesson then builds it in Houdini, with the sketch, the code and the viewport on screen while it comes together.</p></div>
+<div><p class="kicker">Gradient Descent · 3D</p><h3>Trace anything over a surface.</h3><p>Follow a gradient across a mesh and you have the basis for water drops running down geometry, directions flowing over a character, or lightning crawling over a body, as built for Storm in <em>X-Men: Apocalypse</em>.</p></div>
 </div>
 
 <div class="row">
 <div class="media-slot"><button aria-label="Play Gradient Descent · Planar" class="video-cover" data-title="Gradient Descent · Planar" data-video="cwlrnmgyf-4" type="button"><img alt="Gradient Descent Planar lesson frame" decoding="async" height="1080" loading="lazy" src="assets/cwlrnmgyf-4.jpg" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
-<div><p class="kicker">Gradient Descent · Planar</p><h3>Planned before recording.</h3><p>Every topic is worked out and tested in advance. There is no live debugging and no thinking out loud about what to try next.</p></div>
+<div><p class="kicker">Gradient Descent · Planar</p><h3>From a scalar to a direction.</h3><p>Start with a value on the geometry, such as geodesic distance, and ask how to turn it into a direction. That gradient is computed on the geometry itself. Contour lines come from the same result, because they run at right angles to it.</p></div>
 </div>
 
 <div class="row">
 <div class="media-slot"><button aria-label="Play Gradient Descent · Heightfields" class="video-cover" data-title="Gradient Descent · Heightfields" data-video="TFaPW_jZtWc" type="button"><img alt="Gradient Descent Heightfields lesson frame" decoding="async" height="1080" loading="lazy" src="assets/TFaPW_jZtWc.jpg" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
-<div><p class="kicker">Gradient Descent · Heightfields</p><h3>Edited for your time.</h3><p>Cooking and waiting are cut. Typing, node layout and navigation run at 2 to 5 times speed wherever nothing is being explained.</p><p>Volume 1 is 163 lessons in a little over 15 hours.</p></div>
+<div><p class="kicker">Gradient Descent · Heightfields</p><h3>Heightfields, without converting them.</h3><p>Converting a heightfield to polygons is slow, heavy on memory and tied to the resolution. Here the same tracing samples the heightfield volume directly.</p></div>
 </div>
 
 <div class="row">
 <div class="media-slot"><button aria-label="Play Catmull-Clark Subdivision" class="video-cover" data-title="Catmull-Clark Subdivision" data-video="CsR09ohdO0A" type="button"><img alt="Catmull-Clark Subdivision lesson frame" decoding="async" height="1080" loading="lazy" src="assets/CsR09ohdO0A-1920.png" width="1920"/><span aria-hidden="true" class="play"><svg><use href="#play"/></svg></span></button></div>
-<div><p class="kicker">Catmull-Clark Subdivision</p><h3>Starts past the basics.</h3><p>Basic Houdini and VEX are assumed. No lesson explains strings or how to call a function, which leaves the time for things like building Catmull-Clark subdivision from its rules.</p></div>
+<div><p class="kicker">Catmull-Clark Subdivision</p><h3>Built from the rules up.</h3><p>Face points, edge points, vertex points and the new topology, written out in VEX. Once the rules are yours, adaptivity and boundary handling go in where the stock node offers none.</p></div>
 </div>
 
 <div class="row">
@@ -420,6 +438,11 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <div><p class="kicker">Isolines on the Limit Surface</p><h3>And ends in a tool.</h3><p>Isolines drawn directly on the limit surface, using the evaluation built in the lessons before it. Production tips are worked into the implementation as it goes.</p></div>
 </div>
 
+</div>
+<div class="three made">
+<article><span>Before recording</span><h3>Planned and tested.</h3><p>Every topic is worked out in advance. There is no live debugging and no thinking out loud about what to try next.</p></article>
+<article><span>In the edit</span><h3>Edited for your time.</h3><p>Cooking and waiting are cut. Typing, node layout and navigation run at 2 to 5 times speed wherever nothing is being explained.</p></article>
+<article><span>Level</span><h3>Starts past the basics.</h3><p>Basic Houdini and VEX are assumed. No lesson explains strings or how to call a function.</p></article>
 </div>
 </section>
 
