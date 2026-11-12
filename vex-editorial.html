@@ -501,7 +501,7 @@ body{background:#070a10;color:#fff}
   .primary,.secondary,.outline,.nav-action,.purchase-link,.video-cover,.trailer{transition:none}
 }
 </style><style id="pv-clean-play-buttons">
-/* Single scalable vector icon across all videos. No extra CSS ring, backdrop blur, scale or lift. */
+/* Translucent single SVG with backdrop blur, no extra border or movement. */
 .video-cover .pv-play {
  position:absolute;
  top:50%;left:50%;
@@ -509,8 +509,11 @@ body{background:#070a10;color:#fff}
  width:66px;height:66px;
  display:block;
  pointer-events:none;
- --pf:rgba(8,10,14,.90);
- --ps:rgba(255,255,255,.74);
+ border-radius:50%;
+ -webkit-backdrop-filter:blur(3px);
+ backdrop-filter:blur(3px);
+ --pf:rgba(8,10,14,.40);
+ --ps:rgba(255,255,255,.92);
  --pp:#fff;
 }
 .video-cover .pv-play svg {display:block;width:100%;height:100%;overflow:visible}
@@ -524,7 +527,24 @@ body{background:#070a10;color:#fff}
  .video-cover .pv-play {transition:none}
 }
 </style>
-</head>
+<style id="pv-team-license-style">
+.bundle-panel a.team-license-button {
+ display:flex;align-items:center;justify-content:center;
+ width:100%;min-height:56px;margin-top:12px;
+ padding:15px 20px;box-sizing:border-box;
+ border:1px solid #d5a56d;border-radius:7px;
+ background:rgba(248,179,99,.055);color:#fbd4a4;
+ font:800 14px/1.3 Inter,'Segoe UI',Arial,sans-serif;
+ letter-spacing:.005em;text-align:center;text-decoration:none;
+ transition:background-color 180ms ease,border-color 180ms ease,color 180ms ease;
+}
+.bundle-panel a.team-license-button:hover,
+.bundle-panel a.team-license-button:focus-visible {
+ border-color:#ffd19a;background:rgba(248,179,99,.15);color:#fff5e8;
+ filter:none;transform:none;
+}
+@media(prefers-reduced-motion:reduce){.bundle-panel a.team-license-button{transition:none}}
+</style></head>
 <body>
 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="0" height="0" style="position:absolute;overflow:hidden">
 <defs>
@@ -575,7 +595,7 @@ body{background:#070a10;color:#fff}
 </div>
 <div class="author-credit">
 <span>Created by <strong>Yunus "animatrix" Balcioglu</strong></span>
-<span>Previously at <strong>Industrial Light &amp; Magic</strong>, <strong>MPC</strong> and <strong>EA BioWare</strong></span>
+<span>Senior FX Technical Director · <strong>Industrial Light &amp; Magic</strong> | <strong>MPC</strong> | <strong>EA BioWare</strong></span>
 <a href="#instructor">View work &amp; showreel</a>
 </div>
 <div class="course-film-grid">
@@ -610,7 +630,7 @@ body{background:#070a10;color:#fff}
 </div>
 </article>
 </div>
-<div class="release-alert"><strong>Volume 2 release status:</strong> 151 videos and more than 11 hours are available now. The linear solver, inverse ocean spectrum and anisotropy-aware thin FLIP sheet chapters are still in development. Free updates are included for existing Volume 2 customers.</div>
+<div class="release-alert"><strong>Volume 2 release status:</strong> 151 videos and more than 11 hours are available now. The linear solver, inverse ocean spectrum and anisotropy-aware thin FLIP sheet chapters are in progress. Free updates are included for existing Volume 2 customers.</div>
 <div class="loyalty">
 <div><b>Already own either volume?</b><p>Get the other standalone volume for $695 with existing-customer pricing.</p></div>
 <a class="outline" href="#pricing">Existing-customer price · $695</a>
@@ -626,7 +646,7 @@ body{background:#070a10;color:#fff}
 <div class="technical-placeholder ocean" aria-label="Placeholder for Displaced ocean, collision geometry and recovered rest-space positions">
 <span class="technical-placeholder-tag">HOUDINI VISUAL · TO ADD</span>
 <div class="technical-placeholder-copy"><strong>Ocean displacement</strong><small>Displaced ocean, collision geometry and recovered rest-space positions</small></div></div>
-<div class="technical-copy"><div class="tagline">Volume 2 · Planned chapter <span class="technical-planned">Not yet released</span></div><h3>Inverse ocean displacement</h3><p>A choppy ocean spectrum moves points horizontally as well as vertically. Projecting collision geometry onto the deformed water and subtracting a sampled offset is not the inverse of the ocean mapping. Use the displacement field and its Jacobian to solve for the source coordinates whose forward deformation reaches the desired position.</p><div class="technical-terms">Jacobians · Inverse mapping · Ocean spectra</div></div>
+<div class="technical-copy"><div class="tagline">Volume 2 · In progress <span class="technical-planned">Recording in progress</span></div><h3>Inverse ocean displacement</h3><p>A choppy ocean spectrum moves points horizontally as well as vertically. Projecting collision geometry onto the deformed water and subtracting a sampled offset is not the inverse of the ocean mapping. Use the displacement field and its Jacobian to solve for the source coordinates whose forward deformation reaches the desired position.</p><div class="technical-terms">Jacobians · Inverse mapping · Ocean spectra</div></div>
 </article>
 <article class="technical-example even">
 <div class="technical-placeholder surface" aria-label="Placeholder for Principal curvature directions on an evaluated subdivision surface">
@@ -714,7 +734,7 @@ body{background:#070a10;color:#fff}
 <section class="wrap section" id="instructor">
 <div class="section-heading">
 <div><div class="tagline">Created by</div><h2>Yunus “animatrix” Balcioglu</h2></div>
-<p>Previously at Industrial Light &amp; Magic, MPC and EA BioWare</p>
+<p>Senior FX Technical Director · Industrial Light &amp; Magic | MPC | EA BioWare</p>
 </div>
 <div class="authority-layout">
 <div class="media-slot">
@@ -783,7 +803,7 @@ body{background:#070a10;color:#fff}
 <details class="topic-category" open=""><summary>7. Differential operators and PDEs</summary><ul><li>Gradient, divergence, curl, Laplacian and Jacobian</li><li>Finite differences, Laplacian stencils and discrete volume/VDB analysis</li><li>PDEs, biharmonic operators and field reconstruction</li><li>Dirichlet and Neumann boundary conditions</li><li>Helmholtz decomposition into solenoidal, irrotational and harmonic components</li></ul></details>
 <details class="topic-category" open=""><summary>8. Flow and deformation analysis</summary><ul><li>Velocity-gradient tensors, strain rates and rotation</li><li>Stress and deformation-gradient tensors; principal deformation directions</li><li>Vorticity, helicity, Q-criterion and Lambda2</li><li>Field distortion, volume change and vector-field visualization</li></ul></details>
 <details class="topic-category" open=""><summary>9. Sampling, interpolation and numerical tools</summary><ul><li>Trilinear and tricubic volume sampling</li><li>Matrix interpolation and spherical interpolation (SLERP)</li><li>Attribute interpolation, fill and closest-point methods</li><li>Root finding and geometric integration</li></ul></details>
-<div class="planned-updates"><h4>Planned Volume 2 chapters · Not yet released</h4><p>These chapters are not part of the current video count. Updates are free for Volume 2 customers.</p><ul><li>Discrete Linear Systems [A·x = b] and the linear solver</li><li>Inverse Ocean Spectrum</li><li>Anisotropy-Aware Sheet Refinement and Gap Filling in Thin FLIP Fluids</li></ul></div>
+<div class="planned-updates"><h4>Volume 2 chapters in progress</h4><p>Recording is in progress. These chapters are not included in the released video count and will be added as free updates.</p><ul><li>Linear solvers</li><li>Inverse Ocean Spectrum</li><li>Anisotropy-Aware Sheet Refinement and Gap Filling in Thin FLIP Fluids</li></ul></div>
 </div></div>
 <div aria-labelledby="tab-v1" class="curriculum-panel" id="panel-v1" role="tabpanel"><div class="curriculum-volume">
 <div class="curriculum-volume-head"><div><div class="eyebrow film-vol">Volume 1 · Houdini 21</div><h3>The Manifold of Morphology</h3><div class="curriculum-meta">163 videos · Over 15 hours · 4K · Free updates</div></div><span class="status-badge">Complete · Free updates</span></div>
@@ -816,7 +836,7 @@ body{background:#070a10;color:#fff}
 <li>$200 saved against separate purchases</li>
 </ul>
 <a class="primary full purchase-link" href="mailto:animatrix2k7@gmail.com?subject=Pragmatic%20VEX%20complete%20bundle%20purchase%20enquiry">Get the complete bundle <span aria-hidden="true">↗</span></a>
-<a class="quiet full" href="mailto:animatrix2k7@gmail.com?subject=Pragmatic%20VEX%20studio%20and%20team%20licensing" style="margin-top:10px">Studio &amp; team licensing</a>
+<a class="outline full team-license-button" href="mailto:animatrix2k7@gmail.com?subject=Pragmatic%20VEX%20studio%20and%20team%20licensing">Studio &amp; team licensing</a>
 </div>
 </div>
 </section>
@@ -829,8 +849,8 @@ body{background:#070a10;color:#fff}
 <details open=""><summary>Can I start with Volume 2?</summary><p>Yes. Volume 1 and Volume 2 are standalone advanced courses. Each develops its own topics from the prerequisites needed inside that course. Choose the volume whose methods are most useful to you, or bundle both.</p></details>
 <details><summary>Is Volume 1 outdated because it began in an earlier Houdini version?</summary><p>No. Volume 1 has been updated for Houdini 21. The version label describes the current maintained course content, not the age of the first recording.</p></details>
 <details><summary>What knowledge is assumed?</summary><p>Basic Houdini and VEX familiarity is assumed. The courses do not reteach introductory syntax or interface basics. Supporting documentation is referenced when a prerequisite API or concept is needed.</p></details>
-<details><summary>How is mathematics taught in Pragmatic VEX?</summary><p>Mathematical ideas are explained through geometric and visual intuition, then developed into working VEX implementations. The emphasis is on why the method works, which assumptions and numerical choices matter, and how to adapt the same reasoning to other geometry, field, deformation and simulation problems.</p></details>
-<details><summary>What is currently available in Volume 2?</summary><p>151 videos and more than 11 hours are available now. The planned linear solver, inverse ocean spectrum and anisotropy-aware thin FLIP sheet chapters are listed separately and will be added as they are completed.</p></details>
+<details><summary>Do I need advanced mathematics?</summary><p>No advanced mathematics background is required. The lessons start with a practical Houdini problem. When mathematics helps solve it, the relevant ideas are explained visually and implemented in VEX. You also learn how to choose algorithms, test performance and accuracy, and work around the limits of existing tools.</p></details>
+
 <details><summary>Are scene files and supporting material included?</summary><p>Yes. The individual courses and the bundle include scene files and supporting course material associated with the released lessons.</p></details>
 <details><summary>How does existing-customer pricing work?</summary><p>Owners of either standalone volume can purchase the other volume for $695. The two-volume bundle is also priced at $695 per volume.</p></details>
 <details><summary>Is studio and team licensing available?</summary><p>Yes. Studio and team licensing is available separately for production teams and larger seat counts.</p></details>
