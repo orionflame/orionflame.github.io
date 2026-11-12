@@ -5,7 +5,7 @@
 <meta content="only light" name="color-scheme"/>
 <meta name="darkreader-lock"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta name="pragmatic-preview-version" content="2026-11-12-revised-v11"/>
+<meta name="pragmatic-preview-version" content="2026-11-12-revised-v12"/>
 <title>Pragmatic VEX | Advanced Houdini VEX Courses</title>
 <meta content="noindex,nofollow" name="robots"/>
 <meta content="strict-origin-when-cross-origin" name="referrer"/>
@@ -92,6 +92,8 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 .price i{display:block;font-style:normal;font-size:20px;font-weight:750;color:#ffbd70;margin-top:3px}
 .owner{border:1px solid #454a50;padding:20px 25px;display:flex;align-items:center;justify-content:space-between;gap:20px;border-radius:7px;margin-top:40px;font-size:14px;color:var(--sub)}
 .owner b{color:var(--txt)}
+.owner+.owner{margin-top:14px}
+.owner .btn{flex:0 0 auto;border-color:#8a8a90}
 
 /* logos */
 .logos{padding-top:64px}
@@ -168,7 +170,7 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 .bundle-panel ul{list-style:none;margin:0 0 24px;padding:0;font-size:14px;line-height:1.5;color:#d6d7da}
 .bundle-panel li{padding:11px 0;border-bottom:1px solid rgba(255,255,255,.1)}
 .bundle-panel li:first-child{padding-top:0}
-.bundle-panel .quiet{display:block;text-align:center;margin-top:14px;font-size:12px;font-weight:700;color:var(--sub)}
+.bundle-panel .btn+.btn{margin-top:12px;border-color:#8a8a90}
 
 /* faq */
 .faq{border-top:1px solid #303743;max-width:920px}
@@ -301,6 +303,10 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <div class="owner">
 <span><b>Already own one volume?</b> The other one is $695.</span>
 <a class="btn" href="#pricing">Existing-customer pricing</a>
+</div>
+<div class="owner">
+<span><b>Buying for a studio or team?</b> Individual purchases are for one person. Studios and teams are licensed separately.</span>
+<a class="btn" href="mailto:animatrix2k7@gmail.com?subject=Pragmatic%20VEX%20studio%20and%20team%20licensing">Studio &amp; team licensing</a>
 </div>
 </section>
 
@@ -617,7 +623,7 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <li>Volume 2 chapters in development, as they are released</li>
 </ul>
 <a class="btn primary full" href="mailto:animatrix2k7@gmail.com?subject=Pragmatic%20VEX%20complete%20bundle%20purchase%20enquiry">Get the complete bundle</a>
-<a class="quiet" href="mailto:animatrix2k7@gmail.com?subject=Pragmatic%20VEX%20studio%20and%20team%20licensing">Studio &amp; team licensing</a>
+<a class="btn full" href="mailto:animatrix2k7@gmail.com?subject=Pragmatic%20VEX%20studio%20and%20team%20licensing">Studio &amp; team licensing</a>
 </div>
 </div>
 </section>
@@ -630,13 +636,14 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <details><summary>How much mathematics do I need?</summary><p>None beyond what a working Houdini artist already uses. Each idea is shown geometrically first, then built in VEX.</p></details>
 <details><summary>What is in Volume 2 right now?</summary><p>151 videos and more than 11 hours. The linear solver, inverse ocean spectrum and thin FLIP sheet chapters are in development and are listed separately in the curriculum. Customers receive them as they are released.</p></details>
 <details><summary>Is Volume 1 current?</summary><p>Yes. It has been updated for Houdini 21.</p></details>
+<details><summary>Can a studio buy this for a team?</summary><p>Yes, with a studio or team licence. An individual purchase covers one person. <a href="mailto:animatrix2k7@gmail.com?subject=Pragmatic%20VEX%20studio%20and%20team%20licensing" style="color:var(--warm);text-decoration:underline">Get in touch</a> for studio and team licensing.</p></details>
 <details><summary>Are scene files included?</summary><p>Yes, for every released lesson, in both volumes and the bundle.</p></details>
 </div>
 </section>
 
 <section class="end">
 <p class="prices">Each volume $795 · Both $1,390 · Existing customers $695</p>
-<a class="btn primary" href="#pricing">See pricing</a>
+<div class="actions"><a class="btn primary" href="#pricing">See pricing</a><a class="btn" href="mailto:animatrix2k7@gmail.com?subject=Pragmatic%20VEX%20studio%20and%20team%20licensing">Studio &amp; team licensing</a></div>
 </section>
 <section class="tools"><img alt="Software and technology used with Pragmatic VEX" loading="lazy" src="https://pragmatic-vfx.com/logos.png"/></section>
 </main>
