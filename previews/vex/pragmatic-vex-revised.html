@@ -178,7 +178,8 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 .bundle-panel{position:relative;border:1px solid rgba(248,179,99,.33);background:rgba(12,14,17,.6);padding:30px;min-width:0}
 .bundle-panel .eyebrow{margin:0;font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--txt)}
 .bundle-panel ul{list-style:none;margin:20px 0 25px;padding:0;display:grid;gap:12px;font-size:14px;line-height:1.5;color:#d6d7da}
-.bundle-panel li::before{content:"\2713";color:#ffc077;margin-right:9px}
+.bundle-panel li{position:relative;padding-left:22px}
+.bundle-panel li::before{content:"\2713";position:absolute;left:0;color:#ffc077}
 .bundle-panel .btn+.btn{margin-top:12px;border-color:rgba(255,255,255,.22)}
 .btn.studio,.owner .btn.studio,.bundle-panel .btn+.btn.studio{background:var(--blue);border-color:var(--blue);color:#07131c}
 .btn.studio:hover,.owner .btn.studio:hover,.bundle-panel .btn+.btn.studio:hover{border-color:var(--blue)}
@@ -637,7 +638,7 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <div>
 <p class="pill">Save $200</p>
 <h2>Get both volumes</h2>
-<p>Volume 2: fitting and registration, curvature, velocity fields, PDEs and the matrix methods behind them. Volume 1: point clouds, tracing, topology, subdivision and performance. Each one stands on its own.</p>
+<p>Volume 1: point clouds, tracing, topology, subdivision and performance. Volume 2: fitting and registration, curvature, velocity fields, PDEs and the matrix methods behind them. Each one stands on its own.</p>
 <div class="amount"><strong>$1,390</strong><s>$1,590</s></div>
 <small>$200 less than buying the two separately. That is $695 per volume, the same price as for existing customers.</small>
 </div>
