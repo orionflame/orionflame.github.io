@@ -75,7 +75,7 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 .row .player-title{display:none}
 .rows .row .player-title{display:block}
 .row .still{margin:22px 0 0}
-.row .still img{display:block;width:100%;border-radius:6px;border:1px solid rgba(255,255,255,.1)}
+.row .still img{display:block;width:100%;border-radius:6px}
 .row .still figcaption{margin-top:8px;font-size:12px;color:var(--dim)}
 
 /* trailers + volumes */
@@ -285,9 +285,9 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <p class="kicker blue">Volume 2 · Houdini 22</p>
 <h3>The Eigenveil of Entropy</h3>
 <p class="status">151 videos · Over 11 hours available now · 4K · More chapters in development</p>
-<p class="say">Use SVD to match rigid transforms, compute surface curvature and its principal directions, and separate velocity fields into divergence-free and curl-free components.</p>
+<p class="say">Analytical answers that run wherever VEX runs, from SOPs to shaders and COPs: best-fit planes and oriented boxes, curvature measured directly on SDFs and heightfields, and velocity fields split into their divergence-free, curl-free and harmonic parts.</p>
 <ul class="chips">
-<li>Jacobians</li><li>Hessians</li><li>SVD</li><li>PCA</li><li>Eigendecomposition</li><li>Least squares</li><li>Curvature</li><li>Shape operator</li><li>Helmholtz decomposition</li><li>Divergence &amp; curl</li><li>Laplacians</li><li>Shape matching &amp; ICP</li><li>Geodesic distance</li>
+<li>Best-fit planes</li><li>Oriented bounding boxes</li><li>Rigid transform matching</li><li>SVD</li><li>PCA</li><li>Eigendecomposition</li><li>SDF &amp; heightfield curvature</li><li>Shape index</li><li>Shape operator</li><li>Hessians</li><li>Jacobians</li><li>Helmholtz decomposition</li><li>Geodesic distance</li>
 </ul>
 <div class="links"><a href="#curriculum">Full curriculum ↓</a></div>
 </div>
@@ -356,29 +356,29 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <article class="idea">
 <div class="ph"><b>Image placeholder</b><span>A velocity field beside its divergence-free and curl-free parts</span></div>
 <p class="kicker blue">Volume 2 · Velocity fields</p>
-<h3>Take a velocity field apart and control what you put back</h3>
-<p>A flow can look right and still carry expansion you did not ask for, too much spin, or stretching in the wrong direction. The velocity-gradient tensor shows which of those is happening, and where. Helmholtz decomposition then splits the field into its divergence-free and curl-free parts, so you can change one and rebuild the field instead of scaling all of it.</p>
+<h3>Take a velocity field apart</h3>
+<p>A flow can look right and still carry expansion you did not ask for, too much spin, or stretching in the wrong direction. The velocity-gradient tensor shows which of those is happening, and where. Helmholtz decomposition separates the divergence-free, curl-free and harmonic parts, which Houdini can remove but not hand back to you. MPM already writes out the deformation gradient; this is how to read it. Editing a part, say 20% less curl or noise on the divergence, and solving for the new field comes with the linear solver chapters. <span class="tag">IN DEVELOPMENT</span></p>
 </article>
 
 <article class="idea">
 <div class="ph"><b>Image placeholder</b><span>Collision geometry in displaced ocean space and in rest space</span></div>
 <p class="kicker blue">Volume 2 · Oceans <span class="tag">IN DEVELOPMENT</span></p>
 <h3>Invert the ocean instead of raycasting it</h3>
-<p>An ocean spectrum moves water sideways as well as up, so the water under a hull did not start directly beneath it. The usual fix is to ray the collision geometry onto the displaced surface and subtract the displacement found there, an approximation that gets worse as the chop increases. The displacement is a mapping with a Jacobian. Invert it, and the collision geometry is carried into the undisplaced ocean exactly.</p>
+<p>An ocean spectrum moves water sideways as well as up, so the water under a hull did not start directly beneath it. The usual fix is to ray the collision geometry onto the displaced surface and subtract the displacement found there, an approximation that gets worse as the chop increases. Instead, the spectrum itself is inverted numerically. Simulate against the inverted colliders, apply the regular spectrum afterwards, and they come out matching their original shape.</p>
 </article>
 
 <article class="idea">
-<div class="ph"><b>Image placeholder</b><span>Principal curvature directions drawn as a cross field on a character</span></div>
+<div class="ph"><b>Image placeholder</b><span>Shape index and principal curvature directions on an SDF and a heightfield</span></div>
 <p class="kicker blue">Volume 2 · Curvature</p>
-<h3>Curvature with a direction</h3>
-<p>Say you need the curvature of a heightfield or an SDF, and the direction it runs in. That is what the shape operator gives you: two principal curvatures and their directions. On an OpenSubdiv limit surface they are evaluated analytically, so they hold still when the mesh resolution changes. Run cracks along ridges, wrinkles across folds, wear over convex edges only.</p>
+<h3>Curvature on an SDF, without the polygons</h3>
+<p>On volumes, Houdini only measures the mean curvature of a fog volume. Here curvature is taken on the SDF or heightfield itself: no round trip through polygons, no mesh resolution to choose, less memory. One shape operator gives every curvature type and both principal directions at once, where Measure SOP needs a node per type. Shape index runs from −1 to 1, ready to drive procedural work: isolate ridges on a terrain, run cracks along them, advect a heightfield along its directions.</p>
 </article>
 
 <article class="idea">
-<div class="ph"><b>Image placeholder</b><span>A point cloud converging onto its target over ICP iterations</span></div>
+<div class="ph"><b>Image placeholder</b><span>A point cloud with its best-fit plane and oriented bounding box</span></div>
 <p class="kicker blue">Volume 2 · Fitting</p>
-<h3>Recover a transform from nothing but points</h3>
-<p>Two point clouds of the same object and no transform between them: a cached simulation, a scan, a deforming piece you need to lock something to. Build the covariance matrix, take its SVD, and the best-fit rotation and translation come straight out. Add iterative closest point and it still works when you do not know which point matches which.</p>
+<h3>A best-fit plane that works outside SOPs</h3>
+<p>Houdini has no best-fit plane, so the usual trick is to keep the largest face of the Bound SOP's oriented box: approximate, and only available where SOPs are. Build the covariance matrix and the plane, principal axes and oriented box come out analytically, in VEX, so the same code runs in a shader, in COPs without breaking OpenCL, or in APEX. Boxes stay stable over time instead of flipping axes, and a rigid transform taken from animated geometry can be inverted, or matched in translation, rotation or non-uniform scale only.</p>
 </article>
 
 <article class="idea">
@@ -519,7 +519,7 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 </ul></div>
 <div class="grp"><span>03</span><h4>Transformations &amp; registration</h4><ul>
 <li>Affine transformations</li>
-<li>Rigid transform fitting, shape matching</li>
+<li>Rigid transform extraction and matching: translation, rotation and non-uniform scale chosen separately</li>
 <li>Arbitrary linear transformation between two point clouds</li>
 <li>Iterative closest point (ICP), point cloud registration</li>
 </ul></div>
@@ -536,12 +536,13 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <li>Principal curvatures and directions</li>
 <li>Mean, Gaussian and normal curvature, curvedness, shape index</li>
 <li>Curvature tensor</li>
-<li>Asymptotic lines and directions</li>
-<li>Terrain and heightfield analysis</li>
+<li>Asymptotic lines and directions, extended past negative curvature and compared with principal directions</li>
+<li>Curvature directly on SDFs and heightfields, terrain analysis</li>
 </ul></div>
 <div class="grp"><span>06</span><h4>OpenSubdiv &amp; intrinsic surface methods</h4><ul>
 <li>OpenSubdiv derivatives, normals and intrinsic UVs</li>
 <li>Analytic curvature on the limit surface</li>
+<li>Exact mesh-to-limit-surface correspondence (pointprimuv, added to VEX by SideFX from the author's submission)</li>
 <li>Geodesic, biharmonic and diffusion distance</li>
 <li>Shape relaxation and smoothing, minimal surfaces</li>
 </ul></div>
@@ -567,10 +568,10 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <li>Trilinear and tricubic interpolation, cubic and smooth volume sampling</li>
 <li>Matrix interpolation, SLERP, smooth spherical interpolation solver</li>
 <li>Attribute interpolation and fill, closest point</li>
-<li>Root finding, geometric integration</li>
+<li>Root finding: exact points on SDF and heightfield surfaces, geometric integration</li>
 </ul></div>
 <div class="grp dev"><span>+</span><h4>In development</h4><p>Not in the current video count. Customers receive these as they are released.</p><ul>
-<li>Discrete linear systems (A·x = b) and the linear solver</li>
+<li>Discrete linear systems (A·x = b) and the linear solver: heightfields from their gradient, rebuilding edited vector fields</li>
 <li>Inverse ocean spectrum</li>
 <li>Anisotropy-aware sheet refinement and gap filling in thin FLIP fluids</li>
 </ul></div>
