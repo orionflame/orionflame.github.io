@@ -166,17 +166,19 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 .thanks{font-size:12px;color:var(--dim);border-top:1px solid #29303a;padding:14px 0 6px;margin:0}
 
 /* bundle */
-.bundle{position:relative;margin-top:92px;padding:48px 53px;background:#10141a;border:1px solid rgba(248,179,99,.25);overflow:hidden;border-radius:8px;display:grid;grid-template-columns:1.28fr .72fr;gap:34px;align-items:center}
-.bundle h2{font-size:clamp(40px,5vw,66px);line-height:1;letter-spacing:-.06em;margin:0 0 18px}
-.bundle p:not(.kicker){max-width:590px;color:#bfc1c6;line-height:1.72;font-size:15.5px}
+.bundle{position:relative;margin-top:92px;padding:47px 53px;background:linear-gradient(125deg,#252225,#101821 55%,#131215);border:1px solid rgba(248,179,99,.25);overflow:hidden;border-radius:8px;display:grid;grid-template-columns:1.3fr .7fr;gap:28px;align-items:center}
+.bundle::before{content:"";position:absolute;width:400px;height:400px;right:4%;top:-30%;background:radial-gradient(circle,rgba(246,151,77,.18),transparent 70%);pointer-events:none}
+.bundle .pill{display:inline-block;margin:0;padding:7px 11px;border:1px solid rgba(255,255,255,.2);border-radius:100px;font-size:10px;font-weight:850;letter-spacing:.1em;text-transform:uppercase;color:#ffc27b}
+.bundle h2{font-size:clamp(43px,5.4vw,74px);line-height:.99;letter-spacing:-.07em;margin:17px 0}
+.bundle p:not(.kicker):not(.pill):not(.eyebrow){max-width:590px;color:#bfc1c6;line-height:1.72;font-size:15.5px}
 .bundle .amount{display:flex;gap:12px;align-items:baseline;margin-top:22px}
 .bundle .amount strong{font-size:54px;letter-spacing:-.06em}
 .bundle .amount s{font-size:20px;opacity:.53}
 .bundle small{font-size:12px;color:var(--sub)}
-.bundle-panel{position:relative;border:1px solid rgba(248,179,99,.33);background:rgba(12,14,17,.64);padding:30px}
-.bundle-panel ul{list-style:none;margin:0 0 24px;padding:0;font-size:14px;line-height:1.5;color:#d6d7da}
-.bundle-panel li{padding:11px 0;border-bottom:1px solid rgba(255,255,255,.1)}
-.bundle-panel li:first-child{padding-top:0}
+.bundle-panel{position:relative;border:1px solid rgba(248,179,99,.33);background:rgba(12,14,17,.6);padding:30px;min-width:0}
+.bundle-panel .eyebrow{margin:0;font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--txt)}
+.bundle-panel ul{list-style:none;margin:20px 0 25px;padding:0;display:grid;gap:12px;font-size:14px;line-height:1.5;color:#d6d7da}
+.bundle-panel li::before{content:"\2713";color:#ffc077;margin-right:9px}
 .bundle-panel .btn+.btn{margin-top:12px;border-color:rgba(255,255,255,.22)}
 .btn.studio,.owner .btn.studio,.bundle-panel .btn+.btn.studio{background:var(--blue);border-color:var(--blue);color:#07131c}
 .btn.studio:hover,.owner .btn.studio:hover,.bundle-panel .btn+.btn.studio:hover{border-color:var(--blue)}
@@ -633,13 +635,14 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <section class="wrap" id="pricing">
 <div class="bundle">
 <div>
-<p class="kicker">Save $200</p>
+<p class="pill">Save $200</p>
 <h2>Get both volumes</h2>
 <p>Volume 2: fitting and registration, curvature, velocity fields, PDEs and the matrix methods behind them. Volume 1: point clouds, tracing, topology, subdivision and performance. Each one stands on its own.</p>
-<div class="amount"><strong>$1,390</strong></div>
+<div class="amount"><strong>$1,390</strong><s>$1,590</s></div>
 <small>$200 less than buying the two separately. That is $695 per volume, the same price as for existing customers.</small>
 </div>
 <div class="bundle-panel">
+<p class="eyebrow">The complete bundle includes</p>
 <ul>
 <li>Volume 1: The Manifold of Morphology</li>
 <li>Volume 2: The Eigenveil of Entropy</li>
