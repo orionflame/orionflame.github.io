@@ -161,8 +161,10 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 .grp h4{font-size:16px;font-weight:750;letter-spacing:-.01em;margin:0 0 9px}
 .grp ul{grid-column:2;list-style:none;margin:0;padding:0;font-size:13.5px;line-height:1.6;color:var(--sub)}
 .grp li{margin-bottom:5px}
-.grp.dev{background:rgba(144,209,255,.045);border:1px solid rgba(144,209,255,.22);border-radius:6px;padding:16px 16px 12px;margin:8px 0 16px}
-.grp.dev p{grid-column:2;font-size:12px;line-height:1.6;color:var(--dim);margin:0 0 9px}
+.grp.dev{background:#1b1b1c;border:1px solid #534533;border-radius:6px;padding:16px 16px 12px;margin:8px 0 16px}
+.grp.dev p{grid-column:2;font-size:12px;line-height:1.6;color:#c5b8a7;margin:0 0 9px}
+.grp.dev h4{color:#ecc695}
+.grp.dev ul{color:#c5b8a7}
 .thanks{font-size:12px;color:var(--dim);border-top:1px solid #29303a;padding:14px 0 6px;margin:0}
 
 /* bundle */
@@ -543,8 +545,7 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <li>OpenSubdiv derivatives, normals and intrinsic UVs</li>
 <li>Analytic curvature on the limit surface</li>
 <li>Exact mesh-to-limit-surface correspondence (pointprimuv, added to VEX by SideFX from the author's submission)</li>
-<li>Geodesic, biharmonic and diffusion distance</li>
-<li>Shape relaxation and smoothing, minimal surfaces</li>
+<li>Shape relaxation and smoothing</li>
 </ul></div>
 <div class="grp"><span>07</span><h4>Differential operators &amp; PDEs</h4><ul>
 <li>Gradient, divergence, curl, Laplacian</li>
@@ -571,7 +572,9 @@ code{font-family:'JetBrains Mono',monospace;font-size:.92em;color:#ffc27b}
 <li>Root finding: exact points on SDF and heightfield surfaces, geometric integration</li>
 </ul></div>
 <div class="grp dev"><span>+</span><h4>In development</h4><p>Not in the current video count. Customers receive these as they are released.</p><ul>
-<li>Discrete linear systems (A·x = b) and the linear solver: heightfields from their gradient, rebuilding edited vector fields</li>
+<li>Linear solvers</li>
+<li>Geodesic, biharmonic and diffusion distance</li>
+<li>Minimal surfaces</li>
 <li>Inverse ocean spectrum</li>
 <li>Anisotropy-aware sheet refinement and gap filling in thin FLIP fluids</li>
 </ul></div>
