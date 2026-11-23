@@ -31,6 +31,7 @@ Stop the process with **Ctrl+C**. The service does not run by itself or start au
 
 ## Troubleshooting
 
+- "Windows user-bound DPAPI encryption is unavailable": update this bridge with `git pull`, then run `npm start` again. Windows PowerShell 5.1 needs the `System.Security` assembly loaded to use DPAPI. Do not bypass the encryption check or store OAuth credentials as plaintext.
 - "Bridge offline": check that `npm start` is still running and port `17879` is free. Try the local URL if Chrome blocks local-network access from the hosted page.
 - "Pairing code incorrect": copy the 32-digit code from the current terminal session. It changes each restart.
 - Sign-in cannot complete: confirm default browser, local callback access and your account's eligibility/consent.

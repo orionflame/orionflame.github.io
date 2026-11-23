@@ -9,7 +9,7 @@ import { windowsEncryption } from './windows-dpapi.mjs';
 import { PORT,allowedOrigin,allowedHost,validateModel,validateMessages,safeError,checkPair } from './validation.mjs';
 
 if(process.platform!=='win32') throw new Error('This bridge requires Windows 11 for DPAPI credential encryption.');
-if(!(await windowsEncryption.isAvailable())) throw new Error('Windows user-bound DPAPI encryption is unavailable; refusing to start.');
+if(!(await windowsEncryption.isAvailable())) throw new Error(`Windows user-bound DPAPI encryption is unavailable: ${windowsEncryption.diagnostic()}`);
 const HOME=dirname(fileURLToPath(import.meta.url));
 const STATIC=resolve(HOME,'../../classic-chat');
 const pairing=randomBytes(16).toString('hex');
