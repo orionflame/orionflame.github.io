@@ -20,6 +20,20 @@ jobs:
             getent ahostsv4 "$host" | awk '{print $1}' | sort -u | head -n 8
             echo "::endgroup::"
           done
+          echo "::group::Direct GitHub Pages origin for custom domain"
+          for scheme in https http; do
+            for page in /classic-chat/ /classic-chat/index.html /classic-chat/app.js /downloads/; do
+              echo "Direct-origin request: $scheme://pragmatic-vfx.com$page"
+              curl -k -sS --resolve pragmatic-vfx.com:443:185.199.108.153 \
+                --resolve pragmatic-vfx.com:80:185.199.108.153 \
+                -o /tmp/origin-body -D /tmp/origin-headers --max-time 12 \
+                -w 'HTTP: %{http_code}\\nFINAL: %{url_effective}\\nIP: %{remote_ip}\\nBYTES: %{size_download}\\n' \
+                "$scheme://pragmatic-vfx.com$page" || true
+              grep -iE '^(location:|server:|content-type:|cache-control:|x-github-request-id:)' /tmp/origin-headers | tail -n 8 || true
+              grep -Eoi '<title>[^<]*</title>|Classic Chat \\| Personal browser interface|Pragmatic VEX: Volume 1' /tmp/origin-body | head -n 3 || true
+            done
+          done
+          echo "::endgroup::"
           n=0
           for url in \
             https://pragmatic-vfx.com/classic-chat/ \
@@ -27,6 +41,8 @@ jobs:
             https://pragmatic-vfx.com/classic-chat/app.js \
             https://www.pragmatic-vfx.com/classic-chat/ \
             https://orionflame.github.io/classic-chat/ \
+            https://pragmatic-vfx.com/downloads/ \
+            https://pragmatic-vfx.com/__clearly-nonexistent-chat-smoke-20261123 \
             https://pragmatic-vfx.com/; do
             n=$((n+1))
             echo "::group::URL $url"
