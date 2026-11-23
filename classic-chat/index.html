@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c0c0c">
+  <meta name="color-scheme" content="dark">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' data:; connect-src http://127.0.0.1:17879; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Classic Chat | Personal browser interface</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <div class="app" id="app">
+    <aside class="sidebar" id="sidebar" aria-label="Conversations">
+      <div class="side-header">
+        <button id="sidebar-toggle" class="iconbtn" title="Hide sidebar" aria-label="Hide sidebar"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M9 4v16"/></svg></button>
+        <button id="new-chat" class="iconbtn" title="New chat" aria-label="New chat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 4H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-6"/><path d="m12 12 8-8 2 2-8 8-4 1z"/></svg></button>
+      </div>
+      <button id="search-toggle" class="side-action"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg><span>Search chats</span></button>
+      <input id="search" type="search" class="search hidden" placeholder="Search your local chats" aria-label="Search local conversations" />
+      <button id="new-chat-wide" class="side-action"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><span>New chat</span></button>
+      <div class="side-label">Your local chats</div>
+      <nav id="chats" class="chat-list" aria-label="Saved local conversations"></nav>
+      <div class="side-bottom">
+        <div class="side-note">Saved in this browser only</div>
+        <button id="export" class="side-action small"><svg viewBox="0 0 24 24"><path d="M12 3v12m-4-4 4 4 4-4"/><path d="M4 16v4h16v-4"/></svg><span>Export conversations</span></button>
+      </div>
+    </aside>
+    <main class="main" id="main">
+      <header class="topbar">
+        <button id="show-sidebar" class="iconbtn hidden" title="Show sidebar" aria-label="Show sidebar"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg></button>
+        <div class="tabs" aria-label="Chat mode"><span class="tab selected">Chat</span><a class="tab" href="https://chatgpt.com/" target="_blank" rel="noreferrer" title="Open official ChatGPT">Official ChatGPT</a></div>
+        <button id="status-button" class="connection"><span id="status-dot" class="dot offline"></span><span id="connection-label">Local bridge offline</span><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></button>
+      </header>
+      <section id="connection-panel" class="connection-panel hidden" aria-label="Connection settings">
+        <div class="panel-title">Connect to your ChatGPT plan</div>
+        <p>This website is a chat interface. AI responses require the companion service running on your computer. No API key or ChatGPT password is entered here.</p>
+        <div class="status-line" id="bridge-status">Checking the local bridge...</div>
+        <label for="pairing-code">Pairing code shown in the local service terminal</label>
+        <div class="pair-row"><input id="pairing-code" type="password" spellcheck="false" autocomplete="off" placeholder="Paste pairing code"><button id="pair-button" class="primary small-btn">Pair</button></div>
+        <div id="account-area" class="account-area hidden">
+          <div class="account-row"><span id="account-status">Not signed in</span><button id="sign-in" class="secondary small-btn">Sign in with ChatGPT</button><button id="sign-out" class="secondary small-btn hidden">Disconnect</button></div>
+          <button id="test-plan" class="secondary small-btn">Test subscription</button>
+        </div>
+        <p class="tiny">This tests OpenAI's supported plan-sharing integration. It does not reuse the normal Chat interface's allowance, and your account may not be eligible.</p>
+        <p class="tiny"><a href="https://github.com/orionflame/orionflame.github.io/tree/master/tools/classic-chat-bridge" target="_blank" rel="noreferrer">Local bridge installation instructions</a></p>
+      </section>
+      <div class="chat-area" id="chat-area">
+        <div id="welcome" class="welcome"><h1>What can I help with?</h1></div>
+        <div class="messages hidden" id="messages" aria-live="polite"></div>
+      </div>
+      <div class="composer-region" id="composer-region">
+        <div id="notice" class="notice" role="status">Browser interface ready. Start the local bridge to send real AI requests, or use Copy prompt.</div>
+        <form id="composer" class="composer" autocomplete="off">
+          <textarea id="prompt" rows="1" placeholder="Ask ChatGPT" aria-label="Message" spellcheck="true"></textarea>
+          <div class="composer-controls">
+            <div class="control-left">
+              <button type="button" id="copy-prompt" class="iconbtn" title="Copy current prompt" aria-label="Copy prompt"><svg viewBox="0 0 24 24"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg></button>
+              <span class="hint">Copy / paste compatible</span>
+            </div>
+            <div class="control-right"><select id="model" aria-label="Model" title="Models made available by your connected plan" disabled><option value="">No model</option></select><button id="send" class="send" type="submit" title="Send or save message" aria-label="Send message"><svg viewBox="0 0 24 24"><path d="M12 19V5m-6 6 6-6 6 6"/></svg></button><button id="stop" class="stop hidden" type="button" title="Stop response" aria-label="Stop response"><svg viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="2"/></svg></button></div>
+          </div>
+        </form>
+        <p class="footer">Unofficial personal interface. Not OpenAI's ChatGPT website. Messages are saved locally in this browser unless you export them.</p>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
