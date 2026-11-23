@@ -1,0 +1,22 @@
+name: Chat Mode Wire Observer Validation
+on:
+  push:
+    branches:
+      - experiments/chat-mode-wire-observer-20261123
+    paths:
+      - tools/chat-mode-wire-observer/**
+      - .github/workflows/chat-mode-wire-observer-validation.yml
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and passive capture tests
+        working-directory: tools/chat-mode-wire-observer
+        run: npm run check
