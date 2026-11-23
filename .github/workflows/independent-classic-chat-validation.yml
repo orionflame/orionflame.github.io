@@ -1,0 +1,22 @@
+name: Independent Classic Chat Validation
+on:
+  push:
+    branches:
+      - experiments/independent-classic-chat-20261124
+    paths:
+      - 'tools/independent-classic-chat/**'
+      - '.github/workflows/independent-classic-chat-validation.yml'
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax, codec and transport tests
+        working-directory: tools/independent-classic-chat
+        run: npm run check
