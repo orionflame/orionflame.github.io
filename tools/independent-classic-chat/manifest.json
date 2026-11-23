@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Independent Classic Chat (Experimental)",
+  "version": "0.3.0",
+  "description": "Independent first-party Chat conversation prototype. Does not rely on the ChatGPT composer or Work/Codex API.",
+  "content_scripts": [
+    {
+      "matches": ["https://chatgpt.com/*"],
+      "run_at": "document_start",
+      "world": "MAIN",
+      "js": ["native-core.js", "native-transport.js", "native-ui.js"],
+      "css": ["native-ui.css"]
+    }
+  ]
+}

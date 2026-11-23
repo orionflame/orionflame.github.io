@@ -1,0 +1,10 @@
+{
+  "name": "independent-classic-chat-experiment",
+  "version": "0.3.0",
+  "private": true,
+  "description": "Isolated proof-of-concept for direct, authenticated original Chat endpoint requests from a first-party browser context",
+  "scripts": {
+    "check": "node --check native-core.js && node --check native-transport.js && node --check native-ui.js && node --test test/*.test.cjs"
+  },
+  "license": "UNLICENSED"
+}
