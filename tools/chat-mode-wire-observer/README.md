@@ -1,6 +1,6 @@
-# Normal Chat mode wire observer
+# Normal Chat mode observer and Classic UI overlay
 
-This is a **read-only Chrome/Brave extension** to verify what the **existing regular ChatGPT Chat interface** actually sends. It is not the Work/Codex bridge and it is not a replacement client yet.
+This Chrome/Brave extension includes a **read-only metadata observer** and an optional **first-party Classic Chat overlay**. The observer is to verify what the **existing regular ChatGPT Chat interface** actually sends. It is independent of the Work/Codex bridge. For the new interface, see [Classic UI overlay](README-addon.md).
 
 It listens **only** for the original `chatgpt.com` page making a `POST /backend-api/f/conversation` or `POST /backend-api/conversation` request. It records the endpoint pathname, response status, model, thinking effort, conversation kind, top-level request field names, and header names. It never records prompt text, responses, cookies, authorization values, CSRF values, Turnstile tokens, device identifiers or URL query strings. It makes no network calls and cannot bypass any access or usage restrictions.
 
@@ -51,3 +51,4 @@ The tests use a simulated fetch and cannot prove the current production website 
 The official [Sign in with ChatGPT](https://developers.openai.com/siwc/token-sharing-open-source) integration uses the Responses API and Work/Codex allowance; it is not the normal Chat route. OpenAI's [Terms of Use](https://openai.com/policies/terms-of-use/) restrict reverse engineering and bypassing access controls or limits. Do not use this experiment to evade server-side restrictions.
 
 For the earlier Work/Codex prototype, see `tools/classic-chat-bridge` on the repository's `master` branch. This observer is independent and does not change that project or your website.
+\n\nFor the overlay installation and important limitations, see [README-addon.md](README-addon.md).\n
