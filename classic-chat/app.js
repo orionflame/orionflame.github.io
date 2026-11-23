@@ -4,12 +4,16 @@
   const API = 'http://127.0.0.1:17879';
   const STORE = 'classic-chat-ui-v1';
   const PAIR = 'classic-chat-pair-v1';
+  // In sandboxed or storage-restricted browsers, keep the UI usable without persistence.
+  const fallbackStorage = {getItem:()=>null,setItem:()=>{},removeItem:()=>{}};
+  const local = (()=>{try{return window.localStorage;}catch{return fallbackStorage;}})();
+  const sessionStore = (()=>{try{return window.sessionStorage;}catch{return fallbackStorage;}})();
   const $ = (id) => document.getElementById(id);
   const app = $('app');
   let chats = [];
   let activeId = null;
   let bridgeHealthy = false;
-  let pairing = sessionStorage.getItem(PAIR) || '';
+  let pairing = sessionStore.getItem(PAIR) || '';
   let account = { status: 'disconnected', sharing: false };
   let models = [];
   let model = '';
@@ -26,7 +30,7 @@
 
   function load() {
     try {
-      const x = JSON.parse(localStorage.getItem(STORE) || '{}');
+      const x = JSON.parse(local.getItem(STORE) || '{}');
       if (Array.isArray(x.chats)) chats = x.chats.slice(0,150).filter(c => c && typeof c.id === 'string' && Array.isArray(c.messages)).map(c => ({
         id: c.id.slice(0,80), title: safeText(c.title,90), messages: c.messages.slice(-70).filter(m => m && ['user','assistant'].includes(m.role) && typeof m.content === 'string').map(m => ({ id: safeText(m.id,80) || randomId(), role:m.role, content:safeText(m.content), status:'done' }))
       }));
@@ -34,7 +38,7 @@
     } catch { /* Corrupted local state never prevents use */ }
   }
   function persist() {
-    try { localStorage.setItem(STORE,JSON.stringify({chats:chats.slice(0,150),activeId})); }
+    try { local.setItem(STORE,JSON.stringify({chats:chats.slice(0,150),activeId})); }
     catch { notice('Your browser could not save this chat locally. Export the conversations if you need a copy.', true); }
   }
   function newChat() {
@@ -109,13 +113,13 @@
     if(!bridgeHealthy){account={status:'disconnected',sharing:false};models=[];renderConnection();return;}
     if(pairing){
       try {const state=await request('/api/state');account=state.session||{status:'disconnected',sharing:false};models=Array.isArray(state.models)?state.models:[];signingIn=Boolean(state.signingIn);if(state.lastError&&!signingIn)notice(state.lastError,true);}
-      catch(err){if(/pairing/i.test(String(err))) {pairing='';sessionStorage.removeItem(PAIR);account={status:'disconnected',sharing:false};models=[];}else reportAPIError(err);}
+      catch(err){if(/pairing/i.test(String(err))) {pairing='';sessionStore.removeItem(PAIR);account={status:'disconnected',sharing:false};models=[];}else reportAPIError(err);}
     }
     renderConnection();
   }
   async function pair(){const x=$('pairing-code').value.trim();if(!/^[a-f0-9]{32}$/i.test(x)){notice('Enter the 32-character pairing code displayed by the local bridge.',true);return;}
-    pairing=x;try{const r=await request('/api/state');sessionStorage.setItem(PAIR,pairing);account=r.session;models=r.models||[];signingIn=Boolean(r.signingIn);$('pairing-code').value='';notice('Local bridge paired. You can sign in with ChatGPT now.');renderConnection();}
-    catch(err){pairing='';sessionStorage.removeItem(PAIR);reportAPIError(err);} }
+    pairing=x;try{const r=await request('/api/state');sessionStore.setItem(PAIR,pairing);account=r.session;models=r.models||[];signingIn=Boolean(r.signingIn);$('pairing-code').value='';notice('Local bridge paired. You can sign in with ChatGPT now.');renderConnection();}
+    catch(err){pairing='';sessionStore.removeItem(PAIR);reportAPIError(err);} }
   async function signIn(){if(signingIn)return;try{await request('/api/sign-in',{method:'POST',json:{}});signingIn=true;notice('Complete sign-in on OpenAI’s website, then return here.');renderConnection();}catch(err){reportAPIError(err);}}
   async function signOut(){if(sending)return;try{await request('/api/disconnect',{method:'POST',json:{}});account={status:'disconnected',sharing:false};models=[];notice('Disconnected.');renderConnection();}catch(err){reportAPIError(err);}}
   async function testPlan(){const chosen=selectedModel();if(!chosen)return;notice('Sending a real test request through your authorized ChatGPT plan...');try{const r=await request('/api/test',{method:'POST',json:{model:chosen}});notice('Model '+chosen+' replied: '+safeText(r.reply,150).replace(/\s+/g,' '));}catch(err){reportAPIError(err);}}
