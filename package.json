@@ -1,0 +1,24 @@
+{
+  "name": "classic-chat-subscription-prototype",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A local classic ChatGPT-style UI using official Sign in with ChatGPT plan sharing",
+  "type": "module",
+  "main": "electron/main.mjs",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "setup": "node scripts/setup.mjs",
+    "start": "electron .",
+    "test": "node --test test/*.test.mjs",
+    "check": "node --check electron/main.mjs && node --check electron/preload.cjs && node --check electron/validation.mjs && node --check app/app.js && npm test"
+  },
+  "dependencies": {
+    "@siwc/local": "file:./vendor/siwc-devkit/packages/local"
+  },
+  "devDependencies": {
+    "electron": "^42.11.4"
+  },
+  "license": "UNLICENSED"
+}

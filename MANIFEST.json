@@ -1,0 +1,19 @@
+{
+  "project": "Classic Chat Test",
+  "created_utc": "2026-11-23",
+  "devkit_revision": "0a36fefeb913055c8c7a1a29b63d82b96b2e841a",
+  "file_sha256": {
+    ".gitignore": "cc911f83570196ec9655a5e4286f9d72e9dbff14d588fab4ab8358c3dff00a4f",
+    "README.md": "3e4cac1fe4c2be552c39f4e13f6f59dc9f809ff038b47176c7585c3ae1201947",
+    "RUNBOOK.md": "23fd1739cd88b53081d2bd4914fb3306a16d488d422dee7842d80f4e82f75d5f",
+    "app/app.js": "c26e34daa83832d8af8cad317813b1236a48b7f7c27bcb3aff1b239093eea2a7",
+    "app/index.html": "3b17d98e6a0de526a5c96f30b303daf5cc9ef3bf83c46a2eba48b2ad500b4c7a",
+    "app/styles.css": "bd6c02e45947003e7ced08c1478c3423a8d0fc81f2ce0181ea00d733a67137c8",
+    "electron/main.mjs": "cb2504d212baedc8f68db19fd19fdb9dde04e6f055de109dc42bf8cc41b90e88",
+    "electron/preload.cjs": "510305d19acee057bcf96e74e21321c20390783ff3c0df08d78a8f9358bad3a3",
+    "electron/validation.mjs": "0ba3be08d8f2a5bd30354adbf6712593d0b57bdd0c2bb37ebaa82b39d6995e25",
+    "package.json": "091f275c5b62cad77a5fac8ec99d88c6040b94652d5b13adac942a00004eb639",
+    "scripts/setup.mjs": "cf78a2eeb037257ac5ab2f2e0cc1defac926e412f242e47243d38df1f199993b",
+    "test/validation.test.mjs": "4b3d892a43fe0b133b86cfbdc478cc143cef19c173b9a22070d0d18dd0b597e8"
+  }
+}
