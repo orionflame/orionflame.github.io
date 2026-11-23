@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Chat Mode Wire Observer",
+  "version": "0.1.0",
+  "description": "Read-only, local-only metadata monitor for normal ChatGPT Chat requests. Does not submit or replay requests.",
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": ["https://chatgpt.com/*"],
+      "run_at": "document_start",
+      "world": "MAIN",
+      "js": ["observer-main.js"]
+    },
+    {
+      "matches": ["https://chatgpt.com/*"],
+      "run_at": "document_start",
+      "world": "ISOLATED",
+      "js": ["panel.js"]
+    }
+  ]
+}

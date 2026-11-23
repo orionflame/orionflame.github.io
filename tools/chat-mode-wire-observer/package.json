@@ -1,0 +1,11 @@
+{
+  "name": "chat-mode-wire-observer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Read-only metadata observer for the normal ChatGPT Chat request path",
+  "scripts": {
+    "check": "node --check observer-main.js && node --check panel.js && node --test test/*.test.mjs"
+  },
+  "license": "UNLICENSED"
+}
