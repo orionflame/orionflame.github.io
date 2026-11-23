@@ -1,0 +1,40 @@
+name: Classic Chat route diagnostics
+on:
+  push:
+    paths:
+      - '.github/workflows/classic-chat-route-check.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Resolve and request live URLs
+        shell: bash
+        run: |
+          set +e
+          for host in pragmatic-vfx.com www.pragmatic-vfx.com orionflame.github.io; do
+            echo "::group::DNS $host"
+            getent ahostsv4 "$host" | awk '{print $1}' | sort -u | head -n 8
+            echo "::endgroup::"
+          done
+          n=0
+          for url in \
+            https://pragmatic-vfx.com/classic-chat/ \
+            https://pragmatic-vfx.com/classic-chat/index.html \
+            https://pragmatic-vfx.com/classic-chat/app.js \
+            https://www.pragmatic-vfx.com/classic-chat/ \
+            https://orionflame.github.io/classic-chat/ \
+            https://pragmatic-vfx.com/; do
+            n=$((n+1))
+            echo "::group::URL $url"
+            curl -sS -L --max-time 18 --connect-timeout 8 -A 'GitHubActions-ClassicChat-RouteCheck/1' \
+              -D "/tmp/classic-headers-$n" -o "/tmp/classic-body-$n" \
+              -w 'HTTP: %{http_code}\nFINAL: %{url_effective}\nIP: %{remote_ip}\nBYTES: %{size_download}\n' "$url" || true
+            grep -iE '^(location:|server:|content-type:|cf-ray:|x-github-request-id:|x-proxy-cache:|cache-control:)' "/tmp/classic-headers-$n" | tail -n 16 || true
+            grep -Eoi '<title>[^<]*</title>|Classic Chat \| Personal browser interface|Pragmatic VEX: Volume 1' "/tmp/classic-body-$n" | head -n 8 || true
+            sha256sum "/tmp/classic-body-$n" 2>/dev/null || true
+            echo "::endgroup::"
+          done
