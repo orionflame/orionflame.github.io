@@ -2,7 +2,7 @@
 
 ## Scope
 
-The portable Node.js checks cover source syntax, archive normalization/merge, an offline DOM stand-in, validation, and preview isolation. Actual Chromium navigation was blocked by the sandbox browser policy. Full browser regression, Windows DPAPI, and live authorization remain HOST_PENDING.
+The portable Node.js checks cover source syntax, archive normalization/merge, an offline DOM stand-in, validation, and preview isolation. Actual Chromium navigation was blocked by the sandbox browser policy. Windows CI run [45972632806](https://github.com/orionflame/orionflame.github.io/actions/runs/45972632806) subsequently passed all three synthetic Chromium groups and the Windows DPAPI round trip, with 19 Node passes, zero failures and one non-Windows-only skip. Actual account authorization remains HOST_PENDING.
 
 ## Host environment
 
@@ -46,6 +46,19 @@ Optional: set `CHROMIUM_PATH` to an installed Chromium executable instead. The f
 
 Also open `classic-chat/index.html` directly from the extracted ZIP. Import a synthetic version 1 archive, reload, and export it. If the browser restricts file-origin storage, the UI should report memory-only operation or storage failure instead of silently claiming persistence. Use the local bridge origin for persistent history if necessary.
 
+## Installed bridge smoke test (no account)
+
+The branch-scoped [installation/startup CI](https://github.com/orionflame/orionflame.github.io/actions/runs/45972961966) was in progress when this checkpoint was recorded. Do not assume it passed. To reproduce on Windows, stop the existing bridge first, then run from the repository root:
+
+```powershell
+Push-Location tools\classic-chat-bridge
+node setup.mjs
+node test/startup-smoke.mjs
+Pop-Location
+```
+
+The smoke test uses a fresh temporary home, discards child logs, and makes no account authorization or inference requests. Expected: loopback health and static resources load, unauthenticated session state remains private, and the process exits cleanly. Report only PASS/FAIL, never the pairing code.
+
 ## Windows bridge and live authorization
 
 Start the application from the repository root:
@@ -80,6 +93,7 @@ Open the direct RawGitHack preview from `CLASSIC-CHAT-BACKUP.md`. Confirm the in
 
 Record only pass/fail and non-sensitive diagnostics:
 
+- Installed bridge smoke test: PASS/FAIL/PENDING
 - Real browser fixture: PASS/FAIL/BLOCKED
 - Offline file archive import/export: PASS/FAIL
 - DPAPI test: PASS/FAIL

@@ -38,3 +38,7 @@ More detail:
 - [Windows launcher](START-CLASSIC-CHAT.cmd)
 - [Windows host verification checklist](HOST_RUN_REQUEST.md)
 - [Continuation checkpoint](PROGRESS.md)
+
+## Verification status
+
+[Windows CI run 45972632806](https://github.com/orionflame/orionflame.github.io/actions/runs/45972632806) passed the Node suite, DPAPI encryption and all three synthetic Chromium regression groups. Installation and unauthenticated startup are covered by [CI run 45972961966](https://github.com/orionflame/orionflame.github.io/actions/runs/45972961966); its outcome was pending at this checkpoint. Live account authorization and direct third-party preview rendering are not verified. See the host checklist for the remaining tests.
