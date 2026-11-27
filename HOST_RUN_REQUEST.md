@@ -108,3 +108,14 @@ Record only pass/fail and non-sensitive diagnostics:
 - Raw preview isolation: PASS/FAIL
 
 If plan-sharing is unavailable for the account, record `NOT_AVAILABLE` and the safe error category only. Do not try private endpoints, browser-cookie reuse, API-key fallback, or quota workarounds.
+
+## Direct-access verification evidence
+
+[Windows Chromium direct-access CI run 45973605770](https://github.com/orionflame/orionflame.github.io/actions/runs/45973605770) passed the direct file and actual public preview checks, including Unicode archive recovery and public static source/MIME verification. To repeat locally after installing Playwright and Chromium, run from the repository root:
+
+```powershell
+python verification/direct_access.py file
+python verification/direct_access.py preview
+```
+
+The preview test fetches only the four public static assets and fails closed if the source differs. Use synthetic data only. Local browser policies and future CDN changes can affect these checks. The outstanding mandatory acceptance step is the user's official account authorization and live response test, not another unattended test.
