@@ -1,19 +1,25 @@
 /* A local-first browser UI. This file deliberately has no OpenAI token or ChatGPT cookie access. */
 (() => {
   'use strict';
-  const API = 'http://127.0.0.1:17879';
+  const bridgeAllowed = ['http://127.0.0.1:17879','http://localhost:17879'].includes(location.origin);
+  const API = bridgeAllowed ? location.origin : '';
+  const remotePreview = !bridgeAllowed && location.protocol !== 'file:';
+  const Archive = globalThis.ClassicArchive;
   const STORE = 'classic-chat-ui-v1';
   const PAIR = 'classic-chat-pair-v1';
-  // In sandboxed or storage-restricted browsers, keep the UI usable without persistence.
-  const fallbackStorage = {getItem:()=>null,setItem:()=>{},removeItem:()=>{}};
-  const local = (()=>{try{return window.localStorage;}catch{return fallbackStorage;}})();
-  const sessionStore = (()=>{try{return window.sessionStorage;}catch{return fallbackStorage;}})();
+  // Shared preview origins are memory-only; never read or write their storage.
+  const storage = name => {try{return window[name];}catch{return null;}};
+  const local = remotePreview ? null : storage('localStorage');
+  const sessionStore = bridgeAllowed ? storage('sessionStorage') : null;
+  const readPair = () => {try{return sessionStore?.getItem(PAIR) || '';}catch{return '';}};
+  const savePair = value => {try{if(value)sessionStore?.setItem(PAIR,value);else sessionStore?.removeItem(PAIR);}catch{}};
   const $ = (id) => document.getElementById(id);
   const app = $('app');
   let chats = [];
   let activeId = null;
   let bridgeHealthy = false;
-  let pairing = sessionStore.getItem(PAIR) || '';
+  let pairing = readPair();
+  let preserveUnreadableStorage = false;
   let account = { status: 'disconnected', sharing: false };
   let models = [];
   let model = '';
@@ -28,23 +34,32 @@
   const display = (node, show) => node.classList.toggle('hidden', !show);
   const notice = (text, error=false) => { $('notice').textContent = text; $('notice').classList.toggle('error', error); };
 
+  function storageStatus(text) { $('storage-status').textContent = text; }
   function load() {
+    if(!local){storageStatus('Memory only. Export to keep your chats.');return;}
     try {
-      const x = JSON.parse(local.getItem(STORE) || '{}');
-      if (Array.isArray(x.chats)) chats = x.chats.slice(0,150).filter(c => c && typeof c.id === 'string' && Array.isArray(c.messages)).map(c => ({
-        id: c.id.slice(0,80), title: safeText(c.title,90), messages: c.messages.slice(-70).filter(m => m && ['user','assistant'].includes(m.role) && typeof m.content === 'string').map(m => ({ id: safeText(m.id,80) || randomId(), role:m.role, content:safeText(m.content), status:'done' }))
-      }));
-      if (typeof x.activeId === 'string' && chats.some(c=>c.id===x.activeId)) activeId=x.activeId;
-    } catch { /* Corrupted local state never prevents use */ }
+      const raw = local.getItem(STORE);
+      if(raw){const x=Archive.normalize(JSON.parse(raw));chats=x.chats;activeId=x.activeId;}
+      storageStatus('Saved in this browser only');
+    } catch {
+      preserveUnreadableStorage=true;
+      storageStatus('Stored chats could not be read. Original storage is preserved; export new chats.');
+    }
   }
   function persist() {
-    try { local.setItem(STORE,JSON.stringify({chats:chats.slice(0,150),activeId})); }
-    catch { notice('Your browser could not save this chat locally. Export the conversations if you need a copy.', true); }
+    if(!local || preserveUnreadableStorage)return false;
+    try {
+      local.setItem(STORE,JSON.stringify({version:1,chats,activeId}));
+      storageStatus('Saved in this browser only');return true;
+    } catch {
+      storageStatus('Browser storage unavailable or full. Export to keep your chats.');return false;
+    }
   }
   function newChat() {
+    if(sending)return;
     const chat = {id: randomId(), title:'New chat', messages:[]}; chats.unshift(chat); activeId=chat.id;
     $('prompt').value=''; resize(); persist(); render(); $('prompt').focus();
-    if (window.innerWidth < 751) app.classList.add('mobile-closed');
+    if (window.innerWidth < 751) {app.classList.add('mobile-closed');display($('show-sidebar'),true);}
     return chat;
   }
   function renderSidebar() {
@@ -55,7 +70,7 @@
       const del=document.createElement('span');del.textContent='×';del.className='tiny-delete';del.title='Delete chat';
       del.addEventListener('click',e=>{e.stopPropagation();if(sending)return;chats=chats.filter(c=>c.id!==chat.id);if(activeId===chat.id) activeId=chats[0]?.id??null;persist();render();});
       row.append(document.createTextNode(chat.title||'Untitled'),del);
-      row.addEventListener('click',()=>{if(sending)return;activeId=chat.id;persist();render();if(window.innerWidth<751)app.classList.add('mobile-closed');});
+      row.addEventListener('click',()=>{if(sending)return;activeId=chat.id;persist();render();if(window.innerWidth<751){app.classList.add('mobile-closed');display($('show-sidebar'),true);}});
       box.append(row);
     }
   }
@@ -81,10 +96,12 @@
   function renderConnection(){
     const paired = bridgeHealthy && Boolean(pairing);
     const connected=paired && account.status==='connected' && account.sharing;
-    $('connection-label').textContent=!bridgeHealthy?'Local bridge offline':!paired?'Pair local bridge':connected?'ChatGPT plan connected':signingIn?'Signing in...':'Bridge paired';
+    $('connection-label').textContent=!bridgeAllowed?'Offline backup':!bridgeHealthy?'Local bridge offline':!paired?'Pair local bridge':connected?'ChatGPT plan connected':signingIn?'Signing in...':'Bridge paired';
     $('status-dot').className='dot '+(connected?'connected':!paired?'offline':'paired');
-    $('bridge-status').textContent=!bridgeHealthy?'No local service is running. See the installation instructions below.':paired?'Local bridge reachable and paired.':'Local service detected. Paste the pairing code from its terminal.';
+    $('bridge-status').textContent=!bridgeAllowed?'This copy is offline only. Open the local app for AI replies.':!bridgeHealthy?'No local service is running. See the installation instructions below.':paired?'Local bridge reachable and paired.':'Local service detected. Paste the pairing code from its terminal.';
+    display($('pair-controls'),bridgeAllowed);
     display($('account-area'),paired);
+    $('import').disabled=sending;
     $('account-status').textContent=connected?`Connected${account.identity?.email?' as '+account.identity.email:''}`:signingIn?'Complete authorization in your browser':account.status==='connected'&&!account.sharing?'Signed in, but plan sharing not enabled':'Not signed in';
     display($('sign-in'),!connected);display($('sign-out'),account.status==='connected');
     $('sign-in').disabled=signingIn;
@@ -99,6 +116,7 @@
   }
   function reportAPIError(err){const msg=safeText(err?.message || String(err),500);notice(msg||'The local bridge returned an error.',true);}
   async function request(path,options={}){
+    if(!bridgeAllowed)throw new Error('The offline backup does not connect to a bridge.');
     const {json,method='GET',signal}=options;
     const headers={...(pairing?{'X-Classic-Pairing':pairing}:{})};
     if(json!==undefined)headers['Content-Type']='application/json';
@@ -107,19 +125,19 @@
     if(!resp.ok)throw new Error(data.error||`Local bridge HTTP ${resp.status}`);
     return data;
   }
-  async function health(){try{const r=await fetch(API+'/health',{cache:'no-store',signal:AbortSignal.timeout(2500)});bridgeHealthy=r.ok;}catch{bridgeHealthy=false;}return bridgeHealthy;}
+  async function health(){if(!bridgeAllowed)return false;try{const r=await fetch(API+'/health',{cache:'no-store',signal:AbortSignal.timeout(2500)});bridgeHealthy=r.ok;}catch{bridgeHealthy=false;}return bridgeHealthy;}
   async function refresh(){
     await health();
     if(!bridgeHealthy){account={status:'disconnected',sharing:false};models=[];renderConnection();return;}
     if(pairing){
       try {const state=await request('/api/state');account=state.session||{status:'disconnected',sharing:false};models=Array.isArray(state.models)?state.models:[];signingIn=Boolean(state.signingIn);if(state.lastError&&!signingIn)notice(state.lastError,true);}
-      catch(err){if(/pairing/i.test(String(err))) {pairing='';sessionStore.removeItem(PAIR);account={status:'disconnected',sharing:false};models=[];}else reportAPIError(err);}
+      catch(err){if(/pairing/i.test(String(err))) {pairing='';savePair('');account={status:'disconnected',sharing:false};models=[];}else reportAPIError(err);}
     }
     renderConnection();
   }
-  async function pair(){const x=$('pairing-code').value.trim();if(!/^[a-f0-9]{32}$/i.test(x)){notice('Enter the 32-character pairing code displayed by the local bridge.',true);return;}
-    pairing=x;try{const r=await request('/api/state');sessionStore.setItem(PAIR,pairing);account=r.session;models=r.models||[];signingIn=Boolean(r.signingIn);$('pairing-code').value='';notice('Local bridge paired. You can sign in with ChatGPT now.');renderConnection();}
-    catch(err){pairing='';sessionStore.removeItem(PAIR);reportAPIError(err);} }
+  async function pair(){if(!bridgeAllowed)return;const x=$('pairing-code').value.trim();if(!/^[a-f0-9]{32}$/i.test(x)){notice('Enter the 32-character pairing code displayed by the local bridge.',true);return;}
+    pairing=x;try{const r=await request('/api/state');savePair(pairing);account=r.session;models=r.models||[];signingIn=Boolean(r.signingIn);$('pairing-code').value='';notice('Local bridge paired. You can sign in with ChatGPT now.');renderConnection();}
+    catch(err){pairing='';savePair('');reportAPIError(err);} }
   async function signIn(){if(signingIn)return;try{await request('/api/sign-in',{method:'POST',json:{}});signingIn=true;notice('Complete sign-in on OpenAI’s website, then return here.');renderConnection();}catch(err){reportAPIError(err);}}
   async function signOut(){if(sending)return;try{await request('/api/disconnect',{method:'POST',json:{}});account={status:'disconnected',sharing:false};models=[];notice('Disconnected.');renderConnection();}catch(err){reportAPIError(err);}}
   async function testPlan(){const chosen=selectedModel();if(!chosen)return;notice('Sending a real test request through your authorized ChatGPT plan...');try{const r=await request('/api/test',{method:'POST',json:{model:chosen}});notice('Model '+chosen+' replied: '+safeText(r.reply,150).replace(/\s+/g,' '));}catch(err){reportAPIError(err);}}
@@ -129,8 +147,8 @@
     let chat=active()||newChat();
     if(!chat.messages.length)chat.title=prompt.replace(/\s+/g,' ').slice(0,55);
     const user=addMessage(chat,'user',prompt);$('prompt').value='';resize();persist();render();
-    const canSend=bridgeHealthy&&pairing&&account.status==='connected'&&account.sharing&&selectedModel();
-    if(!canSend){notice('Message saved locally, NOT sent to AI. Pair and sign in to the local bridge, or copy the message into official ChatGPT.',true);return;}
+    const canSend=bridgeAllowed&&bridgeHealthy&&pairing&&account.status==='connected'&&account.sharing&&selectedModel();
+    if(!canSend){notice(bridgeAllowed?'Message kept locally, NOT sent to AI. Pair and sign in to the local bridge.':'Message kept in this offline chat, NOT sent to AI. Export to keep a backup.',true);return;}
     const context=chat.messages.filter(x=>x.status==='done'&&['user','assistant'].includes(x.role)).slice(-30).map(x=>({role:x.role,content:x.content}));
     const response=addMessage(chat,'assistant','', 'streaming');sending=true;abort=new AbortController();render();
     try{
@@ -147,7 +165,22 @@
     finally{sending=false;abort=null;persist();render();$('chat-area').scrollTop=$('chat-area').scrollHeight;}
   }
   async function stop(){abort?.abort();try{await request('/api/stop',{method:'POST',json:{}});}catch{ /* fetch cancellation already stops the local reader */ }}
-  function exportChats(){const blob=new Blob([JSON.stringify({version:1,exportedAt:new Date().toISOString(),chats},null,2)],{type:'application/json'});const href=URL.createObjectURL(blob);const a=document.createElement('a');a.href=href;a.download='classic-chat-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(href),5000);}
+  function exportChats(){const blob=new Blob([JSON.stringify({version:1,exportedAt:new Date().toISOString(),activeId,chats},null,2)],{type:'application/json'});if(blob.size>Archive.MAX_IMPORT_BYTES)notice('This export exceeds the automatic import limit. Keep it as a manual archive.',true);const href=URL.createObjectURL(blob);const a=document.createElement('a');a.href=href;a.download='classic-chat-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(href),5000);}
+  async function importChats(file){
+    if(!file || sending)return;
+    if(file.size>Archive.MAX_IMPORT_BYTES){notice('Backup exceeds the 16 MiB import limit.',true);return;}
+    try {
+      const incoming=Archive.normalize(JSON.parse(await file.text()),true);
+      if(sending){notice('Stop the active response before importing.',true);return;}
+      const result=Archive.merge(chats,incoming.chats);
+      chats=result.chats;
+      if(!activeId)activeId=chats[0]?.id ?? null;
+      const saved=persist();render();
+      notice(`Imported ${result.imported} chat(s); skipped ${result.skipped} identical chat(s).${saved?'':' Export to keep your changes.'}`);
+    } catch {notice('Import failed. Choose a valid Classic Chat version 1 JSON backup. Existing chats are unchanged.',true);}
+  }
+  $('import').addEventListener('click',()=>{if(!sending)$('import-file').click();});
+  $('import-file').addEventListener('change',()=>{const input=$('import-file');const file=input.files?.[0];input.value='';void importChats(file);});
   $('new-chat').addEventListener('click',newChat);$('new-chat-wide').addEventListener('click',newChat);$('sidebar-toggle').addEventListener('click',()=>{app.classList.add('mobile-closed');$('show-sidebar').classList.remove('hidden');});
   $('show-sidebar').addEventListener('click',()=>{app.classList.remove('mobile-closed');$('show-sidebar').classList.add('hidden');});
   $('search-toggle').addEventListener('click',()=>{const n=$('search');n.classList.toggle('hidden');if(!n.classList.contains('hidden'))n.focus();});$('search').addEventListener('input',renderSidebar);
@@ -156,5 +189,8 @@
   $('copy-prompt').addEventListener('click',()=>copyText($('prompt').value));$('composer').addEventListener('submit',e=>{e.preventDefault();send();});
   $('prompt').addEventListener('input',resize);$('prompt').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing){e.preventDefault();send();}});
   $('model').addEventListener('change',()=>{model=$('model').value;});$('stop').addEventListener('click',stop);
-  load();if(window.innerWidth<751)app.classList.add('mobile-closed');render();resize();refresh();poll=setInterval(refresh,3500);
+  load();if(window.innerWidth<751){app.classList.add('mobile-closed');display($('show-sidebar'),true);}
+  render();resize();
+  if(bridgeAllowed){refresh();poll=setInterval(refresh,3500);}
+  else notice(remotePreview?'Static preview only. Use synthetic text; private chats belong in the local app. Export to keep your session.':'Offline backup. Open the local app for AI replies.');
 })();

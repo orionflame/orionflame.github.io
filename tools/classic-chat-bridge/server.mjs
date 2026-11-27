@@ -45,10 +45,10 @@ async function body(req,cap=160000){
   catch{throw Error('Expected a valid JSON object.');}
 }
 async function serve(res,path){
-  const table={'/':'index.html','/index.html':'index.html','/app.js':'app.js','/styles.css':'styles.css','/classic-chat/':'index.html'};
+  const table={'/':'index.html','/index.html':'index.html','/app.js':'app.js','/archive.js':'archive.js','/styles.css':'styles.css','/classic-chat/':'index.html'};
   if(!Object.hasOwn(table,path))return false;
   const filename=join(STATIC,table[path]);
-  try{const data=await readFile(filename);res.writeHead(200,{'Content-Type':filename.endsWith('.css')?'text/css; charset=utf-8':filename.endsWith('.js')?'text/javascript; charset=utf-8':'text/html; charset=utf-8','Content-Security-Policy':"default-src 'none'; style-src 'self'; script-src 'self'; connect-src http://127.0.0.1:17879; img-src 'self' data:; base-uri 'none'; form-action 'none'; object-src 'none'",'Cache-Control':'no-store'});res.end(data);}catch{failure(res,404,'Local interface files not found.');}return true;
+  try{const data=await readFile(filename);res.writeHead(200,{'Content-Type':filename.endsWith('.css')?'text/css; charset=utf-8':filename.endsWith('.js')?'text/javascript; charset=utf-8':'text/html; charset=utf-8','Content-Security-Policy':"default-src 'none'; style-src 'self'; script-src 'self'; connect-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'; object-src 'none'",'Cache-Control':'no-store'});res.end(data);}catch{failure(res,404,'Local interface files not found.');}return true;
 }
 const server=createServer(async(req,res)=>{
   // Public origins cannot reach this service without the per-run terminal pairing code.
