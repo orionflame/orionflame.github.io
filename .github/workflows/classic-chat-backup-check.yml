@@ -15,7 +15,7 @@ jobs:
   verify-windows:
     if: github.ref == 'refs/heads/classic-chat-backup-20261127'
     runs-on: windows-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
@@ -35,3 +35,9 @@ jobs:
           python -m playwright install chromium
       - name: Synthetic browser regression (no account, tokens or AI requests)
         run: python tools/classic-chat-bridge/test/browser_offline.py
+      - name: Install pinned bridge dependencies
+        working-directory: tools/classic-chat-bridge
+        run: node setup.mjs
+      - name: Check unauthenticated local bridge startup
+        working-directory: tools/classic-chat-bridge
+        run: node test/startup-smoke.mjs
