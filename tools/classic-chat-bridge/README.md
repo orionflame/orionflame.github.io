@@ -2,7 +2,7 @@
 
 This local-only Node.js service serves the Classic Chat browser UI and can send authorized text requests through OpenAI's official [Sign in with ChatGPT DevKit](https://github.com/openai/sign-in-with-chatgpt-devkit).
 
-**Use the local UI at `http://127.0.0.1:17879/` for AI replies.** The raw browser preview at [RawGitHack](https://raw.githack.com/orionflame/orionflame.github.io/master/classic-chat/index.html) is a static backup only. It is deliberately not trusted by this local service. Do not add third-party preview hosts to the bridge allowlist.
+**Use the local UI at `http://127.0.0.1:17879/` for AI replies.** The raw browser preview at [RawGitHack](https://raw.githack.com/orionflame/orionflame.github.io/classic-chat-backup-20261127/classic-chat/index.html) is a static backup only. It is deliberately not trusted by this local service. Do not add third-party preview hosts to the bridge allowlist.
 
 ## Requirements
 
@@ -60,7 +60,7 @@ Stop the service with **Ctrl+C**. It does not install itself as a background ser
 - This is not ordinary ChatGPT Chat. Official plan-sharing is separate, eligibility-gated, and may count against Work/Codex allowance or credits rather than normal Chat quota.
 - Text only. No ChatGPT history, memories, Projects, attachments, voice, web search, image generation, or Work mode.
 - No private ChatGPT endpoints, browser-cookie access, API-key fallback, or quota bypass.
-- Local conversation history is saved in the browser's local storage. Export it if you need a separate backup.
+- Local conversation history uses browser storage when available. JSON import merges archives without overwriting existing chats, with a 16 MiB automatic import limit. Export explicitly for a separate backup. Hosted previews are memory-only.
 - Static syntax and validation tests do not prove live account eligibility. Complete the authorization and test request on your own Windows machine.
 
 ## Troubleshooting
@@ -76,3 +76,5 @@ Stop the service with **Ctrl+C**. It does not install itself as a background ser
 ```powershell
 npm run check
 ```
+
+See [HOST_RUN_REQUEST.md](../../HOST_RUN_REQUEST.md) for optional Chromium regression tests with synthetic fixtures and the Windows DPAPI/live authorization checks. The portable tests are not a substitute for real browser or account verification.

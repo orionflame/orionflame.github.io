@@ -2,7 +2,7 @@
 
 ## Scope
 
-Only Windows-specific credential protection and live account authorization require the Windows host. The browser UI, bridge source, syntax checks, validation tests, and origin-policy regression test have already been checked in the portable environment.
+The portable Node.js checks cover source syntax, archive normalization/merge, an offline DOM stand-in, validation, and preview isolation. Actual Chromium navigation was blocked by the sandbox browser policy. Full browser regression, Windows DPAPI, and live authorization remain HOST_PENDING.
 
 ## Host environment
 
@@ -21,8 +21,9 @@ From the repository root in PowerShell:
 ```powershell
 node --version
 git --version
-cd tools\classic-chat-bridge
+Push-Location tools\classic-chat-bridge
 npm run check
+Pop-Location
 ```
 
 Expected:
@@ -30,6 +31,22 @@ Expected:
 - The Windows DPAPI encrypt/decrypt test runs, not skips.
 - The non-Windows DPAPI rejection test skips on Windows.
 - All validation tests pass, including rejection of `https://raw.githack.com` as a trusted bridge origin.
+
+## Real browser regression (synthetic data only)
+
+From the repository root, with Python available:
+
+```powershell
+python -m pip install playwright
+python -m playwright install chromium
+python tools/classic-chat-bridge/test/browser_offline.py
+```
+
+Optional: set `CHROMIUM_PATH` to an installed Chromium executable instead. The fixture serves all resources from the extracted files and synthetic service responses; it must not use your real sign-in, account, or conversations. Expected: three PASS groups (loopback archive recovery, hosted preview isolation, local UI model selection/streaming). Keep the host browser policy intact.
+
+Also open `classic-chat/index.html` directly from the extracted ZIP. Import a synthetic version 1 archive, reload, and export it. If the browser restricts file-origin storage, the UI should report memory-only operation or storage failure instead of silently claiming persistence. Use the local bridge origin for persistent history if necessary.
+
+## Windows bridge and live authorization
 
 Start the application from the repository root:
 
@@ -57,12 +74,14 @@ Then verify:
 
 ## Static preview check
 
-Open the direct RawGitHack preview from `CLASSIC-CHAT-BACKUP.md`. Confirm the interface loads and local chat storage works. It must remain static-only: it should not connect to the local bridge. Do not add RawGitHack or other third-party preview hosts to `ORIGINS`.
+Open the direct RawGitHack preview from `CLASSIC-CHAT-BACKUP.md`. Confirm the interface loads, the status says memory-only, and synthetic text can be exported. Refreshing must not restore hosted-preview chats. It must not read or write browser storage, expose pairing controls, or contact the local bridge. Do not add RawGitHack or other third-party preview hosts to `ORIGINS`.
 
 ## Report format
 
 Record only pass/fail and non-sensitive diagnostics:
 
+- Real browser fixture: PASS/FAIL/BLOCKED
+- Offline file archive import/export: PASS/FAIL
 - DPAPI test: PASS/FAIL
 - Local UI and health check: PASS/FAIL
 - Pairing: PASS/FAIL
