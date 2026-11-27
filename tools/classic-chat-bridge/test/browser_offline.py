@@ -69,7 +69,7 @@ with sync_playwright() as p:
     assert page.locator('.bubble script').count() == 0
     with page.expect_download() as dl:
         page.locator('#export').click()
-    exported = json.loads(Path(dl.value.path()).read_text())
+    exported = json.loads(Path(dl.value.path()).read_text(encoding="utf-8"))
     assert exported['version'] == 1 and len(exported['chats']) == 3
     assert exported['chats'][0]['messages'][-1]['content'] == long_text
     assert not errors, errors

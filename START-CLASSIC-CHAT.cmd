@@ -48,7 +48,7 @@ echo Keep this window open while using Classic Chat.
 echo Press Ctrl+C here to stop the local service.
 echo.
 pushd "%BRIDGE%"
-npm start
+call npm start
 set "RESULT=%ERRORLEVEL%"
 popd
 if not "%RESULT%"=="0" (
