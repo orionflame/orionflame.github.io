@@ -10,18 +10,23 @@ if errorlevel 1 (
   pause
   exit /b 1
 )
-
+for /f "delims=" %%V in ('node --version') do set "NODE_VERSION=%%V"
 node -e "const [a,b]=process.versions.node.split('.').map(Number); process.exit(a>22||(a===22&&b>=12)?0:1)"
 if errorlevel 1 (
   echo Found Node.js %NODE_VERSION%, but version 22.12 or newer is required.
-  node --version
   pause
   exit /b 1
 )
 
 if not exist "%BRIDGE%\node_modules\@siwc\local\package.json" (
+  where git >nul 2>nul
+  if errorlevel 1 (
+    echo Git is required for the first-time DevKit setup.
+    pause
+    exit /b 1
+  )
   echo First-time setup: downloading the pinned OpenAI DevKit and dependencies.
-  echo This requires Git and internet access. No credentials are requested by setup.
+  echo This requires internet access. No credentials are requested by setup.
   pushd "%BRIDGE%"
   node setup.mjs
   if errorlevel 1 (
