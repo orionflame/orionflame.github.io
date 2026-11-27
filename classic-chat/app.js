@@ -27,6 +27,7 @@
   let sending = false;
   let abort = null;
   let poll = null;
+  let streamSaveTimer = null;
   const randomId = () => typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
   const active = () => chats.find(c => c.id === activeId);
   const clear = (n) => n.replaceChildren();
@@ -55,6 +56,16 @@
       storageStatus('Browser storage unavailable or full. Export to keep your chats.');return false;
     }
   }
+  // Checkpoint partial replies without writing the full archive on every token.
+  function queueStreamSave() {
+    if(streamSaveTimer!==null)return;
+    streamSaveTimer=setTimeout(()=>{streamSaveTimer=null;persist();},1000);
+  }
+  function flushStreamSave() {
+    if(streamSaveTimer!==null){clearTimeout(streamSaveTimer);streamSaveTimer=null;}
+    persist();
+  }
+  window.addEventListener('pagehide',()=>{if(sending)flushStreamSave();});
   function newChat() {
     if(sending)return;
     const chat = {id: randomId(), title:'New chat', messages:[]}; chats.unshift(chat); activeId=chat.id;
@@ -105,7 +116,6 @@
     $('account-status').textContent=connected?`Connected${account.identity?.email?' as '+account.identity.email:''}`:signingIn?'Complete authorization in your browser':account.status==='connected'&&!account.sharing?'Signed in, but plan sharing not enabled':'Not signed in';
     display($('sign-in'),!connected);display($('sign-out'),account.status==='connected');
     $('sign-in').disabled=signingIn;
-    $('test-plan').disabled=!connected||!selectedModel()||sending;
     display($('send'),!sending);display($('stop'),sending);
     const select=$('model'),previous=select.value || model;
     clear(select);
@@ -113,6 +123,7 @@
     else for(const m of models){const o=document.createElement('option');o.value=m.slug;o.textContent=m.displayName;select.append(o);}
     select.disabled=!connected||sending;
     select.value=models.some(m=>m.slug===previous)?previous:(models[0]?.slug||'');model=select.value;
+    $('test-plan').disabled=!connected||!model||sending;
   }
   function reportAPIError(err){const msg=safeText(err?.message || String(err),500);notice(msg||'The local bridge returned an error.',true);}
   async function request(path,options={}){
@@ -150,19 +161,19 @@
     const canSend=bridgeAllowed&&bridgeHealthy&&pairing&&account.status==='connected'&&account.sharing&&selectedModel();
     if(!canSend){notice(bridgeAllowed?'Message kept locally, NOT sent to AI. Pair and sign in to the local bridge.':'Message kept in this offline chat, NOT sent to AI. Export to keep a backup.',true);return;}
     const context=chat.messages.filter(x=>x.status==='done'&&['user','assistant'].includes(x.role)).slice(-30).map(x=>({role:x.role,content:x.content}));
-    const response=addMessage(chat,'assistant','', 'streaming');sending=true;abort=new AbortController();render();
+    const response=addMessage(chat,'assistant','', 'streaming');sending=true;abort=new AbortController();persist();render();
     try{
       const http=await fetch(API+'/api/send',{method:'POST',headers:{'Content-Type':'application/json','X-Classic-Pairing':pairing},body:JSON.stringify({model:selectedModel(),messages:context}),signal:abort.signal,cache:'no-store'});
       if(!http.ok){const err=await http.json().catch(()=>({}));throw new Error(err.error||`HTTP ${http.status}`);}
       if(!http.body)throw new Error('No response stream was returned.');
       const reader=http.body.getReader();let buf='';let finished=false;const decoder=new TextDecoder();
-      const handle=(line)=>{if(!line.startsWith('data: '))return;const ev=JSON.parse(line.slice(6));if(ev.type==='delta'){response.content+=ev.text||'';renderMessages();$('chat-area').scrollTop=$('chat-area').scrollHeight;}
+      const handle=(line)=>{if(!line.startsWith('data: '))return;const ev=JSON.parse(line.slice(6));if(ev.type==='delta'){response.content+=ev.text||'';queueStreamSave();renderMessages();$('chat-area').scrollTop=$('chat-area').scrollHeight;}
         if(ev.type==='done'){finished=true;response.status='done';}
         if(ev.type==='error')throw new Error(ev.message||'Response failed.');};
       while(true){const {value,done}=await reader.read();if(done)break;buf+=decoder.decode(value,{stream:true});if(buf.length>1024*1024)throw new Error('Unexpectedly large stream event.');let pos;while((pos=buf.indexOf('\n'))!==-1){const line=buf.slice(0,pos).trim();buf=buf.slice(pos+1);handle(line);}}
       if(!finished)throw new Error('Response ended without completion.');notice('Response complete.');
-    }catch(err){response.status='error';if(!response.content)response.content=abort?.signal.aborted?'Response stopped.':'Unable to complete request.';reportAPIError(err);}
-    finally{sending=false;abort=null;persist();render();$('chat-area').scrollTop=$('chat-area').scrollHeight;}
+    }catch(err){const stopped=abort?.signal.aborted;abort?.abort();response.status='error';if(!response.content)response.content=stopped?'Response stopped.':'Unable to complete request.';if(stopped)notice('Response stopped. Partial text is retained.');else reportAPIError(err);}
+    finally{sending=false;abort=null;flushStreamSave();render();$('chat-area').scrollTop=$('chat-area').scrollHeight;}
   }
   async function stop(){abort?.abort();try{await request('/api/stop',{method:'POST',json:{}});}catch{ /* fetch cancellation already stops the local reader */ }}
   function exportChats(){const blob=new Blob([JSON.stringify({version:1,exportedAt:new Date().toISOString(),activeId,chats},null,2)],{type:'application/json'});if(blob.size>Archive.MAX_IMPORT_BYTES)notice('This export exceeds the automatic import limit. Keep it as a manual archive.',true);const href=URL.createObjectURL(blob);const a=document.createElement('a');a.href=href;a.download='classic-chat-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(href),5000);}
