@@ -42,7 +42,7 @@ For AI replies, run the companion service and open the interface it serves local
 
 The bridge serves the same local UI and keeps its listener bound to `127.0.0.1`. The pairing code is regenerated for each run. Keep the terminal open while using the app and stop the service with **Ctrl+C**.
 
-Full details: [Local bridge README](tools/classic-chat-bridge/README.md).
+Full details: [Local bridge README](../tools/classic-chat-bridge/README.md).
 
 ## Usage and feature limits
 
