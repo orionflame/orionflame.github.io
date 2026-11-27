@@ -10,7 +10,8 @@ function call(command,args,cwd){
   const r=spawnSync(command,args,{cwd,stdio:'inherit',shell:process.platform==='win32',timeout:600000});
   if(r.status!==0)throw new Error(`${command} failed with ${r.status}`);
 }
-if(Number(process.versions.node.split('.')[0])<22)throw Error('Node.js 22.12+ is required.');
+const [nodeMajor,nodeMinor]=process.versions.node.split('.').map(Number);
+if(nodeMajor<22||(nodeMajor===22&&nodeMinor<12))throw Error('Node.js 22.12+ is required.');
 mkdirSync(resolve(ROOT,'vendor'),{recursive:true});
 if(!existsSync(resolve(VENDOR,'.git'))){
   call('git',['clone','--filter=blob:none','--no-checkout','https://github.com/openai/sign-in-with-chatgpt-devkit.git',VENDOR],ROOT);
