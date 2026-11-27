@@ -23,7 +23,7 @@ For AI replies, run the companion service and open the interface it serves local
 2. Clone this repository and check out the backup branch:
 
    ```powershell
-   git clone --single-branch --branch experiments/classic-chat-backup-20261127 https://github.com/orionflame/orionflame.github.io.git classic-chat-backup
+   git clone --single-branch --branch classic-chat-backup-20261127 https://github.com/orionflame/orionflame.github.io.git classic-chat-backup
    cd classic-chat-backup
    ```
 
