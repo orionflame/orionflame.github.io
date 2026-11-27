@@ -114,7 +114,8 @@ server.requestTimeout=220000;
 server.headersTimeout=10000;
 server.listen(PORT,'127.0.0.1',()=>{
   console.log('\nCLASSIC CHAT LOCAL BRIDGE');
-  console.log('Open https://pragmatic-vfx.com/classic-chat/ (or http://127.0.0.1:'+PORT+'/ if the hosted page cannot connect).');
+  console.log('Open the local Classic Chat app: http://127.0.0.1:'+PORT+'/');
+  console.log('The third-party raw preview is static only and cannot connect to this bridge.');
   console.log('Pairing code: '+pairing+'\n');
   console.log('Paste this pairing code into the website. It changes every time the bridge starts.');
   console.log('Press Ctrl+C here to stop the bridge.\n');
