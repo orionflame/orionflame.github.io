@@ -48,7 +48,7 @@ Also open `classic-chat/index.html` directly from the extracted ZIP. Import a sy
 
 ## Installed bridge smoke test (no account)
 
-The branch-scoped [installation/startup CI](https://github.com/orionflame/orionflame.github.io/actions/runs/45972961966) was in progress when this checkpoint was recorded. Do not assume it passed. To reproduce on Windows, stop the existing bridge first, then run from the repository root:
+The branch-scoped [installation/startup CI](https://github.com/orionflame/orionflame.github.io/actions/runs/45972961966) completed successfully, including pinned dependency installation and the unauthenticated loopback startup check. To reproduce on Windows, stop the existing bridge first, then run from the repository root:
 
 ```powershell
 Push-Location tools\classic-chat-bridge
@@ -93,7 +93,7 @@ Open the direct RawGitHack preview from `CLASSIC-CHAT-BACKUP.md`. Confirm the in
 
 Record only pass/fail and non-sensitive diagnostics:
 
-- Installed bridge smoke test: PASS/FAIL/PENDING
+- Installed bridge smoke test: PASS in Windows CI; optional local PASS/FAIL
 - Real browser fixture: PASS/FAIL/BLOCKED
 - Offline file archive import/export: PASS/FAIL
 - DPAPI test: PASS/FAIL
