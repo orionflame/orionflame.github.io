@@ -35,3 +35,4 @@ More detail:
 - [Browser UI README](classic-chat/README.md)
 - [Local bridge README](tools/classic-chat-bridge/README.md)
 - [Windows launcher](START-CLASSIC-CHAT.cmd)
+- [Windows host verification checklist](HOST_RUN_REQUEST.md)
