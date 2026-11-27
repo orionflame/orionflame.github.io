@@ -18,7 +18,7 @@ The setup downloads OpenAI's DevKit at pinned revision `0a36fefeb913055c8c7a1a29
 If you have not downloaded the backup yet, clone the dedicated backup branch:
 
 ```powershell
-git clone --single-branch --branch experiments/classic-chat-backup-20261127 https://github.com/orionflame/orionflame.github.io.git classic-chat-backup
+git clone --single-branch --branch classic-chat-backup-20261127 https://github.com/orionflame/orionflame.github.io.git classic-chat-backup
 cd classic-chat-backup
 ```
 
