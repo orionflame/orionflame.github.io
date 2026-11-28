@@ -110,3 +110,34 @@ test('incomplete response retains partial text and reports the failed turn',asyn
   assert.equal(f.saved().content,'partial text');
   assert.match(f.nodes.get('notice').textContent,/without completion/);
 });
+
+test('model picker labels explicit catalog tiers and never invents unknown or conflicting effort',async()=>{
+  const entries=[
+    {slug:'fixture-low',displayName:'Fixture'},
+    {slug:'fixture-medium',displayName:'Fixture'},
+    {slug:'fixture-high',displayName:'Fixture'},
+    {slug:'fixture-xhigh',displayName:'Fixture'},
+    {slug:'fixture-pro',displayName:'Fixture'},
+    {slug:'fixture-other',displayName:'Fixture (Extra High)'},
+    {slug:'fixture-default',displayName:'Fixture'},
+    {slug:'fixture-high',displayName:'Conflict Low'},
+    {slug:'another-high',displayName:'Fixture'},
+  ];
+  const f=fixture({origin:'http://127.0.0.1:17879',protocol:'http:',pairing:'a'.repeat(32),fetcher:async url=>{
+    if(url.endsWith('/health'))return Response.json({ok:true});
+    if(url.endsWith('/api/state'))return Response.json({session:{status:'connected',sharing:true},models:entries});
+    throw new Error('Unexpected synthetic request');
+  }});
+  await tick();
+  const options=f.nodes.get('model').children;
+  assert.deepEqual(options.map(o=>o.value),entries.map(m=>m.slug));
+  assert.deepEqual(options.map(o=>o.textContent),[
+    'Fixture (Low)','Fixture (Medium)','Fixture (High) [fixture-high]',
+    'Fixture (Extra High) [fixture-xhigh]','Fixture (Pro)',
+    'Fixture (Extra High) [fixture-other]',
+    'Fixture (Effort not exposed) [fixture-default]',
+    'Conflict Low (Effort not exposed) [fixture-high]',
+    'Fixture (High) [another-high]'
+  ]);
+  assert.equal(options[3].title,'Model ID: fixture-xhigh');
+});

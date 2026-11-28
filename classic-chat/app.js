@@ -103,6 +103,22 @@
   function render() {renderSidebar();renderMessages();renderConnection();}
   function resize() {const t=$('prompt');t.style.height='auto';t.style.height=Math.min(t.scrollHeight,190)+'px';}
   async function copyText(text){try{await navigator.clipboard.writeText(text);notice('Copied to clipboard.');}catch{notice('Clipboard access was blocked. Select the message text and copy manually.',true);}}
+  // The pinned DevKit exposes only slug and displayName. Interpret explicit suffixes,
+  // never invent an effort for a bare model or send an unsupported effort parameter.
+  function modelTier(value){
+    const normalized=String(value||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+    const match=normalized.match(/(?:^| )(extra high|x high|xhigh|low|medium|high|pro)$/);
+    if(!match)return '';
+    return ({'extra high':'Extra High','x high':'Extra High',xhigh:'Extra High',low:'Low',medium:'Medium',high:'High',pro:'Pro'})[match[1]];
+  }
+  function modelPickerLabel(m){
+    const name=m.displayName||m.slug;
+    const byName=modelTier(name),bySlug=modelTier(m.slug);
+    const tier=byName&&bySlug&&byName!==bySlug?'':byName||bySlug;
+    if(!tier)return name+' (Effort not exposed) ['+m.slug+']';
+    const base=byName?name.replace(/(?:^|[\s._:/\-(\[])(?:extra[\s_-]+high|x[\s_-]*high|low|medium|high|pro)[\s)\]]*$/i,'').trim():name;
+    return (base||name)+' ('+tier+')';
+  }
   function selectedModel(){return $('model').value || model || models[0]?.slug || '';}
   function renderConnection(){
     const paired = bridgeHealthy && Boolean(pairing);
@@ -120,7 +136,17 @@
     const select=$('model'),previous=select.value || model;
     clear(select);
     if(!models.length){const o=document.createElement('option');o.value='';o.textContent='No model';select.append(o);}
-    else for(const m of models){const o=document.createElement('option');o.value=m.slug;o.textContent=m.displayName;select.append(o);}
+    else {
+      const labels=models.map(modelPickerLabel);
+      const counts=new Map();
+      for(const label of labels)counts.set(label,(counts.get(label)||0)+1);
+      for(let i=0;i<models.length;i++){
+        const m=models[i],label=labels[i],o=document.createElement('option');
+        o.value=m.slug;o.textContent=counts.get(label)>1?label+' ['+m.slug+']':label;
+        o.title='Model ID: '+m.slug;
+        select.append(o);
+      }
+    }
     select.disabled=!connected||sending;
     select.value=models.some(m=>m.slug===previous)?previous:(models[0]?.slug||'');model=select.value;
     $('test-plan').disabled=!connected||!model||sending;
