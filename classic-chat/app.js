@@ -115,7 +115,7 @@
     const name=m.displayName||m.slug;
     const byName=modelTier(name),bySlug=modelTier(m.slug);
     const tier=byName&&bySlug&&byName!==bySlug?'':byName||bySlug;
-    if(!tier)return name+' (Effort not exposed) ['+m.slug+']';
+    if(!tier)return name;
     const base=byName?name.replace(/(?:^|[\s._:/\-(\[])(?:extra[\s_-]+high|x[\s_-]*high|low|medium|high|pro)[\s)\]]*$/i,'').trim():name;
     return (base||name)+' ('+tier+')';
   }

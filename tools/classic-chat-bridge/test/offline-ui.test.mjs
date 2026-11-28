@@ -135,8 +135,8 @@ test('model picker labels explicit catalog tiers and never invents unknown or co
     'Fixture (Low)','Fixture (Medium)','Fixture (High) [fixture-high]',
     'Fixture (Extra High) [fixture-xhigh]','Fixture (Pro)',
     'Fixture (Extra High) [fixture-other]',
-    'Fixture (Effort not exposed) [fixture-default]',
-    'Conflict Low (Effort not exposed) [fixture-high]',
+    'Fixture',
+    'Conflict Low',
     'Fixture (High) [another-high]'
   ]);
   assert.equal(options[3].title,'Model ID: fixture-xhigh');
