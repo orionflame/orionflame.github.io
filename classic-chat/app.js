@@ -23,6 +23,12 @@
   let account = { status: 'disconnected', sharing: false };
   let models = [];
   let model = '';
+  let catalogReady = false;
+  let renderedModelKey = null;
+  let refreshing = false;
+  let changingConnection = false;
+  let connectionEpoch = 0;
+  let nextCatalogRetry = 0;
   let signingIn = false;
   let sending = false;
   let abort = null;
@@ -119,7 +125,17 @@
     const base=byName?name.replace(/(?:^|[\s._:/\-(\[])(?:extra[\s_-]+high|x[\s_-]*high|low|medium|high|pro)[\s)\]]*$/i,'').trim():name;
     return (base||name)+' ('+tier+')';
   }
-  function selectedModel(){return $('model').value || model || models[0]?.slug || '';}
+  function selectedModel(){return $('model').value;}
+  function setCatalog(entries){
+    catalogReady=Array.isArray(entries)&&entries.length>0;
+    if(catalogReady)models=entries;
+  }
+  function clearCatalog(){models=[];model='';catalogReady=false;nextCatalogRetry=0;}
+  function applyState(state){
+    account=state.session||{status:'disconnected',sharing:false};signingIn=Boolean(state.signingIn);
+    if(account.status==='connected'&&account.sharing)setCatalog(state.models);else catalogReady=false;
+    if(state.lastError&&!signingIn)notice(state.lastError,true);
+  }
   function renderConnection(){
     const paired = bridgeHealthy && Boolean(pairing);
     const connected=paired && account.status==='connected' && account.sharing;
@@ -133,23 +149,31 @@
     display($('sign-in'),!connected);display($('sign-out'),account.status==='connected');
     $('sign-in').disabled=signingIn;
     display($('send'),!sending);display($('stop'),sending);
-    const select=$('model'),previous=select.value || model;
-    clear(select);
-    if(!models.length){const o=document.createElement('option');o.value='';o.textContent='No model';select.append(o);}
-    else {
-      const labels=models.map(modelPickerLabel);
-      const counts=new Map();
-      for(const label of labels)counts.set(label,(counts.get(label)||0)+1);
-      for(let i=0;i<models.length;i++){
-        const m=models[i],label=labels[i],o=document.createElement('option');
-        o.value=m.slug;o.textContent=counts.get(label)>1?label+' ['+m.slug+']':label;
-        o.title='Model ID: '+m.slug;
-        select.append(o);
+    const select=$('model'),key=JSON.stringify(models.map(m=>[m.slug,m.displayName]));
+    // Do not replace native select options on every status poll or chat render.
+    if(key!==renderedModelKey){
+      const previous=model||select.value;
+      clear(select);
+      if(!models.length){const o=document.createElement('option');o.value='';o.textContent='No model';select.append(o);}
+      else {
+        const chosen=models.some(m=>m.slug===previous)?previous:previous?'':models[0].slug;
+        if(!chosen){const o=document.createElement('option');o.value='';o.textContent='Select a model';select.append(o);}
+        const labels=models.map(modelPickerLabel);
+        const counts=new Map();
+        for(const label of labels)counts.set(label,(counts.get(label)||0)+1);
+        for(let i=0;i<models.length;i++){
+          const m=models[i],label=labels[i],o=document.createElement('option');
+          o.value=m.slug;o.textContent=counts.get(label)>1?label+' ['+m.slug+']':label;
+          o.title='Model ID: '+m.slug;
+          select.append(o);
+        }
+        select.value=chosen;if(chosen)model=chosen;
       }
+      if(!models.length)select.value='';
+      renderedModelKey=key;
     }
-    select.disabled=!connected||sending;
-    select.value=models.some(m=>m.slug===previous)?previous:(models[0]?.slug||'');model=select.value;
-    $('test-plan').disabled=!connected||!model||sending;
+    select.disabled=!connected||sending||changingConnection||!catalogReady;
+    $('test-plan').disabled=select.disabled||!selectedModel();
   }
   function reportAPIError(err){const msg=safeText(err?.message || String(err),500);notice(msg||'The local bridge returned an error.',true);}
   async function request(path,options={}){
@@ -159,37 +183,78 @@
     if(json!==undefined)headers['Content-Type']='application/json';
     const resp=await fetch(API+path,{method,headers,body:json===undefined?undefined:JSON.stringify(json),signal,cache:'no-store'});
     const data=await resp.json().catch(()=>({}));
-    if(!resp.ok)throw new Error(data.error||`Local bridge HTTP ${resp.status}`);
+    if(!resp.ok){const error=new Error(data.error||`Local bridge HTTP ${resp.status}`);error.status=resp.status;throw error;}
     return data;
   }
-  async function health(){if(!bridgeAllowed)return false;try{const r=await fetch(API+'/health',{cache:'no-store',signal:AbortSignal.timeout(2500)});bridgeHealthy=r.ok;}catch{bridgeHealthy=false;}return bridgeHealthy;}
+  async function health(){if(!bridgeAllowed)return false;try{const r=await fetch(API+'/health',{cache:'no-store',signal:AbortSignal.timeout(2500)});return r.ok;}catch{return false;}}
   async function refresh(){
-    await health();
-    if(!bridgeHealthy){account={status:'disconnected',sharing:false};models=[];renderConnection();return;}
-    if(pairing){
-      try {const state=await request('/api/state');account=state.session||{status:'disconnected',sharing:false};models=Array.isArray(state.models)?state.models:[];signingIn=Boolean(state.signingIn);if(state.lastError&&!signingIn)notice(state.lastError,true);}
-      catch(err){if(/pairing/i.test(String(err))) {pairing='';savePair('');account={status:'disconnected',sharing:false};models=[];}else reportAPIError(err);}
-    }
-    renderConnection();
+    if(refreshing||sending||changingConnection)return;
+    refreshing=true;const epoch=connectionEpoch;
+    const current=()=>epoch===connectionEpoch&&!sending&&!changingConnection;
+    try{
+      const healthy=await health();if(!current())return;
+      bridgeHealthy=healthy;
+      if(!healthy){catalogReady=false;renderConnection();return;}
+      if(pairing){
+        try{
+          const state=await request('/api/state');if(!current())return;
+          applyState(state);renderConnection();
+          // A startup/discovery failure may leave the server catalog empty.
+          // Retry through the bridge's existing authenticated discovery route.
+          if(account.status==='connected'&&account.sharing&&!catalogReady&&Date.now()>=nextCatalogRetry){
+            nextCatalogRetry=Date.now()+15000;
+            const result=await request('/api/models',{method:'POST',json:{}});if(!current())return;
+            setCatalog(result.models);
+            if(catalogReady)notice('Model list restored.');
+          }
+        }catch(err){
+          if(!current())return;
+          catalogReady=false;
+          if(err.status===401&&/pairing/i.test(String(err))){
+            pairing='';savePair('');account={status:'disconnected',sharing:false};clearCatalog();
+          }else reportAPIError(err);
+        }
+      }else catalogReady=false;
+      renderConnection();
+    }finally{refreshing=false;}
   }
-  async function pair(){if(!bridgeAllowed)return;const x=$('pairing-code').value.trim();if(!/^[a-f0-9]{32}$/i.test(x)){notice('Enter the 32-character pairing code displayed by the local bridge.',true);return;}
-    pairing=x;try{const r=await request('/api/state');savePair(pairing);account=r.session;models=r.models||[];signingIn=Boolean(r.signingIn);$('pairing-code').value='';notice('Local bridge paired. You can sign in with ChatGPT now.');renderConnection();}
-    catch(err){pairing='';savePair('');reportAPIError(err);} }
-  async function signIn(){if(signingIn)return;try{await request('/api/sign-in',{method:'POST',json:{}});signingIn=true;notice('Complete sign-in on OpenAI’s website, then return here.');renderConnection();}catch(err){reportAPIError(err);}}
-  async function signOut(){if(sending)return;try{await request('/api/disconnect',{method:'POST',json:{}});account={status:'disconnected',sharing:false};models=[];notice('Disconnected.');renderConnection();}catch(err){reportAPIError(err);}}
-  async function testPlan(){const chosen=selectedModel();if(!chosen)return;notice('Sending a real test request through your authorized ChatGPT plan...');try{const r=await request('/api/test',{method:'POST',json:{model:chosen}});notice('Model '+chosen+' replied: '+safeText(r.reply,150).replace(/\s+/g,' '));}catch(err){reportAPIError(err);}}
+  async function pair(){
+    if(!bridgeAllowed||changingConnection)return;
+    const x=$('pairing-code').value.trim();if(!/^[a-f0-9]{32}$/i.test(x)){notice('Enter the 32-character pairing code displayed by the local bridge.',true);return;}
+    changingConnection=true;connectionEpoch++;clearCatalog();pairing=x;
+    try{
+      const r=await request('/api/state');savePair(pairing);bridgeHealthy=true;applyState(r);$('pairing-code').value='';notice('Local bridge paired. You can sign in with ChatGPT now.');
+    }catch(err){pairing='';savePair('');account={status:'disconnected',sharing:false};clearCatalog();reportAPIError(err);}
+    finally{changingConnection=false;renderConnection();}
+  }
+  async function signIn(){
+    if(signingIn||changingConnection)return;
+    changingConnection=true;connectionEpoch++;
+    try{await request('/api/sign-in',{method:'POST',json:{}});signingIn=true;notice('Complete sign-in on OpenAI’s website, then return here.');}
+    catch(err){reportAPIError(err);}
+    finally{changingConnection=false;renderConnection();}
+  }
+  async function signOut(){
+    if(sending||changingConnection)return;
+    changingConnection=true;connectionEpoch++;
+    try{await request('/api/disconnect',{method:'POST',json:{}});account={status:'disconnected',sharing:false};clearCatalog();notice('Disconnected.');}
+    catch(err){reportAPIError(err);}
+    finally{changingConnection=false;renderConnection();}
+  }
+  async function testPlan(){const chosen=selectedModel();if(!chosen||!catalogReady||!bridgeHealthy||changingConnection||sending||account.status!=='connected'||!account.sharing)return;notice('Sending a real test request through your authorized ChatGPT plan...');try{const r=await request('/api/test',{method:'POST',json:{model:chosen}});notice('Model '+chosen+' replied: '+safeText(r.reply,150).replace(/\s+/g,' '));}catch(err){reportAPIError(err);}}
   function addMessage(chat,role,content,status='done'){const msg={id:randomId(),role,content,status};chat.messages.push(msg);return msg;}
   async function send(){
     const prompt=$('prompt').value.trim();if(!prompt||sending)return;
     let chat=active()||newChat();
     if(!chat.messages.length)chat.title=prompt.replace(/\s+/g,' ').slice(0,55);
     const user=addMessage(chat,'user',prompt);$('prompt').value='';resize();persist();render();
-    const canSend=bridgeAllowed&&bridgeHealthy&&pairing&&account.status==='connected'&&account.sharing&&selectedModel();
+    const chosen=selectedModel();
+    const canSend=bridgeAllowed&&bridgeHealthy&&pairing&&account.status==='connected'&&account.sharing&&catalogReady&&!changingConnection&&models.some(m=>m.slug===chosen);
     if(!canSend){notice(bridgeAllowed?'Message kept locally, NOT sent to AI. Pair and sign in to the local bridge.':'Message kept in this offline chat, NOT sent to AI. Export to keep a backup.',true);return;}
     const context=chat.messages.filter(x=>x.status==='done'&&['user','assistant'].includes(x.role)).slice(-30).map(x=>({role:x.role,content:x.content}));
     const response=addMessage(chat,'assistant','', 'streaming');sending=true;abort=new AbortController();persist();render();
     try{
-      const http=await fetch(API+'/api/send',{method:'POST',headers:{'Content-Type':'application/json','X-Classic-Pairing':pairing},body:JSON.stringify({model:selectedModel(),messages:context}),signal:abort.signal,cache:'no-store'});
+      const http=await fetch(API+'/api/send',{method:'POST',headers:{'Content-Type':'application/json','X-Classic-Pairing':pairing},body:JSON.stringify({model:chosen,messages:context}),signal:abort.signal,cache:'no-store'});
       if(!http.ok){const err=await http.json().catch(()=>({}));throw new Error(err.error||`HTTP ${http.status}`);}
       if(!http.body)throw new Error('No response stream was returned.');
       const reader=http.body.getReader();let buf='';let finished=false;const decoder=new TextDecoder();
@@ -199,7 +264,7 @@
       while(true){const {value,done}=await reader.read();if(done)break;buf+=decoder.decode(value,{stream:true});if(buf.length>1024*1024)throw new Error('Unexpectedly large stream event.');let pos;while((pos=buf.indexOf('\n'))!==-1){const line=buf.slice(0,pos).trim();buf=buf.slice(pos+1);handle(line);}}
       if(!finished)throw new Error('Response ended without completion.');notice('Response complete.');
     }catch(err){const stopped=abort?.signal.aborted;abort?.abort();response.status='error';if(!response.content)response.content=stopped?'Response stopped.':'Unable to complete request.';if(stopped)notice('Response stopped. Partial text is retained.');else reportAPIError(err);}
-    finally{sending=false;abort=null;flushStreamSave();render();$('chat-area').scrollTop=$('chat-area').scrollHeight;}
+    finally{sending=false;abort=null;flushStreamSave();render();$('chat-area').scrollTop=$('chat-area').scrollHeight;void refresh();}
   }
   async function stop(){abort?.abort();try{await request('/api/stop',{method:'POST',json:{}});}catch{ /* fetch cancellation already stops the local reader */ }}
   function exportChats(){const blob=new Blob([JSON.stringify({version:1,exportedAt:new Date().toISOString(),activeId,chats},null,2)],{type:'application/json'});if(blob.size>Archive.MAX_IMPORT_BYTES)notice('This export exceeds the automatic import limit. Keep it as a manual archive.',true);const href=URL.createObjectURL(blob);const a=document.createElement('a');a.href=href;a.download='classic-chat-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(href),5000);}

@@ -24,12 +24,12 @@ function fixture({origin='https://preview.invalid',protocol='https:',stored,widt
   const calls=[];const map=new Map();if(stored!==undefined)map.set(STORE,stored);
   if(pairing)map.set('classic-chat-pair-v1',pairing);
   let reads=0,writes=0,download,nextTimer=0;
-  const timers=new Map(),windowEvents={};
+  const timers=new Map(),windowEvents={};let interval;
   const storage={getItem:k=>{reads++;return map.get(k)??null;},setItem:(k,v)=>{writes++;map.set(k,v);},removeItem:k=>map.delete(k)};
   const document={getElementById:id=>nodes.get(id),createElement:()=>new Node(),createTextNode:t=>t};
-  const context=vm.createContext({document,location:{origin,protocol},crypto:{randomUUID:()=>`id-${Math.random()}`},window:{innerWidth:width,localStorage:storage,sessionStorage:storage,addEventListener:(k,f)=>{windowEvents[k]=f;}},navigator:{},Blob,URL:{createObjectURL:b=>{download=b;return 'blob:synthetic';},revokeObjectURL(){}},setInterval:()=>0,setTimeout:(f,ms)=>{const id=++nextTimer;timers.set(id,{f,ms});return id;},clearTimeout:id=>timers.delete(id),fetch:async (url,options)=>{calls.push(url);if(fetcher)return fetcher(url,options);throw new Error('No network in fixture');},AbortSignal,AbortController,TextDecoder});
+  const context=vm.createContext({document,location:{origin,protocol},crypto:{randomUUID:()=>`id-${Math.random()}`},window:{innerWidth:width,localStorage:storage,sessionStorage:storage,addEventListener:(k,f)=>{windowEvents[k]=f;}},navigator:{},Blob,URL:{createObjectURL:b=>{download=b;return 'blob:synthetic';},revokeObjectURL(){}},setInterval:f=>{interval=f;return 0;},setTimeout:(f,ms)=>{const id=++nextTimer;timers.set(id,{f,ms});return id;},clearTimeout:id=>timers.delete(id),fetch:async (url,options)=>{calls.push(url);if(fetcher)return fetcher(url,options);throw new Error('No network in fixture');},AbortSignal,AbortController,TextDecoder});
   vm.runInContext(archive,context);vm.runInContext(app,context);
-  return {nodes,map,calls,windowEvents,flushTimers(ms){for(const [id,t] of [...timers])if(t.ms<=ms){timers.delete(id);t.f();}},get reads(){return reads;},get writes(){return writes;},get download(){return download;}};
+  return {nodes,map,calls,windowEvents,poll:()=>interval?.(),flushTimers(ms){for(const [id,t] of [...timers])if(t.ms<=ms){timers.delete(id);t.f();}},get reads(){return reads;},get writes(){return writes;},get download(){return download;}};
 }
 const makeChat=(id,content)=>({id,title:id,messages:[{id:'m',role:'user',content,status:'done'}]});
 async function importBackup(f,raw){const n=f.nodes.get('import-file');n.files=[{size:raw.length,text:async()=>raw}];n.events.change();await new Promise(r=>setImmediate(r));}
@@ -140,4 +140,40 @@ test('model picker labels explicit catalog tiers and never invents unknown or co
     'Fixture (High) [another-high]'
   ]);
   assert.equal(options[3].title,'Model ID: fixture-xhigh');
+});
+
+test('model picker preserves selection and option nodes during polls, temporary outages, and empty catalogs',async()=>{
+  const entries=[{slug:'first',displayName:'First'},{slug:'second',displayName:'Second'}];
+  let healthy=true,available=entries,stateError=false,retryCount=0;
+  const f=fixture({origin:'http://127.0.0.1:17879',protocol:'http:',pairing:'a'.repeat(32),fetcher:async url=>{
+    if(url.endsWith('/health'))return Response.json({ok:healthy},{status:healthy?200:503});
+    if(url.endsWith('/api/state'))return stateError?Response.json({error:'Temporary failure'},{status:503}):Response.json({session:{status:'connected',sharing:true},models:available});
+    if(url.endsWith('/api/models')){retryCount++;return Response.json({models:available});}
+    if(url.endsWith('/api/disconnect'))return Response.json({ok:true});
+    throw new Error('Unexpected synthetic request');
+  }});
+  await tick();
+  const select=f.nodes.get('model');select.value='second';select.events.change();
+  const optionNodes=select.children.slice();
+  await f.poll();assert.equal(select.children[0],optionNodes[0]);assert.equal(select.value,'second');
+  healthy=false;await f.poll();
+  assert.equal(select.disabled,true);assert.equal(select.value,'second');assert.equal(select.children[1],optionNodes[1]);
+  await send(f,'offline text');assert.equal(f.calls.some(url=>url.endsWith('/api/send')),false);
+  healthy=true;available=[];await f.poll();
+  assert.equal(retryCount,1);assert.equal(select.disabled,true);assert.equal(select.value,'second');
+  available=entries;await f.poll();assert.equal(select.disabled,false);assert.equal(select.value,'second');
+  stateError=true;await f.poll();assert.equal(select.disabled,true);assert.equal(select.value,'second');
+  stateError=false;await f.poll();assert.equal(select.disabled,false);assert.equal(select.value,'second');
+  available=[entries[0]];await f.poll();
+  assert.equal(select.value,'');assert.equal(select.children[0].textContent,'Select a model');
+  await send(f,'must not switch models');assert.equal(f.calls.some(url=>url.endsWith('/api/send')),false);
+  available=entries;await f.poll();assert.equal(select.value,'second');
+  await f.nodes.get('sign-out').click();
+  assert.equal(select.value,'');assert.equal(select.children[0].textContent,'No model');assert.equal(select.disabled,true);
+});
+test('polling does not interrupt an active response or switch the selected model',async()=>{
+  const f=streamFixture();await tick();const select=f.nodes.get('model'),option=select.children[0];
+  await send(f,'synthetic');const count=f.calls.length;await f.poll();
+  assert.equal(f.calls.length,count);assert.equal(select.value,'fixture');assert.equal(select.children[0],option);
+  f.done();await tick();assert.equal(select.value,'fixture');assert.equal(select.disabled,false);
 });
